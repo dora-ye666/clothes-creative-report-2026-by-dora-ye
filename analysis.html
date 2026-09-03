@@ -54,21 +54,34 @@ body{padding-top:40px;font-family:"Noto Sans CJK SC","PingFang SC","Microsoft Ya
 .frame-desc{font-size:9px;color:#888;margin-top:2px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
 </style>
 </head>
-<body><div id="sw-nav" style="position:fixed;top:0;left:0;right:0;height:40px;background:#1e1e2e;
-color:#fff;display:flex;align-items:center;padding:0 16px;z-index:9999;gap:10px;
-box-shadow:0 2px 6px rgba(0,0,0,.35);font-family:-apple-system,'PingFang SC',sans-serif;font-size:13px;">
-  <a class="sw-btn" href="./index.html">📊 服饰日报</a>
-  <a class="sw-btn active" href="./analysis.html">🔬 逐帧剖析</a>
-  
+<body><div id="sw-nav" style="position:fixed;top:0;left:0;right:0;height:40px;background:#1e1e2e;color:#fff;display:flex;align-items:center;padding:0 16px;z-index:9999;gap:8px;box-shadow:0 2px 6px rgba(0,0,0,.35);font-family:-apple-system,'PingFang SC',sans-serif;font-size:13px;"><a class="sw-btn" href="https://dora-ye666.github.io/clothes-creative-report-2026-by-dora-ye/">📊 服饰日报</a><a class="sw-btn active" href="https://dora-ye666.github.io/clothes-creative-report-2026-by-dora-ye/analysis.html">🔬 逐帧剖析</a><a class="sw-btn" href="https://dora-ye666.github.io/brand-clothes-video-material-analysis-by-dora-ye/">🏷️ 品牌分析</a>
   <div class="sw-sep"></div>
   <div class="sw-hist-wrap">
-    <span class="sw-hist-label">历史报告：</span>
-    <select id="sw-hist-select" onchange="swGotoHistory(this.value)">
+    <span class="sw-hist-label">历史：</span>
+    <select id="sw-hist-select" onchange="swGotoHist(this.value)">
       <option value="">加载中…</option>
     </select>
   </div>
-</div>
-<style>
+  <script>
+  function swGotoHist(v){if(v&&v!=="__cur__")window.location.href=v;}
+  (function(){
+    fetch("https://dora-ye666.github.io/clothes-creative-report-2026-by-dora-ye/analysis_reports.json?t="+Date.now())
+      .then(r=>r.json()).then(function(rpts){
+        var sel=document.getElementById("sw-hist-select");if(!sel)return;
+        sel.innerHTML="";
+        var c=document.createElement("option");c.value="__cur__";c.text="当前最新";sel.appendChild(c);
+        var sp=document.createElement("option");sp.disabled=true;sp.text="────";sel.appendChild(sp);
+        rpts.slice().reverse().forEach(function(r){
+          var o=document.createElement("option");
+          o.value="https://dora-ye666.github.io/clothes-creative-report-2026-by-dora-ye/"+r.file;
+          o.text=r.gen_date+" ("+r.date+")";sel.appendChild(o);
+        });
+      }).catch(function(){
+        var sel=document.getElementById("sw-hist-select");
+        if(sel)sel.innerHTML="<option>暂无历史</option>";
+      });
+  })();
+  </script></div><style>
 #sw-nav .sw-btn{display:inline-flex;align-items:center;padding:4px 12px;border-radius:6px;
   color:rgba(255,255,255,.7);text-decoration:none;transition:all .15s;}
 #sw-nav .sw-btn:hover{color:#fff;background:rgba(255,255,255,.1);}
