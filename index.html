@@ -10,9 +10,9 @@
 <style>
 
 * { margin:0; padding:0; box-sizing:border-box; }
-html, body { height:100%; overflow:hidden; font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif; background:#f5f5f5; }
+html, body {padding-top:40px; height:100%; overflow:hidden; font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif; background:#f5f5f5; }
 a { text-decoration:none; color:inherit; }
-.nav { position:fixed; top:0; left:0; right:0; height:56px; background:#dc2626; color:#fff;
+.nav { position:fixed; top:40px; left:0; right:0; height:56px; background:#dc2626; color:#fff;
        display:flex; align-items:center; padding:0 16px; z-index:200;
        box-shadow:0 2px 8px rgba(0,0,0,.15); gap:12px; }
 .nav .logo { font-size:17px; font-weight:700; white-space:nowrap; }
@@ -23,7 +23,7 @@ a { text-decoration:none; color:inherit; }
   color:#fff; padding:4px 10px; border-radius:6px; font-size:13px; cursor:pointer;
   outline:none; max-width:200px; }
 #history-select option { background:#dc2626; color:#fff; }
-.tabs { position:fixed; top:56px; left:0; right:0; height:46px; background:#fff;
+.tabs { position:fixed; top:96px; left:0; right:0; height:46px; background:#fff;
         display:flex; overflow-x:auto; border-bottom:2px solid #f0f0f0; z-index:100;
         scrollbar-width:none; }
 .tabs::-webkit-scrollbar { display:none; }
@@ -31,7 +31,7 @@ a { text-decoration:none; color:inherit; }
        color:#888; cursor:pointer; border-bottom:3px solid transparent;
        white-space:nowrap; padding:0 8px; transition:color .2s; }
 .tab.active { color:#dc2626; font-weight:700; border-bottom-color:#dc2626; }
-.content { position:fixed; top:102px; bottom:0; left:0; right:0; overflow-y:auto; }
+.content { position:fixed; top:142px; bottom:0; left:0; right:0; overflow-y:auto; }
 .panel { display:none; padding:14px; }
 .panel.active { display:block; }
 .cat-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:14px; }
@@ -85,7 +85,44 @@ a { text-decoration:none; color:inherit; }
 
 </style>
 </head>
-<body>
+<body><div id="sw-nav" style="position:fixed;top:0;left:0;right:0;height:40px;background:#1e1e2e;
+color:#fff;display:flex;align-items:center;padding:0 16px;z-index:9999;gap:10px;
+box-shadow:0 2px 6px rgba(0,0,0,.35);font-family:-apple-system,'PingFang SC',sans-serif;font-size:13px;">
+  <a class="sw-btn active" href="./index.html">📊 服饰日报</a>
+  <a class="sw-btn" href="./analysis.html">🔬 逐帧剖析</a>
+  
+</div>
+<style>
+#sw-nav .sw-btn{display:inline-flex;align-items:center;padding:4px 12px;border-radius:6px;
+  color:rgba(255,255,255,.7);text-decoration:none;transition:all .15s;}
+#sw-nav .sw-btn:hover{color:#fff;background:rgba(255,255,255,.1);}
+#sw-nav .sw-btn.active{color:#fff;background:#dc2626;font-weight:600;}
+#sw-nav .sw-sep{width:1px;height:22px;background:rgba(255,255,255,.2);margin:0 4px;}
+#sw-nav .sw-hist-wrap{display:flex;align-items:center;gap:6px;}
+#sw-nav .sw-hist-label{font-size:12px;opacity:.8;white-space:nowrap;}
+#sw-nav #sw-hist-select{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);
+  color:#fff;padding:3px 8px;border-radius:5px;font-size:12px;cursor:pointer;outline:none;}
+#sw-nav #sw-hist-select option{background:#1e1e2e;color:#fff;}
+</style>
+<script>
+function swGotoHistory(val){if(val&&val!=='__current__')window.location.href='./'+val;}
+(function(){
+  fetch('https://dora-ye666.github.io/clothes-creative-report-2026-by-dora-ye/analysis_reports.json?t='+Date.now())
+    .then(r=>r.json()).then(function(rpts){
+      var sel=document.getElementById('sw-hist-select');if(!sel)return;
+      sel.innerHTML='';
+      var cur=document.createElement('option');cur.value='__current__';cur.text='当前最新';sel.appendChild(cur);
+      var sep=document.createElement('option');sep.disabled=true;sep.text='────';sel.appendChild(sep);
+      rpts.slice().reverse().forEach(function(r){
+        var o=document.createElement('option');o.value=r.file;
+        o.text=r.gen_date+' ('+r.date+')';sel.appendChild(o);
+      });
+    }).catch(function(){
+      var sel=document.getElementById('sw-hist-select');
+      if(sel)sel.innerHTML='<option>暂无历史</option>';
+    });
+})();
+</script>
 <div class="nav">
   <div class="logo">快手服饰产业带秋上新素材日报</div>
   <div class="date">数据周期：2026-08-27 ~ 2026-09-02 | 生成：2026-09-03</div>
