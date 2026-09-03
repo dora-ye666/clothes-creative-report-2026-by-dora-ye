@@ -1,772 +1,835 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>男装跑量素材逐帧分析 · 12条全真实截帧</title><style>
-:root{--bg:#fdf3f3;--card:#fff;--line:#fecaca;--text:#1a1a2e;--muted:#9b4444;--accent:#dc2626}
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial,sans-serif;min-height:100vh}a{color:var(--accent)}
-.hero{padding:42px 28px 34px;background:linear-gradient(135deg,#7f1d1d,#b91c1c 45%,#dc2626);position:relative;overflow:hidden}
-.hero:after{content:'';position:absolute;right:-60px;top:-60px;width:260px;height:260px;background:radial-gradient(circle,rgba(255,200,200,.15),transparent 70%)}
-.hero-inner{max-width:1240px;margin:0 auto;position:relative;z-index:1}
-.hero-eyebrow{display:inline-flex;gap:8px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);color:#fef2f2;border-radius:99px;padding:5px 14px;font-size:12px;margin-bottom:14px}
-.hero h1{font-size:32px;font-weight:800;color:#fff;line-height:1.2;margin-bottom:9px}.hero h1 em{color:#fca5a5;font-style:normal}
-.hero-sub{color:rgba(255,255,255,.75);font-size:13px;line-height:1.7}
-.content{max-width:1240px;margin:0 auto;padding:26px 20px 60px}
-.section{margin-top:24px}
-.section-title{display:flex;justify-content:space-between;align-items:flex-end;margin:0 0 14px;flex-wrap:wrap;gap:8px}
-.section-title h2{font-size:19px;font-weight:700;color:#1a1a2e}.section-title p{color:var(--muted);font-size:12px}.section-num{color:var(--accent);font-weight:700;margin-right:6px}
-.kpis{display:flex;gap:12px;flex-wrap:wrap}.kpi{flex:1;min-width:100px;background:#fef2f2;border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center}
-.kpi b{display:block;font-size:24px;font-weight:800;color:var(--accent);margin-bottom:4px}.kpi span{font-size:11px;color:var(--muted)}
-.card{background:#fff;border:1px solid #e8d5d5;border-radius:16px;padding:20px 22px;box-shadow:0 2px 8px rgba(220,38,38,.05)}
-.table{width:100%;border-collapse:collapse;font-size:13px}.table th{padding:9px 12px;color:var(--muted);font-weight:600;text-align:left;border-bottom:1px solid var(--line)}.table td{padding:9px 12px;border-bottom:1px solid #fef2f2}.table tr:last-child td{border-bottom:none}
-.sop-table{width:100%;border-collapse:separate;border-spacing:0;border:1px solid var(--line);border-radius:14px;overflow:hidden;font-size:13px}
-.sop-table th{padding:11px 14px;background:#fef2f2;color:#1a1a2e;text-align:left;font-weight:700;border-bottom:1px solid var(--line)}
-.sop-table td{padding:11px 14px;vertical-align:top;border-bottom:1px solid #fef2f2;line-height:1.6}.sop-table tr:last-child td{border-bottom:none}
-.sop-table .stage{font-weight:700;color:#1a1a2e}.sop-table .stage small{display:block;color:var(--accent);font-size:11px;margin-top:2px}
-.sop-table .learning{color:#1e3a5f}.sop-table .must{color:#065f46;width:28%}.sop-table .avoid{color:#b91c1c}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
-.cat{background:#fff;border:1px solid #e8d5d5;border-radius:16px;padding:18px}.cat h3{font-size:15px;font-weight:700;color:#1a1a2e;margin-bottom:7px}
-.pillrow{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}.pill{background:#fef2f2;border:1px solid var(--line);color:var(--accent);border-radius:99px;padding:3px 10px;font-size:12px}
-.shots{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px}.shot{background:#fef2f2;border:1px solid var(--line);border-radius:8px;padding:7px 9px;font-size:12px;color:#1a1a2e}
-.frame-cards{display:flex;flex-direction:column;gap:20px}
-.frame-card{background:#fff;border:1px solid #fecaca;border-radius:18px;padding:20px;box-shadow:0 3px 12px rgba(220,38,38,.07)}
-.fc-header{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px;flex-wrap:wrap}
-.fc-title{display:flex;flex-wrap:wrap;align-items:center;gap:7px}
-.fc-rank{background:linear-gradient(135deg,#dc2626,#b91c1c);color:#fff;font-weight:800;font-size:12px;padding:3px 9px;border-radius:7px}
-.fc-name{font-weight:700;font-size:15px;color:#1a1a2e}.fc-sub{color:var(--muted);font-size:12px}
-.fc-kpi{display:flex;gap:14px;flex-wrap:wrap}.fc-kpi span{font-size:12px;color:var(--muted)}.fc-kpi b{color:#1a1a2e;margin-left:3px;font-weight:700}
-.fc-narrative{font-size:13px;color:#1e3a8a;padding:10px 14px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;margin-bottom:10px;line-height:1.75}
-.fc-learning{font-size:13px;color:#064e3b;padding:10px 14px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;margin-bottom:14px;line-height:1.75}
-.fc-body{display:grid;grid-template-columns:130px 1fr;gap:14px;margin-bottom:14px;align-items:start}
-@media(max-width:680px){.fc-body{grid-template-columns:1fr}}
-.fc-video-thumb{display:block;position:relative;border-radius:12px;overflow:hidden;border:1px solid var(--line);aspect-ratio:9/16;background:#1a1a2e;flex-shrink:0}
-.fc-thumb-img{width:100%;height:100%;object-fit:cover;transition:transform .2s}.fc-video-thumb:hover .fc-thumb-img{transform:scale(1.04)}
-.fc-play-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.32);opacity:0;transition:opacity .2s}.fc-video-thumb:hover .fc-play-overlay{opacity:1}
-.fc-play-btn{width:44px;height:44px;background:rgba(220,38,38,.85);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px}
-.fc-frames{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}@media(max-width:900px){.fc-frames{grid-template-columns:repeat(3,1fr)}}
-.fc-frame{margin:0;border-radius:9px;overflow:hidden;border:1px solid var(--line);background:#fdf3f3;position:relative}
-.fc-frame img{width:100%;aspect-ratio:9/16;object-fit:cover;display:block}
-.fc-pct{position:absolute;top:5px;left:5px;background:rgba(220,38,38,.88);color:#fff;font-size:10px;padding:2px 6px;border-radius:5px;font-weight:700;z-index:2}
-.fc-frame figcaption{padding:4px 4px 2px;text-align:center;color:#7a3030;font-size:9.5px;background:#fef2f2;font-weight:600;line-height:1.3}
-.fc-fdesc{padding:3px 4px 4px;font-size:9px;color:#064e3b;background:#f0fdf4;line-height:1.4;text-align:center;border-top:1px solid #bbf7d0}
-.fc-creative{background:#fef2f2;border:1px solid var(--line);border-radius:10px;padding:11px 14px}
-.fc-creative-title{font-size:13px;font-weight:700;color:#1a1a2e;margin-bottom:8px}
-.fc-cr-row{display:flex;gap:20px;flex-wrap:wrap}.fc-cr-item{display:flex;align-items:center;gap:7px}.fc-cr-label{font-size:12px;color:var(--muted)}
-.fc-cr-chip{background:#fff;border:1px solid #fecaca;color:#b91c1c;border-radius:5px;padding:2px 9px;font-size:12px}.fc-cr-chip.key{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
-.bdg{display:inline-block;border-radius:6px;font-size:10px;font-weight:700;padding:2px 7px}.bdg-real{background:#16a34a;color:#fff}
-</style></head><body>
-<div class="hero"><div class="hero-inner">
-  <div class="hero-eyebrow">📊 男装 · 12/12 真实截帧 · 多模态识别</div>
-  <h1>男装 <em>Top12跑量素材</em> 逐帧剖析</h1>
-  <p class="hero-sub">全大盘 · 2026-08-26~09-01 · 双去重 · 全12条视频真实截帧+多模态识别差异化分析</p>
-</div></div>
-<div class="content"><div class="section"><div class="section-title"><h2><span class="section-num">一、</span>男装 类目均值</h2><p>Top12素材与均值对照</p></div>
-<div class="kpis">
-  <div class="kpi"><b>4.04%</b><span>CTR</span></div>
-  <div class="kpi"><b>59.24%</b><span>3s完播</span></div>
-  <div class="kpi"><b>0.118%</b><span>CVR</span></div>
-  <div class="kpi"><b>¥82</b><span>客单价</span></div>
-  <div class="kpi"><b>3.21x</b><span>ROI</span></div>
-</div></div><div class="section"><div class="card"><div class="section-title"><h2><span class="section-num">二、</span>Top 细分类目指标表</h2><p>按ROI排序·三级类目下钻</p></div>
-<table class="table"><thead><tr><th>三级类目</th><th>商品数</th><th>均ROI</th><th>客单价</th></tr></thead><tbody><tr><td>其他套装</td><td>2</td><td>5.17x</td><td>¥236</td></tr><tr><td>西服套装</td><td>1</td><td>4.78x</td><td>¥305</td></tr><tr><td>工装裤</td><td>22</td><td>4.77x</td><td>¥86</td></tr><tr><td>卫裤</td><td>42</td><td>4.65x</td><td>¥110</td></tr><tr><td>休闲运动套装</td><td>37</td><td>4.65x</td><td>¥156</td></tr><tr><td>时尚套装</td><td>23</td><td>4.31x</td><td>¥175</td></tr><tr><td>西服上衣</td><td>11</td><td>4.27x</td><td>¥215</td></tr><tr><td>男士防晒衣</td><td>5</td><td>4.21x</td><td>¥165</td></tr></tbody></table></div></div><div class="section"><div class="section-title"><h2><span class="section-num">三、</span>跑量视频黄金五段式 SOP（核心方法论）</h2><p>所有头部素材叙事结构高度收敛为以下5段，每段「核心Learning+必做动作+避坑项」可直接复制</p></div>
-<table class="sop-table"><thead><tr><th style="width:110px">段位</th><th>核心Learning</th><th>必做动作</th><th>避坑项</th></tr></thead><tbody><tr><td class="stage">① 钩子<small>0-3s</small></td><td class="learning">痛点/价格反差</td><td class="must">「两件XXX元」「中老年不显胖」</td><td class="avoid">品牌介绍开头</td></tr><tr><td class="stage">② 亮相<small>3-8s</small></td><td class="learning">正面全身展示</td><td class="must">正+侧+背三角度</td><td class="avoid">只拍局部</td></tr><tr><td class="stage">③ 卖点<small>8-15s</small></td><td class="learning">面料+版型+细节</td><td class="must">上手摸料/拉伸/车线特写</td><td class="avoid">堆砌参数</td></tr><tr><td class="stage">④ 场景<small>15-22s</small></td><td class="learning">生活化穿搭</td><td class="must">户外/商务/居家多场景</td><td class="avoid">棚拍感过强</td></tr><tr><td class="stage">⑤ 促单<small>22-30s</small></td><td class="learning">价格+限时</td><td class="must">价格字幕+口播+倒计时</td><td class="avoid">结尾无行动指令</td></tr></tbody></table></div><div class="section"><div class="section-title"><h2><span class="section-num">四、</span>分品类拍摄要点</h2><p>男装Top3三级类目下钻·代表单品/卖点标签/钩子话术/4个必拍镜头</p></div>
-<div class="grid"><article class="card cat"><h3>休闲裤</h3><div class="pillrow"><span class="pill">宽松直筒</span><span class="pill">抗皱面料</span><span class="pill">透气百搭</span><span class="pill">运动休闲</span></div>
-    <p style="color:#9b4444;font-size:13px;margin:10px 0">💡 「这条裤子穿上显瘦不紧绷」</p><div class="shots"><div class="shot">①展示直筒版型</div><div class="shot">②腰部松紧演示</div><div class="shot">③面料垂感特写</div><div class="shot">④搭配上衣效果</div></div></article><article class="card cat"><h3>牛仔裤</h3><div class="pillrow"><span class="pill">弹力舒适</span><span class="pill">修身版型</span><span class="pill">经典百搭</span><span class="pill">四季可穿</span></div>
-    <p style="color:#9b4444;font-size:13px;margin:10px 0">💡 「弹力牛仔裤，蹲下不紧绷」</p><div class="shots"><div class="shot">①弹力拉伸演示</div><div class="shot">②蹲下不紧绷</div><div class="shot">③版型搭配展示</div><div class="shot">④多色并排</div></div></article><article class="card cat"><h3>夹克/外套</h3><div class="pillrow"><span class="pill">立领版型</span><span class="pill">轻薄防风</span><span class="pill">商务休闲</span><span class="pill">百搭</span></div>
-    <p style="color:#9b4444;font-size:13px;margin:10px 0">💡 「立领夹克穿上显精神不显胖」</p><div class="shots"><div class="shot">①正面立领展示</div><div class="shot">②侧面版型</div><div class="shot">③面料质感特写</div><div class="shot">④内搭搭配</div></div></article></div></div><div class="section"><div class="section-title"><h2><span class="section-num">五、</span>男装 Top12 逐帧剖析</h2>
-  <p>🎬 全部12条真实截帧 · 6帧节奏拆解 · 多模态识别差异化分析</p></div><div class="frame-cards"><article class="frame-card">
-      <div class="fc-header">
-        <div class="fc-title"><span class="fc-rank">#1</span><span class="bdg bdg-real">🎬 真实截帧</span>
-          <span class="fc-name"><a href="https://app.kwaixiaodian.com/merchant/shop/detail?id=26890456102081&hyId=kwaishop&layoutType=4" target="_blank" style="color:inherit;text-decoration:none">男士立领夹克潮流休闲百搭薄款外套春秋季简约上衣帅气修身韩版</a></span>
-          <span class="fc-sub">男装 · ¥130 · <a href="https://admin.p.adm-corp.kuaishou.com/frontend/archives/index.html#/archives/user/profile?userId=5465735081" target="_blank" style="color:inherit">海棠精品男装</a></span>
-        </div>
-        <div class="fc-kpi">
-          <span>CTR<b>4.34%</b></span><span>3s<b>47.16%</b></span><span>CVR<b>0.072%</b></span>
-          <span>ROI<b>4.94x</b></span><span>CPM<b>21.3</b></span><span>完播<b>2.99%</b></span>
-        </div>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>男装跑量素材逐帧分析 2026-09-03</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:"Noto Sans CJK SC","PingFang SC","Microsoft YaHei",sans-serif;background:#f8f9fa;color:#1a1a1a;}
+.header{background:linear-gradient(135deg,#dc2626,#991b1b);color:#fff;padding:20px 24px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.2);}
+.header h1{font-size:20px;font-weight:700;margin-bottom:4px;}
+.header .meta{font-size:12px;opacity:0.85;}
+.stats-row{display:flex;gap:12px;padding:16px 20px;background:#fff;border-bottom:2px solid #dc2626;flex-wrap:wrap;}
+.stat-card{flex:1;min-width:120px;background:#fff;border:1px solid #e5e7eb;border-radius:8px;padding:12px;text-align:center;}
+.stat-card .label{font-size:11px;color:#888;margin-bottom:4px;}
+.stat-card .value{font-size:18px;font-weight:700;color:#dc2626;}
+.cat-section{padding:20px;}
+.section-title{font-size:16px;font-weight:700;color:#dc2626;margin:16px 0 12px;display:flex;align-items:center;gap:6px;}
+.section-title::before{content:"";display:inline-block;width:4px;height:18px;background:#dc2626;border-radius:2px;}
+.cards-grid{display:flex;flex-direction:column;gap:20px;}
+.card{background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08);border:1px solid #e5e7eb;overflow:hidden;}
+.card-header{background:linear-gradient(90deg,#1a1a1a,#2d2d2d);color:#fff;padding:12px 16px;display:flex;align-items:center;gap:10px;}
+.rank{background:#dc2626;color:#fff;font-weight:700;font-size:14px;padding:3px 10px;border-radius:12px;min-width:36px;text-align:center;}
+.badge-new{background:#f59e0b;color:#fff;font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px;}
+.badge-dod{background:#10b981;color:#fff;font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px;}
+.badge-frame{background:#3b82f6;color:#fff;font-size:11px;padding:2px 8px;border-radius:10px;}
+.card-body{padding:16px;}
+.top-row{display:flex;gap:12px;margin-bottom:14px;flex-wrap:wrap;}
+.cover-wrap{position:relative;flex-shrink:0;}
+.cover-img{width:80px;height:80px;object-fit:cover;border-radius:8px;display:block;}
+.prod-info{flex:1;min-width:0;}
+.prod-name{font-size:13px;font-weight:600;color:#111;margin-bottom:6px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.tag-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;}
+.tag{font-size:11px;padding:2px 8px;border-radius:10px;font-weight:500;}
+.tag-red{background:#fee2e2;color:#dc2626;}
+.tag-yellow{background:#fef3c7;color:#d97706;}
+.tag-purple{background:#ede9fe;color:#7c3aed;text-decoration:none;}
+.kpi-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:14px;}
+.kpi-item{background:#f8f9fa;border-radius:6px;padding:6px 4px;text-align:center;}
+.kpi-label{font-size:10px;color:#888;margin-bottom:2px;}
+.kpi-value{font-size:12px;font-weight:700;color:#1a1a1a;}
+.kpi-value.roi-high{color:#059669;}
+.kpi-value.roi-mid{color:#d97706;}
+.kpi-value.roi-low{color:#dc2626;}
+.narrative-box{background:#f0f9ff;border-left:3px solid #3b82f6;border-radius:0 8px 8px 0;padding:10px 12px;margin-bottom:12px;font-size:12px;line-height:1.6;color:#1e3a5f;}
+.learning-box{background:#fef9ec;border-left:3px solid #f59e0b;border-radius:0 8px 8px 0;padding:10px 12px;margin-bottom:12px;font-size:12px;line-height:1.6;color:#3d2c00;}
+.creative-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
+.creative-tag{background:#e0f2fe;color:#0369a1;font-size:11px;padding:3px 10px;border-radius:12px;font-weight:500;}
+.frames-section{}
+.frames-title{font-size:12px;font-weight:600;color:#888;margin-bottom:8px;display:flex;align-items:center;gap:4px;}
+.frames-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;}
+.frame-item{position:relative;}
+.frame-img{width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:6px;border:1px solid #e5e7eb;}
+.frame-ts{position:absolute;bottom:3px;left:3px;background:rgba(0,0,0,0.7);color:#fff;font-size:9px;padding:1px 4px;border-radius:3px;}
+.frame-desc{font-size:9px;color:#888;margin-top:3px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.frame-placeholder{width:100%;aspect-ratio:9/16;background:#f3f4f6;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#bbb;border:1px dashed #d1d5db;}
+.fail-box{background:#fef2f2;border:1px dashed #fca5a5;border-radius:8px;padding:12px;text-align:center;color:#dc2626;font-size:12px;margin-top:8px;}
+.data-period{font-size:11px;color:#888;text-align:right;margin-bottom:6px;}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🎬 男装跑量素材逐帧剖析</h1>
+  <div class="meta">数据周期：2026-08-27 ~ 2026-09-02 | 生成：2026-09-03 | 全大盘口径 | 12条真实截帧+多模态识别</div>
+</div>
+
+
+<div class="stats-row">
+  <div class="stat-card"><div class="label">品类总消耗</div><div class="value">500-1000万</div></div>
+  <div class="stat-card"><div class="label">品类总GMV</div><div class="value">1000-3000万</div></div>
+  <div class="stat-card"><div class="label">Top12均ROI</div><div class="value">3.21x</div></div>
+  <div class="stat-card"><div class="label">Top12最高ROI</div><div class="value">5.60x</div></div>
+</div>
+
+<div class="cat-section">
+<div class="section-title">男装 Top12 逐帧剖析（多模态识别 · 差异化分析）</div>
+<div class="cards-grid">
+<div class="card">
+
+<div class="card-header"><span class="rank">#1</span> <span class="badge-frame">🎬 真实截帧6帧</span> <span class="badge-new">NEW 新晋</span> <span class="badge-dod">日环比 +34%</span></div>
+<div class="card-body">
+  <div class="top-row">
+    <div class="cover-wrap">
+      <a href="https://www.gifshow.com/fw/photo/3xqc3fiq3fim4pg" target="_blank">
+        <img class="cover-img" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-3790473623-74e0d8cf317b444db5e9510b974f2fa9.jpg" alt="【高定款】男士灯芯绒长袖纯色衬衫简约修身" onerror="this.style.background='#eee'">
+      </a>
+    </div>
+    <div class="prod-info">
+      <a class="prod-name" href="https://app.kwaixiaodian.com/merchant/shop/detail?id=26896698209884&hyId=kwaishop&layoutType=4" target="_blank" title="【高定款】男士灯芯绒长袖纯色衬衫简约修身商务休闲中年大码衬衣" style="text-decoration:none;color:inherit;">【高定款】男士灯芯绒长袖纯色衬衫简约修身商务休闲中年大码衬衣</a>
+      <div class="tag-row">
+        <span class="tag tag-red">商品ID …98209884</span>
+        <span class="tag tag-yellow">客单价 50-100元</span>
+        <a class="tag tag-purple" href="https://admin.p.adm-corp.kuaishou.com/user/profile?userId=5385692884" target="_blank">枫迪轻奢男装</a>
       </div>
-      <div class="fc-narrative"><b>🎬 叙事路径：</b>真人上身对比 → 立领版型展示 → 面料质感特写 → 店铺场景穿着 → 商务休闲搭配 → 手势收尾</div>
-      <div class="fc-learning"><b>💡 Learning：</b>**开场无价格钩子**，靠「真人手持+上身同款」建立信任，中段聚焦立领/短款/哑光面料。**短板：结尾无价格+无行动指令**，建议补充限时价提升转化。ROI=4.94x品类第一，信任型开场对男装有效。</div>
-      <div class="fc-body">
-        <a href="https://www.gifshow.com/fw/photo/3xih4eg2j37c9fi" target="_blank" class="fc-video-thumb" title="点击跳转快手App观看视频">
-          <img src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-5465735081-554422191ddd47e3bb8161bffce316b1.jpg" alt="男士立领夹克潮流休闲百搭薄款外套春秋季简约上衣帅气修身韩版" class="fc-thumb-img">
-          <div class="fc-play-overlay"><div class="fc-play-btn">▶</div></div>
-        </a>
-        <div class="fc-frames"><figure class="fc-frame">
-          <span class="fc-pct">0.9s</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206830596005_0.jpg" alt="开场·真人上身">
-          <figcaption><b>开场·真人上身</b></figcaption>
-          <div class="fc-fdesc">女主播手持灰色立领夹克+自己上身同款</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">9.3s</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206830596005_1.jpg" alt="产品展示">
-          <figcaption><b>产品展示</b></figcaption>
-          <div class="fc-fdesc">整理造型展示立领版型</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">18.6s</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206830596005_2.jpg" alt="卖点细节">
-          <figcaption><b>卖点细节</b></figcaption>
-          <div class="fc-fdesc">展示立领设计/短款修身/哑光面料</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">27.9s</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206830596005_3.jpg" alt="场景融入">
-          <figcaption><b>场景融入</b></figcaption>
-          <div class="fc-fdesc">店铺场景自然穿着走动</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">37.3s</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206830596005_4.jpg" alt="搭配演示">
-          <figcaption><b>搭配演示</b></figcaption>
-          <div class="fc-fdesc">内搭黑T+黑裤商务休闲搭配</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">44.3s</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206830596005_5.jpg" alt="收尾">
-          <figcaption><b>收尾</b></figcaption>
-          <div class="fc-fdesc">比耶手势收尾（无价格引导）</div>
-        </figure></div>
+    </div>
+  </div>
+  
+  <div class="kpi-grid">
+    <div class="kpi-item"><div class="kpi-label">消耗</div><div class="kpi-value">5-10万</div></div>
+    <div class="kpi-item"><div class="kpi-label">ROI</div><div class="kpi-value roi-high">3-5x</div></div>
+    <div class="kpi-item"><div class="kpi-label">CTR</div><div class="kpi-value"><1%</div></div>
+    <div class="kpi-item"><div class="kpi-label">CVR</div><div class="kpi-value">>1%</div></div>
+    <div class="kpi-item"><div class="kpi-label">CPM</div><div class="kpi-value">10-20</div></div>
+    <div class="kpi-item"><div class="kpi-label">完播率</div><div class="kpi-value">5-10%</div></div>
+  </div>
+
+<div class="creative-tags"><span class="creative-tag">AI生成素材</span><span class="creative-tag">无头出镜</span><span class="creative-tag">简约棚拍</span></div>
+<div class="narrative-box"><b>🎬 叙事路径：</b>产品近景质感展示 → 全身搭配展示 → 面料细节特写 → 通勤休闲穿搭 → 品牌logo强调 → 全身最终展示</div>
+<div class="learning-box"><b>💡 Learning：</b><strong>优势</strong>：灯芯绒质感突出，AI生成素材效率高；<strong>短板</strong>：全程无价格/CTA，纯展示型缺乏转化引导，建议补充"今日特价"字幕和"点击下方链接"收尾</div>
+<div class="frames-section">
+<div class="frames-title">📷 真实截帧（6帧 · 点击封面跳gifshow视频）</div>
+<div class="frames-grid">
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/207007047485_0.jpg" alt="帧0">
+  <div class="frame-ts">0.9s</div>
+  <div class="frame-desc">产品近景特写(无价格/痛点)</div>
+</div>
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/207007047485_1.jpg" alt="帧1">
+  <div class="frame-ts">9.2s</div>
+  <div class="frame-desc">全身搭配展示(通勤休闲)</div>
+</div>
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/207007047485_2.jpg" alt="帧2">
+  <div class="frame-ts">18.4s</div>
+  <div class="frame-desc">面料质感特写</div>
+</div>
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/207007047485_3.jpg" alt="帧3">
+  <div class="frame-ts">27.6s</div>
+  <div class="frame-desc">全身多角度展示</div>
+</div>
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/207007047485_4.jpg" alt="帧4">
+  <div class="frame-ts">36.8s</div>
+  <div class="frame-desc">品牌logo强调</div>
+</div>
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/207007047485_5.jpg" alt="帧5">
+  <div class="frame-ts">43.7s</div>
+  <div class="frame-desc">全身最终展示(无CTA)</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="card">
+
+<div class="card-header"><span class="rank">#2</span> <span class="badge-frame">🎬 真实截帧6帧</span></div>
+<div class="card-body">
+  <div class="top-row">
+    <div class="cover-wrap">
+      <a href="https://www.gifshow.com/fw/photo/3xbshfbtqzzypk2" target="_blank">
+        <img class="cover-img" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-2209165208-18049224c21d41e29b702a3bdfbc0c09.jpg" alt="老爷车秋冬男士休闲运动卫衣百搭德绒打底衫" onerror="this.style.background='#eee'">
+      </a>
+    </div>
+    <div class="prod-info">
+      <a class="prod-name" href="https://app.kwaixiaodian.com/merchant/shop/detail?id=25157786065623&hyId=kwaishop&layoutType=4" target="_blank" title="老爷车秋冬男士休闲运动卫衣百搭德绒打底衫半拉链宽松时尚长袖" style="text-decoration:none;color:inherit;">老爷车秋冬男士休闲运动卫衣百搭德绒打底衫半拉链宽松时尚长袖</a>
+      <div class="tag-row">
+        <span class="tag tag-red">商品ID …86065623</span>
+        <span class="tag tag-yellow">客单价 50-100元</span>
+        <a class="tag tag-purple" href="https://admin.p.adm-corp.kuaishou.com/user/profile?userId=183277137" target="_blank">励石精品男装（厂家直销）</a>
       </div>
-      <div class="fc-creative">
-        <div class="fc-creative-title">🏷 创意标签</div>
-        <div class="fc-cr-row">
-          <span class="fc-cr-item"><span class="fc-cr-label">制作形式</span><span class="fc-cr-chip key">真人出镜(AI生成)</span></span>
-          <span class="fc-cr-item"><span class="fc-cr-label">出镜角色</span><span class="fc-cr-chip key">女性主播</span></span>
-          <span class="fc-cr-item"><span class="fc-cr-label">拍摄场景</span><span class="fc-cr-chip key">男装店铺实景</span></span>
-        </div>
+    </div>
+  </div>
+  
+  <div class="kpi-grid">
+    <div class="kpi-item"><div class="kpi-label">消耗</div><div class="kpi-value">5-10万</div></div>
+    <div class="kpi-item"><div class="kpi-label">ROI</div><div class="kpi-value roi-high">3-5x</div></div>
+    <div class="kpi-item"><div class="kpi-label">CTR</div><div class="kpi-value"><1%</div></div>
+    <div class="kpi-item"><div class="kpi-label">CVR</div><div class="kpi-value">>1%</div></div>
+    <div class="kpi-item"><div class="kpi-label">CPM</div><div class="kpi-value">30-50</div></div>
+    <div class="kpi-item"><div class="kpi-label">完播率</div><div class="kpi-value">5-10%</div></div>
+  </div>
+
+<div class="creative-tags"><span class="creative-tag">真人出镜(戴口罩)</span><span class="creative-tag">黑色背景棚拍</span><span class="creative-tag">手持展示</span></div>
+<div class="narrative-box"><b>🎬 叙事路径：</b>手持展示开场 → 上身版型展示 → 立领半拉链细节 → 品牌刺绣特写 → 正面全身展示 → 侧面角度收尾</div>
+<div class="learning-box"><b>💡 Learning：</b><strong>优势</strong>：黑色背景突出服装轮廓，利郎品牌刺绣彰显品质；<strong>短板</strong>：全程无价格钩子，结尾无转化引导，CPM较高(30-50)说明需优化创意降低获客成本</div>
+<div class="frames-section">
+<div class="frames-title">📷 真实截帧（6帧 · 点击封面跳gifshow视频）</div>
+<div class="frames-grid">
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/185676180533_0.jpg" alt="帧0">
+  <div class="frame-ts">0.5s</div>
+  <div class="frame-desc">手持衣架开场(无价格/痛点)</div>
+</div>
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/185676180533_1.jpg" alt="帧1">
+  <div class="frame-ts">4.7s</div>
+  <div class="frame-desc">上身版型展示</div>
+</div>
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/185676180533_2.jpg" alt="帧2">
+  <div class="frame-ts">9.4s</div>
+  <div class="frame-desc">立领半拉链细节特写</div>
+</div>
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/185676180533_3.jpg" alt="帧3">
+  <div class="frame-ts">14.0s</div>
+  <div class="frame-desc">品牌刺绣展示</div>
+</div>
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/185676180533_4.jpg" alt="帧4">
+  <div class="frame-ts">18.7s</div>
+  <div class="frame-desc">全身穿搭正面</div>
+</div>
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/185676180533_5.jpg" alt="帧5">
+  <div class="frame-ts">22.2s</div>
+  <div class="frame-desc">侧面角度收尾(无CTA)</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="card">
+
+<div class="card-header"><span class="rank">#3</span> <span class="badge-frame">🎬 真实截帧6帧</span></div>
+<div class="card-body">
+  <div class="top-row">
+    <div class="cover-wrap">
+      <a href="https://www.gifshow.com/fw/photo/3xjqddupisxmvd4" target="_blank">
+        <img class="cover-img" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-4221788232-a9acc65b59c34cc080c8ae51d27603ee.jpg" alt="啄木鸟正品中年男士长袖t恤春秋薄款中老年" onerror="this.style.background='#eee'">
+      </a>
+    </div>
+    <div class="prod-info">
+      <a class="prod-name" href="https://app.kwaixiaodian.com/merchant/shop/detail?id=26778560079208&hyId=kwaishop&layoutType=4" target="_blank" title="啄木鸟正品中年男士长袖t恤春秋薄款中老年男装秋衣T恤爸爸打底衫" style="text-decoration:none;color:inherit;">啄木鸟正品中年男士长袖t恤春秋薄款中老年男装秋衣T恤爸爸打底衫</a>
+      <div class="tag-row">
+        <span class="tag tag-red">商品ID …60079208</span>
+        <span class="tag tag-yellow">客单价 30-50元</span>
+        <a class="tag tag-purple" href="https://admin.p.adm-corp.kuaishou.com/user/profile?userId=2682968083" target="_blank">格度服饰搭配</a>
       </div>
-    </article><article class="frame-card">
-      <div class="fc-header">
-        <div class="fc-title"><span class="fc-rank">#2</span><span class="bdg bdg-real">🎬 真实截帧</span>
-          <span class="fc-name"><a href="https://app.kwaixiaodian.com/merchant/shop/detail?id=26896698209884&hyId=kwaishop&layoutType=4" target="_blank" style="color:inherit;text-decoration:none">【高定款】男士灯芯绒长袖纯色衬衫简约修身商务休闲中年大码衬衣</a></span>
-          <span class="fc-sub">男装 · ¥70 · <a href="https://admin.p.adm-corp.kuaishou.com/frontend/archives/index.html#/archives/user/profile?userId=5385692884" target="_blank" style="color:inherit">枫迪轻奢男装</a></span>
-        </div>
-        <div class="fc-kpi">
-          <span>CTR<b>2.92%</b></span><span>3s<b>82.14%</b></span><span>CVR<b>0.080%</b></span>
-          <span>ROI<b>3.05x</b></span><span>CPM<b>19.1</b></span><span>完播<b>3.92%</b></span>
-        </div>
+    </div>
+  </div>
+  
+  <div class="kpi-grid">
+    <div class="kpi-item"><div class="kpi-label">消耗</div><div class="kpi-value">5-10万</div></div>
+    <div class="kpi-item"><div class="kpi-label">ROI</div><div class="kpi-value roi-high">3-5x</div></div>
+    <div class="kpi-item"><div class="kpi-label">CTR</div><div class="kpi-value"><1%</div></div>
+    <div class="kpi-item"><div class="kpi-label">CVR</div><div class="kpi-value">>1%</div></div>
+    <div class="kpi-item"><div class="kpi-label">CPM</div><div class="kpi-value">10-20</div></div>
+    <div class="kpi-item"><div class="kpi-label">完播率</div><div class="kpi-value">1-3%</div></div>
+  </div>
+
+<div class="creative-tags"><span class="creative-tag">AI生成/女模</span><span class="creative-tag">促销标签叠加</span><span class="creative-tag">多角度展示</span></div>
+<div class="narrative-box"><b>🎬 叙事路径：</b>AI生成女模开场+促销标签 → 产品正面展示 → 多角度旋转展示 → 细节/搭配展示 → 促销气氛强化 → 收尾展示</div>
+<div class="learning-box"><b>💡 Learning：</b><strong>优势</strong>：全程有"新品""限时抢"促销标签，气氛营造好；<strong>短板</strong>：缺具体价格数字，完播率仅1-3%偏低，建议"99元"等具体价格代替模糊标签</div>
+<div class="frames-section">
+<div class="frames-title">📷 真实截帧（6帧 · 点击封面跳gifshow视频）</div>
+<div class="frames-grid">
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/204883593067_0.jpg" alt="帧0">
+  <div class="frame-ts">2.9s</div>
+  <div class="frame-desc">AI女模开场+促销标签</div>
+</div>
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/204883593067_1.jpg" alt="帧1">
+  <div class="frame-ts">28.6s</div>
+  <div class="frame-desc">产品正面展示</div>
+</div>
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/204883593067_2.jpg" alt="帧2">
+  <div class="frame-ts">57.2s</div>
+  <div class="frame-desc">AI合成多角度展示</div>
+</div>
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/204883593067_3.jpg" alt="帧3">
+  <div class="frame-ts">1m26s</div>
+  <div class="frame-desc">搭配效果展示</div>
+</div>
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/204883593067_4.jpg" alt="帧4">
+  <div class="frame-ts">1m54s</div>
+  <div class="frame-desc">促销标签强化</div>
+</div>
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/204883593067_5.jpg" alt="帧5">
+  <div class="frame-ts">2m16s</div>
+  <div class="frame-desc">收尾产品展示(无价格CTA)</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="card">
+
+<div class="card-header"><span class="rank">#4</span> <span class="badge-frame">🎬 真实截帧6帧</span></div>
+<div class="card-body">
+  <div class="top-row">
+    <div class="cover-wrap">
+      <a href="https://www.gifshow.com/fw/photo/3xikwpwge7dbbmy" target="_blank">
+        <img class="cover-img" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-689798708-2021312e672a4ebc829ae2de75b99c49.jpg" alt="【高性价比爆款】休闲可脱卸帽夹克外套男春" onerror="this.style.background='#eee'">
+      </a>
+    </div>
+    <div class="prod-info">
+      <a class="prod-name" href="https://app.kwaixiaodian.com/merchant/shop/detail?id=25016644340232&hyId=kwaishop&layoutType=4" target="_blank" title="【高性价比爆款】休闲可脱卸帽夹克外套男春秋舒适男式夹克外套" style="text-decoration:none;color:inherit;">【高性价比爆款】休闲可脱卸帽夹克外套男春秋舒适男式夹克外套</a>
+      <div class="tag-row">
+        <span class="tag tag-red">商品ID …44340232</span>
+        <span class="tag tag-yellow">客单价 100-200元</span>
+        
       </div>
-      <div class="fc-narrative"><b>🎬 叙事路径：</b>职场穿搭颜值开场 → 竖条纹修身展示 → 触感软糯卖点 → 品牌细节特写 → 无促单收尾</div>
-      <div class="fc-learning"><b>💡 Learning：</b>**棕色灯芯绒衬衫，职场穿搭定位清晰**，女性出镜展示男装颜值吸引力强。中段「触感软糯、竖纹显瘦」卖点到位。**短板：全程无价格、无主播、结尾无促单**，ROI需补充口播转化动作。</div>
-      <div class="fc-body">
-        <a href="https://www.gifshow.com/fw/photo/3xpcbjm6n232qrw" target="_blank" class="fc-video-thumb" title="点击跳转快手App观看视频">
-          <img src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/CHANGE_BACKGROUND-5385692884-52dc911de2eb4d7e803af2a224e53fe2.jpg" alt="【高定款】男士灯芯绒长袖纯色衬衫简约修身商务休闲中年大码衬衣" class="fc-thumb-img">
-          <div class="fc-play-overlay"><div class="fc-play-btn">▶</div></div>
-        </a>
-        <div class="fc-frames"><figure class="fc-frame">
-          <span class="fc-pct">开场</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/207006698912_0.jpg" alt="职场穿搭颜值">
-          <figcaption><b>职场穿搭颜值</b></figcaption>
-          <div class="fc-fdesc">年轻女性职业装，棕色修身衬衫，胸前口袋和白色纽扣细节</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">中前</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/207006698912_1.jpg" alt="版型上身">
-          <figcaption><b>版型上身</b></figcaption>
-          <div class="fc-fdesc">展示修身版型和穿搭整体感</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">中段</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/207006698912_2.jpg" alt="面料卖点">
-          <figcaption><b>面料卖点</b></figcaption>
-          <div class="fc-fdesc">触感软糯，亲肤细腻，竖条纹理显瘦有型</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">中后</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/207006698912_3.jpg" alt="细节特写">
-          <figcaption><b>细节特写</b></figcaption>
-          <div class="fc-fdesc">领标Woolen&amp;Cloth品牌展示，品质感强</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">近尾</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/207006698912_4.jpg" alt="场景穿搭">
-          <figcaption><b>场景穿搭</b></figcaption>
-          <div class="fc-fdesc">完整职场搭配展示</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">结尾</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/207006698912_5.jpg" alt="无促单收尾">
-          <figcaption><b>无促单收尾</b></figcaption>
-          <div class="fc-fdesc">纯产品细节展示，无价格/行动指令</div>
-        </figure></div>
+    </div>
+  </div>
+  
+  <div class="kpi-grid">
+    <div class="kpi-item"><div class="kpi-label">消耗</div><div class="kpi-value">2-5万</div></div>
+    <div class="kpi-item"><div class="kpi-label">ROI</div><div class="kpi-value roi-mid">2-3x</div></div>
+    <div class="kpi-item"><div class="kpi-label">CTR</div><div class="kpi-value"><1%</div></div>
+    <div class="kpi-item"><div class="kpi-label">CVR</div><div class="kpi-value">>1%</div></div>
+    <div class="kpi-item"><div class="kpi-label">CPM</div><div class="kpi-value">30-50</div></div>
+    <div class="kpi-item"><div class="kpi-label">完播率</div><div class="kpi-value">10-20%</div></div>
+  </div>
+
+<div class="creative-tags"><span class="creative-tag">真人出镜(女模)</span><span class="creative-tag">室内温馨实景</span><span class="creative-tag">细节手持整理</span></div>
+<div class="narrative-box"><b>🎬 叙事路径：</b>女模室内全身开场 → 产品正面展示 → 衣领细节手部整理 → 侧面版型展示 → 搭配效果 → 室内场景收尾</div>
+<div class="learning-box"><b>💡 Learning：</b><strong>优势</strong>：室内实景增加生活感，女模展示男装有差异化吸引力；<strong>短板</strong>：开场无价格/钩子，结尾无任何转化，ROI 2-3x偏低，前3秒需加价格或功能卖点钩子</div>
+<div class="frames-section">
+<div class="frames-title">📷 真实截帧（6帧 · 点击封面跳gifshow视频）</div>
+<div class="frames-grid">
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/173617357062_0.jpg" alt="帧0">
+  <div class="frame-ts">0.5s</div>
+  <div class="frame-desc">女模室内全身开场(无价格)</div>
+</div>
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/173617357062_1.jpg" alt="帧1">
+  <div class="frame-ts">4.8s</div>
+  <div class="frame-desc">产品正面展示</div>
+</div>
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/173617357062_2.jpg" alt="帧2">
+  <div class="frame-ts">9.7s</div>
+  <div class="frame-desc">衣领细节手部整理特写</div>
+</div>
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/173617357062_3.jpg" alt="帧3">
+  <div class="frame-ts">14.5s</div>
+  <div class="frame-desc">侧面版型展示</div>
+</div>
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/173617357062_4.jpg" alt="帧4">
+  <div class="frame-ts">19.4s</div>
+  <div class="frame-desc">搭配效果全身</div>
+</div>
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/173617357062_5.jpg" alt="帧5">
+  <div class="frame-ts">23.0s</div>
+  <div class="frame-desc">室内场景收尾(无CTA)</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="card">
+
+<div class="card-header"><span class="rank">#5</span> <span class="badge-frame">🎬 真实截帧6帧</span></div>
+<div class="card-body">
+  <div class="top-row">
+    <div class="cover-wrap">
+      <a href="https://www.gifshow.com/fw/photo/3xycrnfa7tzix7m" target="_blank">
+        <img class="cover-img" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-1460352402-364bae3e1fc24ebcac10c671a9f4eb1c.jpg" alt="【专柜品质】新款春秋季男士翻领提花开衫简" onerror="this.style.background='#eee'">
+      </a>
+    </div>
+    <div class="prod-info">
+      <a class="prod-name" href="https://app.kwaixiaodian.com/merchant/shop/detail?id=26842512483708&hyId=kwaishop&layoutType=4" target="_blank" title="【专柜品质】新款春秋季男士翻领提花开衫简约时尚休闲百搭外套" style="text-decoration:none;color:inherit;">【专柜品质】新款春秋季男士翻领提花开衫简约时尚休闲百搭外套</a>
+      <div class="tag-row">
+        <span class="tag tag-red">商品ID …12483708</span>
+        <span class="tag tag-yellow">客单价 100-200元</span>
+        <a class="tag tag-purple" href="https://admin.p.adm-corp.kuaishou.com/user/profile?userId=689798708" target="_blank">依春轻奢男装</a>
       </div>
-      <div class="fc-creative">
-        <div class="fc-creative-title">🏷 创意标签</div>
-        <div class="fc-cr-row">
-          <span class="fc-cr-item"><span class="fc-cr-label">制作形式</span><span class="fc-cr-chip key">女性模特展示</span></span>
-          <span class="fc-cr-item"><span class="fc-cr-label">出镜角色</span><span class="fc-cr-chip key">女性模特</span></span>
-          <span class="fc-cr-item"><span class="fc-cr-label">拍摄场景</span><span class="fc-cr-chip key">室内职场场景</span></span>
-        </div>
+    </div>
+  </div>
+  
+  <div class="kpi-grid">
+    <div class="kpi-item"><div class="kpi-label">消耗</div><div class="kpi-value">2-5万</div></div>
+    <div class="kpi-item"><div class="kpi-label">ROI</div><div class="kpi-value roi-high">3-5x</div></div>
+    <div class="kpi-item"><div class="kpi-label">CTR</div><div class="kpi-value"><1%</div></div>
+    <div class="kpi-item"><div class="kpi-label">CVR</div><div class="kpi-value">>1%</div></div>
+    <div class="kpi-item"><div class="kpi-label">CPM</div><div class="kpi-value">20-30</div></div>
+    <div class="kpi-item"><div class="kpi-label">完播率</div><div class="kpi-value">3-5%</div></div>
+  </div>
+
+<div class="creative-tags"><span class="creative-tag">静物棚拍/无真人</span><span class="creative-tag">英文文案排版</span><span class="creative-tag">时尚品牌风格</span></div>
+<div class="narrative-box"><b>🎬 叙事路径：</b>静物假模时尚风开场 → 英文文案叠加展示 → 多角度产品静物展示 → 品牌文案强化 → 生活方式画面 → 品牌风格收尾</div>
+<div class="learning-box"><b>💡 Learning：</b><strong>优势</strong>：时尚感强、品牌调性高，棚拍精美；<strong>短板</strong>：全程无价格无CTA，纯品牌种草，转化效率低，适合品牌曝光而非直接转化ROI</div>
+<div class="frames-section">
+<div class="frames-title">📷 真实截帧（6帧 · 点击封面跳gifshow视频）</div>
+<div class="frames-grid">
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/205794725383_0.jpg" alt="帧0">
+  <div class="frame-ts">0.9s</div>
+  <div class="frame-desc">假模棚拍+暗色背景开场</div>
+</div>
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/205794725383_1.jpg" alt="帧1">
+  <div class="frame-ts">9.2s</div>
+  <div class="frame-desc">英文文案叠加展示</div>
+</div>
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/205794725383_2.jpg" alt="帧2">
+  <div class="frame-ts">18.4s</div>
+  <div class="frame-desc">多角度产品展示</div>
+</div>
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/205794725383_3.jpg" alt="帧3">
+  <div class="frame-ts">27.6s</div>
+  <div class="frame-desc">品牌文案强化</div>
+</div>
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/205794725383_4.jpg" alt="帧4">
+  <div class="frame-ts">36.8s</div>
+  <div class="frame-desc">生活方式画面</div>
+</div>
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/205794725383_5.jpg" alt="帧5">
+  <div class="frame-ts">43.7s</div>
+  <div class="frame-desc">时尚收尾(无价格CTA)</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="card">
+
+<div class="card-header"><span class="rank">#6</span> <span class="badge-frame">部分截帧1帧</span></div>
+<div class="card-body">
+  <div class="top-row">
+    <div class="cover-wrap">
+      <a href="https://www.gifshow.com/fw/photo/3xpku6ea8qysjju" target="_blank">
+        <img class="cover-img" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-3766706474-0b4ab832906c46b491b1d61a7cb15f22.jpg" alt="太空棉解构拼接短袖男款夏季健身休闲t恤小" onerror="this.style.background='#eee'">
+      </a>
+    </div>
+    <div class="prod-info">
+      <a class="prod-name" href="https://app.kwaixiaodian.com/merchant/shop/detail?id=26079464615402&hyId=kwaishop&layoutType=4" target="_blank" title="太空棉解构拼接短袖男款夏季健身休闲t恤小领口宽松大码显型半袖" style="text-decoration:none;color:inherit;">太空棉解构拼接短袖男款夏季健身休闲t恤小领口宽松大码显型半袖</a>
+      <div class="tag-row">
+        <span class="tag tag-red">商品ID …64615402</span>
+        <span class="tag tag-yellow">客单价 50-100元</span>
+        
       </div>
-    </article><article class="frame-card">
-      <div class="fc-header">
-        <div class="fc-title"><span class="fc-rank">#3</span><span class="bdg bdg-real">🎬 真实截帧</span>
-          <span class="fc-name"><a href="https://app.kwaixiaodian.com/merchant/shop/detail?id=26890722363941&hyId=kwaishop&layoutType=4" target="_blank" style="color:inherit;text-decoration:none">2026秋季新款男士抗皱斜纹针织休闲裤宽松直筒透气百搭运动裤</a></span>
-          <span class="fc-sub">男装 · ¥140 · <a href="https://admin.p.adm-corp.kuaishou.com/frontend/archives/index.html#/archives/user/profile?userId=1155478941" target="_blank" style="color:inherit">☞我☜世</a></span>
-        </div>
-        <div class="fc-kpi">
-          <span>CTR<b>2.18%</b></span><span>3s<b>42.65%</b></span><span>CVR<b>0.069%</b></span>
-          <span>ROI<b>2.38x</b></span><span>CPM<b>43.1</b></span><span>完播<b>3.26%</b></span>
-        </div>
+    </div>
+  </div>
+  
+  <div class="kpi-grid">
+    <div class="kpi-item"><div class="kpi-label">消耗</div><div class="kpi-value">2-5万</div></div>
+    <div class="kpi-item"><div class="kpi-label">ROI</div><div class="kpi-value roi-mid">2-3x</div></div>
+    <div class="kpi-item"><div class="kpi-label">CTR</div><div class="kpi-value"><1%</div></div>
+    <div class="kpi-item"><div class="kpi-label">CVR</div><div class="kpi-value">0.5-1%</div></div>
+    <div class="kpi-item"><div class="kpi-label">CPM</div><div class="kpi-value"><10</div></div>
+    <div class="kpi-item"><div class="kpi-label">完播率</div><div class="kpi-value">3-5%</div></div>
+  </div>
+
+<div class="creative-tags"><span class="creative-tag">真人出镜(无头/局部)</span><span class="creative-tag">白底简约风</span><span class="creative-tag">配饰搭配</span></div>
+<div class="narrative-box"><b>🎬 叙事路径：</b>(截帧有限) 简约白底男装T恤展示开场 → ...</div>
+<div class="learning-box"><b>💡 Learning：</b><strong>开场</strong>：白底简洁突出产品，配饰搭配有层次感；<strong>受限</strong>：截帧不完整，无法分析完整叙事，建议人工查看完整视频</div>
+<div class="frames-section">
+<div class="frames-title">📷 真实截帧（1帧 · 点击封面跳gifshow视频）</div>
+<div class="frames-grid">
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/191897275859_0.jpg" alt="帧0">
+  <div class="frame-ts">0.9s</div>
+  <div class="frame-desc">白底男装T恤展示开场(无价格)</div>
+</div>
+<div class="frame-item"><div class="frame-placeholder">待补充</div><div class="frame-desc">—</div></div>
+<div class="frame-item"><div class="frame-placeholder">待补充</div><div class="frame-desc">—</div></div>
+<div class="frame-item"><div class="frame-placeholder">待补充</div><div class="frame-desc">—</div></div>
+<div class="frame-item"><div class="frame-placeholder">待补充</div><div class="frame-desc">—</div></div>
+<div class="frame-item"><div class="frame-placeholder">待补充</div><div class="frame-desc">—</div></div>
+</div>
+</div>
+</div>
+</div>
+<div class="card">
+
+<div class="card-header"><span class="rank">#7</span> <span class="badge-frame">🎬 真实截帧6帧</span></div>
+<div class="card-body">
+  <div class="top-row">
+    <div class="cover-wrap">
+      <a href="https://www.gifshow.com/fw/photo/3xhrr5t98sr5uxm" target="_blank">
+        <img class="cover-img" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/item_image-280129929-af36a14c8cba422191a09d6cae9cc6d5.jpg" alt="男士夹克春秋爆款宽松外套男中老年爸爸装立" onerror="this.style.background='#eee'">
+      </a>
+    </div>
+    <div class="prod-info">
+      <a class="prod-name" href="https://app.kwaixiaodian.com/merchant/shop/detail?id=24145698885474&hyId=kwaishop&layoutType=4" target="_blank" title="男士夹克春秋爆款宽松外套男中老年爸爸装立领商务休闲夹克衫长袖" style="text-decoration:none;color:inherit;">男士夹克春秋爆款宽松外套男中老年爸爸装立领商务休闲夹克衫长袖</a>
+      <div class="tag-row">
+        <span class="tag tag-red">商品ID …98885474</span>
+        <span class="tag tag-yellow">客单价 <30元</span>
+        
       </div>
-      <div class="fc-narrative"><b>🎬 叙事路径：</b>下半身特写开场 → 直筒版型展示 → 垂感面料卖点 → 搭配穿着演示 → 无价格收尾</div>
-      <div class="fc-learning"><b>💡 Learning：</b>**下半身特写切入节省判断时间**，直接展示裤型效果。中段高腰松紧+垂感面料卖点扎实。**全程无主播+无价格，缺信任感和紧迫感**，ROI偏低建议补充真人口播。</div>
-      <div class="fc-body">
-        <a href="https://www.gifshow.com/fw/photo/3xuiu8guvexcrbc" target="_blank" class="fc-video-thumb" title="点击跳转快手App观看视频">
-          <img src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-1155478941-e85aa906fdc541c0858512b3e3bd05ac.jpg" alt="2026秋季新款男士抗皱斜纹针织休闲裤宽松直筒透气百搭运动裤" class="fc-thumb-img">
-          <div class="fc-play-overlay"><div class="fc-play-btn">▶</div></div>
-        </a>
-        <div class="fc-frames"><figure class="fc-frame">
-          <span class="fc-pct">开场</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206840147595_0.jpg" alt="下半身特写">
-          <figcaption><b>下半身特写</b></figcaption>
-          <div class="fc-fdesc">深色阔腿裤+白色厚底鞋，暖色壁炉背景直接切入</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">中前</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206840147595_1.jpg" alt="版型展示">
-          <figcaption><b>版型展示</b></figcaption>
-          <div class="fc-fdesc">直筒阔腿版型，自然垂感清晰可见</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">中段</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206840147595_2.jpg" alt="卖点细节">
-          <figcaption><b>卖点细节</b></figcaption>
-          <div class="fc-fdesc">高腰松紧腰+抽绳，垂感面料，显腿长效果</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">中后</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206840147595_3.jpg" alt="搭配演示">
-          <figcaption><b>搭配演示</b></figcaption>
-          <div class="fc-fdesc">上紧下松穿搭，显瘦显高</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">近尾</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206840147595_4.jpg" alt="多角度">
-          <figcaption><b>多角度</b></figcaption>
-          <div class="fc-fdesc">多角度展示裤型，无价格字幕</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">结尾</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206840147595_5.jpg" alt="纯展示收尾">
-          <figcaption><b>纯展示收尾</b></figcaption>
-          <div class="fc-fdesc">产品展示结束，无价格/行动指令</div>
-        </figure></div>
+    </div>
+  </div>
+  
+  <div class="kpi-grid">
+    <div class="kpi-item"><div class="kpi-label">消耗</div><div class="kpi-value">2-5万</div></div>
+    <div class="kpi-item"><div class="kpi-label">ROI</div><div class="kpi-value roi-high">>5x</div></div>
+    <div class="kpi-item"><div class="kpi-label">CTR</div><div class="kpi-value"><1%</div></div>
+    <div class="kpi-item"><div class="kpi-label">CVR</div><div class="kpi-value">>1%</div></div>
+    <div class="kpi-item"><div class="kpi-label">CPM</div><div class="kpi-value">10-20</div></div>
+    <div class="kpi-item"><div class="kpi-label">完播率</div><div class="kpi-value">1-3%</div></div>
+  </div>
+
+<div class="creative-tags"><span class="creative-tag">真人出镜(男模/戴口罩)</span><span class="creative-tag">面料弹性演示</span><span class="creative-tag">室内商务穿搭</span></div>
+<div class="narrative-box"><b>🎬 叙事路径：</b>男模商务穿搭开场 → 立领夹克正面展示 → 口袋拉链细节 → 面料弹力演示 → 裤子弹性展示 → 完整穿搭收尾</div>
+<div class="learning-box"><b>💡 Learning：</b><strong>优势</strong>：面料弹性演示直观有力，ROI最高(>5x)转化效率出色！口袋细节+拉链展示增加品质感；<strong>短板</strong>：结尾无价格CTA，建议面料演示提前至前5s作为开场钩子</div>
+<div class="frames-section">
+<div class="frames-title">📷 真实截帧（6帧 · 点击封面跳gifshow视频）</div>
+<div class="frames-grid">
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206534390952_0.jpg" alt="帧0">
+  <div class="frame-ts">2.6s</div>
+  <div class="frame-desc">男模商务穿搭开场(无价格)</div>
+</div>
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206534390952_1.jpg" alt="帧1">
+  <div class="frame-ts">25.7s</div>
+  <div class="frame-desc">立领夹克正面展示</div>
+</div>
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206534390952_2.jpg" alt="帧2">
+  <div class="frame-ts">51.3s</div>
+  <div class="frame-desc">口袋拉链细节特写</div>
+</div>
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206534390952_3.jpg" alt="帧3">
+  <div class="frame-ts">1m17s</div>
+  <div class="frame-desc">面料弹力拉伸演示</div>
+</div>
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206534390952_4.jpg" alt="帧4">
+  <div class="frame-ts">1m43s</div>
+  <div class="frame-desc">裤子弹性展示</div>
+</div>
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206534390952_5.jpg" alt="帧5">
+  <div class="frame-ts">2m2s</div>
+  <div class="frame-desc">完整穿搭收尾(无CTA)</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="card">
+
+<div class="card-header"><span class="rank">#8</span> <span class="badge-frame">部分截帧1帧</span></div>
+<div class="card-body">
+  <div class="top-row">
+    <div class="cover-wrap">
+      <a href="https://www.gifshow.com/fw/photo/3xunrh5ntimz5tm" target="_blank">
+        <img class="cover-img" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-5711272963-37a3d565c8384ee8b8fd7ec24fe9ca39.jpg" alt="卓朗驰爆款净版牛奶丝直筒堆积休闲裤西裤中" onerror="this.style.background='#eee'">
+      </a>
+    </div>
+    <div class="prod-info">
+      <a class="prod-name" href="https://app.kwaixiaodian.com/merchant/shop/detail?id=24699433009929&hyId=kwaishop&layoutType=4" target="_blank" title="卓朗驰爆款净版牛奶丝直筒堆积休闲裤西裤中腰直筒百搭休闲裤西裤" style="text-decoration:none;color:inherit;">卓朗驰爆款净版牛奶丝直筒堆积休闲裤西裤中腰直筒百搭休闲裤西裤</a>
+      <div class="tag-row">
+        <span class="tag tag-red">商品ID …33009929</span>
+        <span class="tag tag-yellow">客单价 50-100元</span>
+        <a class="tag tag-purple" href="https://admin.p.adm-corp.kuaishou.com/user/profile?userId=280129929" target="_blank">-河北龙暖&卓朗驰西裤</a>
       </div>
-      <div class="fc-creative">
-        <div class="fc-creative-title">🏷 创意标签</div>
-        <div class="fc-cr-row">
-          <span class="fc-cr-item"><span class="fc-cr-label">制作形式</span><span class="fc-cr-chip key">产品特写</span></span>
-          <span class="fc-cr-item"><span class="fc-cr-label">出镜角色</span><span class="fc-cr-chip key">无主播</span></span>
-          <span class="fc-cr-item"><span class="fc-cr-label">拍摄场景</span><span class="fc-cr-chip key">服装店铺暖色背景</span></span>
-        </div>
+    </div>
+  </div>
+  
+  <div class="kpi-grid">
+    <div class="kpi-item"><div class="kpi-label">消耗</div><div class="kpi-value">2-5万</div></div>
+    <div class="kpi-item"><div class="kpi-label">ROI</div><div class="kpi-value roi-mid">2-3x</div></div>
+    <div class="kpi-item"><div class="kpi-label">CTR</div><div class="kpi-value">5-10%</div></div>
+    <div class="kpi-item"><div class="kpi-label">CVR</div><div class="kpi-value">>1%</div></div>
+    <div class="kpi-item"><div class="kpi-label">CPM</div><div class="kpi-value">>50</div></div>
+    <div class="kpi-item"><div class="kpi-label">完播率</div><div class="kpi-value">1-3%</div></div>
+  </div>
+
+<div class="creative-tags"><span class="creative-tag">截帧失败</span><span class="creative-tag">高CTR(5-10%)</span><span class="creative-tag">牛奶丝裤</span></div>
+<div class="narrative-box"><b>🎬 叙事路径：</b>(截帧失败) 卓朗驰牛奶丝直筒裤</div>
+<div class="learning-box"><b>💡 Learning：</b><strong>截帧失败</strong>：视频资源加载异常；CTR 5-10%高点击率说明封面/标题吸引力强，但CPM>50偏贵，建议人工查看原素材分析</div>
+<div class="frames-section">
+<div class="frames-title">📷 真实截帧（1帧 · 点击封面跳gifshow视频）</div>
+<div class="frames-grid">
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/200536869812_0.jpg" alt="帧0">
+  
+  <div class="frame-desc">—</div>
+</div>
+<div class="frame-item"><div class="frame-placeholder">待补充</div><div class="frame-desc">—</div></div>
+<div class="frame-item"><div class="frame-placeholder">待补充</div><div class="frame-desc">—</div></div>
+<div class="frame-item"><div class="frame-placeholder">待补充</div><div class="frame-desc">—</div></div>
+<div class="frame-item"><div class="frame-placeholder">待补充</div><div class="frame-desc">—</div></div>
+<div class="frame-item"><div class="frame-placeholder">待补充</div><div class="frame-desc">—</div></div>
+</div>
+</div>
+</div>
+</div>
+<div class="card">
+
+<div class="card-header"><span class="rank">#9</span> <span class="badge-frame">部分截帧2帧</span></div>
+<div class="card-body">
+  <div class="top-row">
+    <div class="cover-wrap">
+      <a href="https://www.gifshow.com/fw/photo/3xhkr7hfhabui2g" target="_blank">
+        <img class="cover-img" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-4268585693-9123c4eafc634ceaa11606472572e8d8.jpg" alt="2026新款男士春秋新款潮流立领工装夹克" onerror="this.style.background='#eee'">
+      </a>
+    </div>
+    <div class="prod-info">
+      <a class="prod-name" href="https://app.kwaixiaodian.com/merchant/shop/detail?id=26902288984963&hyId=kwaishop&layoutType=4" target="_blank" title="2026新款男士春秋新款潮流立领工装夹克宽松韩版休闲百搭外套" style="text-decoration:none;color:inherit;">2026新款男士春秋新款潮流立领工装夹克宽松韩版休闲百搭外套</a>
+      <div class="tag-row">
+        <span class="tag tag-red">商品ID …88984963</span>
+        <span class="tag tag-yellow">客单价 50-100元</span>
+        <a class="tag tag-purple" href="https://admin.p.adm-corp.kuaishou.com/user/profile?userId=5711272963" target="_blank">摩登时代潮流</a>
       </div>
-    </article><article class="frame-card">
-      <div class="fc-header">
-        <div class="fc-title"><span class="fc-rank">#4</span><span class="bdg bdg-real">🎬 真实截帧</span>
-          <span class="fc-name"><a href="https://app.kwaixiaodian.com/merchant/shop/detail?id=26806334787708&hyId=kwaishop&layoutType=4" target="_blank" style="color:inherit;text-decoration:none">【活动限购】轻奢中年男士冰丝短袖翻领T恤经典百搭POLO买一</a></span>
-          <span class="fc-sub">男装 · ¥70 · <a href="https://admin.p.adm-corp.kuaishou.com/frontend/archives/index.html#/archives/user/profile?userId=689798708" target="_blank" style="color:inherit">依春轻奢男装</a></span>
-        </div>
-        <div class="fc-kpi">
-          <span>CTR<b>2.80%</b></span><span>3s<b>91.21%</b></span><span>CVR<b>0.058%</b></span>
-          <span>ROI<b>2.19x</b></span><span>CPM<b>18.9</b></span><span>完播<b>2.39%</b></span>
-        </div>
+    </div>
+  </div>
+  
+  <div class="kpi-grid">
+    <div class="kpi-item"><div class="kpi-label">消耗</div><div class="kpi-value">2-5万</div></div>
+    <div class="kpi-item"><div class="kpi-label">ROI</div><div class="kpi-value roi-high">3-5x</div></div>
+    <div class="kpi-item"><div class="kpi-label">CTR</div><div class="kpi-value"><1%</div></div>
+    <div class="kpi-item"><div class="kpi-label">CVR</div><div class="kpi-value">>1%</div></div>
+    <div class="kpi-item"><div class="kpi-label">CPM</div><div class="kpi-value">20-30</div></div>
+    <div class="kpi-item"><div class="kpi-label">完播率</div><div class="kpi-value">3-5%</div></div>
+  </div>
+
+<div class="creative-tags"><span class="creative-tag">真人出镜(女主播)</span><span class="creative-tag">门店实景展示</span><span class="creative-tag">立领工装夹克</span></div>
+<div class="narrative-box"><b>🎬 叙事路径：</b>(截帧有限) 门店女主播手持展示男款立领工装夹克</div>
+<div class="learning-box"><b>💡 Learning：</b><strong>开场</strong>：门店实景真实感强，手持展示展现面料质地；<strong>截帧有限</strong>：ROI 3-5x表现良好，消耗2-5万，完整分析建议人工查看</div>
+<div class="frames-section">
+<div class="frames-title">📷 真实截帧（2帧 · 点击封面跳gifshow视频）</div>
+<div class="frames-grid">
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/207298062416_0.jpg" alt="帧0">
+  <div class="frame-ts">0.9s</div>
+  <div class="frame-desc">门店女主播手持展示开场</div>
+</div>
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/207298062416_1.jpg" alt="帧1">
+  <div class="frame-ts">9.3s</div>
+  <div class="frame-desc">初始产品展示</div>
+</div>
+<div class="frame-item"><div class="frame-placeholder">待补充</div><div class="frame-desc">—</div></div>
+<div class="frame-item"><div class="frame-placeholder">待补充</div><div class="frame-desc">—</div></div>
+<div class="frame-item"><div class="frame-placeholder">待补充</div><div class="frame-desc">—</div></div>
+<div class="frame-item"><div class="frame-placeholder">待补充</div><div class="frame-desc">—</div></div>
+</div>
+</div>
+</div>
+</div>
+<div class="card">
+
+<div class="card-header"><span class="rank">#10</span> <span class="badge-frame">部分截帧1帧</span></div>
+<div class="card-body">
+  <div class="top-row">
+    <div class="cover-wrap">
+      <a href="https://www.gifshow.com/fw/photo/3x89ff8c2ubqk3g" target="_blank">
+        <img class="cover-img" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-5689977885-f0e412fad9df4681ba80a50dbf6064c4.jpg" alt="[Dickies]撞色插肩长袖T恤男女春" onerror="this.style.background='#eee'">
+      </a>
+    </div>
+    <div class="prod-info">
+      <a class="prod-name" href="https://app.kwaixiaodian.com/merchant/shop/detail?id=26856320636693&hyId=kwaishop&layoutType=4" target="_blank" title="[Dickies]撞色插肩长袖T恤男女春秋款宽松外穿慵懒风纯棉打底体恤" style="text-decoration:none;color:inherit;">[Dickies]撞色插肩长袖T恤男女春秋款宽松外穿慵懒风纯棉打底体恤</a>
+      <div class="tag-row">
+        <span class="tag tag-red">商品ID …20636693</span>
+        <span class="tag tag-yellow">客单价 100-200元</span>
+        
       </div>
-      <div class="fc-narrative"><b>🎬 叙事路径：</b>买一送一角标钩子 → 品牌POLO领口展示 → 工艺细节 → 多款展示 → 促销角标收口</div>
-      <div class="fc-learning"><b>💡 Learning：</b>**「买一送一」角标是唯一钩子**，POLO品牌定位清晰。中段品牌logo+工艺细节建立品质感。**全程无主播出镜**，缺乏人情味，ROI=2.19x低于均值，建议加主播口播「买一送一今天最后XXX套」。</div>
-      <div class="fc-body">
-        <a href="https://www.gifshow.com/fw/photo/3xmn4pkihc5x6r6" target="_blank" class="fc-video-thumb" title="点击跳转快手App观看视频">
-          <img src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-689798708-83c4b9e6de76425c9a0762e6f5ad2978.jpg" alt="【活动限购】轻奢中年男士冰丝短袖翻领T恤经典百搭POLO买一" class="fc-thumb-img">
-          <div class="fc-play-overlay"><div class="fc-play-btn">▶</div></div>
-        </a>
-        <div class="fc-frames"><figure class="fc-frame">
-          <span class="fc-pct">开场</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/199118102032_0.jpg" alt="产品+买一送一">
-          <figcaption><b>产品+买一送一</b></figcaption>
-          <div class="fc-fdesc">浅蓝Polo衫领口特写，右上角买一送一促销角标</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">中前</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/199118102032_1.jpg" alt="品牌展示">
-          <figcaption><b>品牌展示</b></figcaption>
-          <div class="fc-fdesc">SEPTWOLVES品牌标识+翻领设计特写</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">中段</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/199118102032_2.jpg" alt="工艺细节">
-          <figcaption><b>工艺细节</b></figcaption>
-          <div class="fc-fdesc">左胸刺绣logo，领口内衬，品质细节</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">中后</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/199118102032_3.jpg" alt="多款展示">
-          <figcaption><b>多款展示</b></figcaption>
-          <div class="fc-fdesc">不同颜色款式并排展示</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">近尾</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/199118102032_4.jpg" alt="整体版型">
-          <figcaption><b>整体版型</b></figcaption>
-          <div class="fc-fdesc">上身穿着效果展示</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">结尾</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/199118102032_5.jpg" alt="促销收尾">
-          <figcaption><b>促销收尾</b></figcaption>
-          <div class="fc-fdesc">买一送一标签+产品展示，无主播收口</div>
-        </figure></div>
+    </div>
+  </div>
+  
+  <div class="kpi-grid">
+    <div class="kpi-item"><div class="kpi-label">消耗</div><div class="kpi-value">2-5万</div></div>
+    <div class="kpi-item"><div class="kpi-label">ROI</div><div class="kpi-value roi-high">3-5x</div></div>
+    <div class="kpi-item"><div class="kpi-label">CTR</div><div class="kpi-value"><1%</div></div>
+    <div class="kpi-item"><div class="kpi-label">CVR</div><div class="kpi-value">>1%</div></div>
+    <div class="kpi-item"><div class="kpi-label">CPM</div><div class="kpi-value">30-50</div></div>
+    <div class="kpi-item"><div class="kpi-label">完播率</div><div class="kpi-value">1-3%</div></div>
+  </div>
+
+<div class="creative-tags"><span class="creative-tag">截帧失败</span><span class="creative-tag">Dickies品牌联名</span><span class="creative-tag">品牌背书</span></div>
+<div class="narrative-box"><b>🎬 叙事路径：</b>(截帧失败) Dickies品牌撞色T恤</div>
+<div class="learning-box"><b>💡 Learning：</b><strong>截帧失败</strong>；Dickies品牌联名款ROI 3-5x，品牌背书明显，建议人工查看分析品牌露出方式</div>
+<div class="frames-section">
+<div class="frames-title">📷 真实截帧（1帧 · 点击封面跳gifshow视频）</div>
+<div class="frames-grid">
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206888171410_0.jpg" alt="帧0">
+  
+  <div class="frame-desc">—</div>
+</div>
+<div class="frame-item"><div class="frame-placeholder">待补充</div><div class="frame-desc">—</div></div>
+<div class="frame-item"><div class="frame-placeholder">待补充</div><div class="frame-desc">—</div></div>
+<div class="frame-item"><div class="frame-placeholder">待补充</div><div class="frame-desc">—</div></div>
+<div class="frame-item"><div class="frame-placeholder">待补充</div><div class="frame-desc">—</div></div>
+<div class="frame-item"><div class="frame-placeholder">待补充</div><div class="frame-desc">—</div></div>
+</div>
+</div>
+</div>
+</div>
+<div class="card">
+
+<div class="card-header"><span class="rank">#11</span> <span class="badge-frame">部分截帧1帧</span> <span class="badge-dod">日环比 +74%</span></div>
+<div class="card-body">
+  <div class="top-row">
+    <div class="cover-wrap">
+      <a href="https://www.gifshow.com/fw/photo/3xy7rfyaitf9vy6" target="_blank">
+        <img class="cover-img" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-5629576496-d216a26504ff428abeef3045fa62f1f7.jpg" alt="新款男装外套加棉中老年男士保暖棉衣冬季爸" onerror="this.style.background='#eee'">
+      </a>
+    </div>
+    <div class="prod-info">
+      <a class="prod-name" href="https://app.kwaixiaodian.com/merchant/shop/detail?id=26876325216885&hyId=kwaishop&layoutType=4" target="_blank" title="新款男装外套加棉中老年男士保暖棉衣冬季爸爸装行政夹克宽松棉服" style="text-decoration:none;color:inherit;">新款男装外套加棉中老年男士保暖棉衣冬季爸爸装行政夹克宽松棉服</a>
+      <div class="tag-row">
+        <span class="tag tag-red">商品ID …25216885</span>
+        <span class="tag tag-yellow">客单价 50-100元</span>
+        <a class="tag tag-purple" href="https://admin.p.adm-corp.kuaishou.com/user/profile?userId=5689977885" target="_blank">小叮当想家的孩子</a>
       </div>
-      <div class="fc-creative">
-        <div class="fc-creative-title">🏷 创意标签</div>
-        <div class="fc-cr-row">
-          <span class="fc-cr-item"><span class="fc-cr-label">制作形式</span><span class="fc-cr-chip key">产品特写</span></span>
-          <span class="fc-cr-item"><span class="fc-cr-label">出镜角色</span><span class="fc-cr-chip key">无主播</span></span>
-          <span class="fc-cr-item"><span class="fc-cr-label">拍摄场景</span><span class="fc-cr-chip key">白底棚拍</span></span>
-        </div>
+    </div>
+  </div>
+  
+  <div class="kpi-grid">
+    <div class="kpi-item"><div class="kpi-label">消耗</div><div class="kpi-value">2-5万</div></div>
+    <div class="kpi-item"><div class="kpi-label">ROI</div><div class="kpi-value roi-mid">2-3x</div></div>
+    <div class="kpi-item"><div class="kpi-label">CTR</div><div class="kpi-value"><1%</div></div>
+    <div class="kpi-item"><div class="kpi-label">CVR</div><div class="kpi-value">>1%</div></div>
+    <div class="kpi-item"><div class="kpi-label">CPM</div><div class="kpi-value">10-20</div></div>
+    <div class="kpi-item"><div class="kpi-label">完播率</div><div class="kpi-value">5-10%</div></div>
+  </div>
+
+<div class="creative-tags"><span class="creative-tag">截帧失败</span><span class="creative-tag">日环比+74%起量</span><span class="creative-tag">中老年爸爸装</span></div>
+<div class="narrative-box"><b>🎬 叙事路径：</b>(截帧失败) 中老年保暖棉衣 日环比+74%强势起量</div>
+<div class="learning-box"><b>💡 Learning：</b><strong>截帧失败</strong>；日环比+74%强势起量，中老年爸爸装痛点明确，建议人工查看开场钩子是否有价格/痛点诉求</div>
+<div class="frames-section">
+<div class="frames-title">📷 真实截帧（1帧 · 点击封面跳gifshow视频）</div>
+<div class="frames-grid">
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206687221575_0.jpg" alt="帧0">
+  
+  <div class="frame-desc">—</div>
+</div>
+<div class="frame-item"><div class="frame-placeholder">待补充</div><div class="frame-desc">—</div></div>
+<div class="frame-item"><div class="frame-placeholder">待补充</div><div class="frame-desc">—</div></div>
+<div class="frame-item"><div class="frame-placeholder">待补充</div><div class="frame-desc">—</div></div>
+<div class="frame-item"><div class="frame-placeholder">待补充</div><div class="frame-desc">—</div></div>
+<div class="frame-item"><div class="frame-placeholder">待补充</div><div class="frame-desc">—</div></div>
+</div>
+</div>
+</div>
+</div>
+<div class="card">
+
+<div class="card-header"><span class="rank">#12</span> <span class="badge-frame">部分截帧1帧</span></div>
+<div class="card-body">
+  <div class="top-row">
+    <div class="cover-wrap">
+      <a href="https://www.gifshow.com/fw/photo/3xu9q33iqm3bvwm" target="_blank">
+        <img class="cover-img" src="" alt="【专柜品质】2026秋上新男士翻领提花开" onerror="this.style.background='#eee'">
+      </a>
+    </div>
+    <div class="prod-info">
+      <a class="prod-name" href="https://app.kwaixiaodian.com/merchant/shop/detail?id=26897469483496&hyId=kwaishop&layoutType=4" target="_blank" title="【专柜品质】2026秋上新男士翻领提花开衫简约时尚休闲百搭外套" style="text-decoration:none;color:inherit;">【专柜品质】2026秋上新男士翻领提花开衫简约时尚休闲百搭外套</a>
+      <div class="tag-row">
+        <span class="tag tag-red">商品ID …69483496</span>
+        <span class="tag tag-yellow">客单价 100-200元</span>
+        
       </div>
-    </article><article class="frame-card">
-      <div class="fc-header">
-        <div class="fc-title"><span class="fc-rank">#5</span><span class="bdg bdg-real">🎬 真实截帧</span>
-          <span class="fc-name"><a href="https://app.kwaixiaodian.com/merchant/shop/detail?id=26871415142048&hyId=kwaishop&layoutType=4" target="_blank" style="color:inherit;text-decoration:none">【认准正版】六口袋莱赛尔天丝秋季高端休闲裤宽松直筒裤弹力潮流</a></span>
-          <span class="fc-sub">男装 · ¥61 · <a href="https://admin.p.adm-corp.kuaishou.com/frontend/archives/index.html#/archives/user/profile?userId=5589554048" target="_blank" style="color:inherit">梁有强服装</a></span>
-        </div>
-        <div class="fc-kpi">
-          <span>CTR<b>4.63%</b></span><span>3s<b>77.33%</b></span><span>CVR<b>0.127%</b></span>
-          <span>ROI<b>3.14x</b></span><span>CPM<b>25.3</b></span><span>完播<b>1.75%</b></span>
-        </div>
-      </div>
-      <div class="fc-narrative"><b>🎬 叙事路径：</b>手机对比视觉钩子 → 修身版型展示 → 裤线/腰头细节 → 商务休闲场景 → 多场景收尾</div>
-      <div class="fc-learning"><b>💡 Learning：</b>**「双手机对比」是创意钩子**，视觉差异化强。休闲裤定位商务休闲，裤线+腰头工艺细节扎实。建议加价格口播和限时紧迫感提升ROI。</div>
-      <div class="fc-body">
-        <a href="https://www.gifshow.com/fw/photo/3x6k9mpf4bqx4hc" target="_blank" class="fc-video-thumb" title="点击跳转快手App观看视频">
-          <img src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-5465735081-b8a0ea0ebb014a0c8ec97b53276ae0ee.jpg" alt="【认准正版】六口袋莱赛尔天丝秋季高端休闲裤宽松直筒裤弹力潮流" class="fc-thumb-img">
-          <div class="fc-play-overlay"><div class="fc-play-btn">▶</div></div>
-        </a>
-        <div class="fc-frames"><figure class="fc-frame">
-          <span class="fc-pct">开场</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/203329904330_0.jpg" alt="创意钩子">
-          <figcaption><b>创意钩子</b></figcaption>
-          <div class="fc-fdesc">模特手持两部手机对比，展示深蓝休闲裤修身版型</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">中前</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/203329904330_1.jpg" alt="版型展示">
-          <figcaption><b>版型展示</b></figcaption>
-          <div class="fc-fdesc">修身直筒版型，展示整体穿着效果</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">中段</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/203329904330_2.jpg" alt="细节卖点">
-          <figcaption><b>细节卖点</b></figcaption>
-          <div class="fc-fdesc">平整腰头、利落裤线，商务百搭属性</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">中后</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/203329904330_3.jpg" alt="场景演示">
-          <figcaption><b>场景演示</b></figcaption>
-          <div class="fc-fdesc">商务休闲场景穿搭展示</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">近尾</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/203329904330_4.jpg" alt="多角度">
-          <figcaption><b>多角度</b></figcaption>
-          <div class="fc-fdesc">不同角度展示版型</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">结尾</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/203329904330_5.jpg" alt="多场景收尾">
-          <figcaption><b>多场景收尾</b></figcaption>
-          <div class="fc-fdesc">多种搭配场景展示</div>
-        </figure></div>
-      </div>
-      <div class="fc-creative">
-        <div class="fc-creative-title">🏷 创意标签</div>
-        <div class="fc-cr-row">
-          <span class="fc-cr-item"><span class="fc-cr-label">制作形式</span><span class="fc-cr-chip key">创意对比展示</span></span>
-          <span class="fc-cr-item"><span class="fc-cr-label">出镜角色</span><span class="fc-cr-chip key">模特展示</span></span>
-          <span class="fc-cr-item"><span class="fc-cr-label">拍摄场景</span><span class="fc-cr-chip key">室内商务场景</span></span>
-        </div>
-      </div>
-    </article><article class="frame-card">
-      <div class="fc-header">
-        <div class="fc-title"><span class="fc-rank">#6</span><span class="bdg bdg-real">🎬 真实截帧</span>
-          <span class="fc-name"><a href="https://app.kwaixiaodian.com/merchant/shop/detail?id=25569600908805&hyId=kwaishop&layoutType=4" target="_blank" style="color:inherit;text-decoration:none">2026早秋热卖透气龙鳞纹休闲男修身潮流运动百搭纯色透气男士</a></span>
-          <span class="fc-sub">男装 · ¥70 · <a href="https://admin.p.adm-corp.kuaishou.com/frontend/archives/index.html#/archives/user/profile?userId=5353345681" target="_blank" style="color:inherit">云岸服饰男装</a></span>
-        </div>
-        <div class="fc-kpi">
-          <span>CTR<b>3.09%</b></span><span>3s<b>39.14%</b></span><span>CVR<b>0.121%</b></span>
-          <span>ROI<b>3.29x</b></span><span>CPM<b>25.8</b></span><span>完播<b>6.77%</b></span>
-        </div>
-      </div>
-      <div class="fc-narrative"><b>🎬 叙事路径：</b>低价钩子(29.9元+爆款标签) → 加绒面料展示 → 功能卖点 → 场景演示 → 价格促单</div>
-      <div class="fc-learning"><b>💡 Learning：</b>**「29.9元+爆款热卖」是强价格钩子**，低价走量逻辑清晰，开场即直击痛点。加绒加厚功能演示有效。建议A/B测试「真人穿着对比」替代纯产品展示，可提升CTR。</div>
-      <div class="fc-body">
-        <a href="https://www.gifshow.com/fw/photo/3x5rp2bm8xew8sc" target="_blank" class="fc-video-thumb" title="点击跳转快手App观看视频">
-          <img src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-4375718805-42171be834ef475abd824df2afd64382.jpg" alt="2026早秋热卖透气龙鳞纹休闲男修身潮流运动百搭纯色透气男士" class="fc-thumb-img">
-          <div class="fc-play-overlay"><div class="fc-play-btn">▶</div></div>
-        </a>
-        <div class="fc-frames"><figure class="fc-frame">
-          <span class="fc-pct">开场</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/178074856894_0.jpg" alt="价格强钩子">
-          <figcaption><b>价格强钩子</b></figcaption>
-          <div class="fc-fdesc">坐姿女士展开黑色加绒布料，「爆款热卖 29.9加绒加厚」字幕+火焰标签</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">中前</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/178074856894_1.jpg" alt="面料展示">
-          <figcaption><b>面料展示</b></figcaption>
-          <div class="fc-fdesc">展开加绒加厚面料，触感演示</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">中段</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/178074856894_2.jpg" alt="功能卖点">
-          <figcaption><b>功能卖点</b></figcaption>
-          <div class="fc-fdesc">加绒保暖细节展示</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">中后</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/178074856894_3.jpg" alt="穿着效果">
-          <figcaption><b>穿着效果</b></figcaption>
-          <div class="fc-fdesc">实际穿着效果展示</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">近尾</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/178074856894_4.jpg" alt="多款展示">
-          <figcaption><b>多款展示</b></figcaption>
-          <div class="fc-fdesc">不同款式/颜色展示</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">结尾</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/178074856894_5.jpg" alt="价格收口">
-          <figcaption><b>价格收口</b></figcaption>
-          <div class="fc-fdesc">强化价格信息收尾</div>
-        </figure></div>
-      </div>
-      <div class="fc-creative">
-        <div class="fc-creative-title">🏷 创意标签</div>
-        <div class="fc-cr-row">
-          <span class="fc-cr-item"><span class="fc-cr-label">制作形式</span><span class="fc-cr-chip key">产品展示+价格钩子</span></span>
-          <span class="fc-cr-item"><span class="fc-cr-label">出镜角色</span><span class="fc-cr-chip key">女性展示</span></span>
-          <span class="fc-cr-item"><span class="fc-cr-label">拍摄场景</span><span class="fc-cr-chip key">室内沙发场景</span></span>
-        </div>
-      </div>
-    </article><article class="frame-card">
-      <div class="fc-header">
-        <div class="fc-title"><span class="fc-rank">#7</span><span class="bdg bdg-real">🎬 真实截帧</span>
-          <span class="fc-name"><a href="https://app.kwaixiaodian.com/merchant/shop/detail?id=26876325216885&hyId=kwaishop&layoutType=4" target="_blank" style="color:inherit;text-decoration:none">新款男装外套加棉中老年男士保暖棉衣冬季爸爸装行政夹克宽松棉服</a></span>
-          <span class="fc-sub">男装 · ¥61 · <a href="https://admin.p.adm-corp.kuaishou.com/frontend/archives/index.html#/archives/user/profile?userId=5689977885" target="_blank" style="color:inherit">小叮当想家的孩子</a></span>
-        </div>
-        <div class="fc-kpi">
-          <span>CTR<b>7.67%</b></span><span>3s<b>53.38%</b></span><span>CVR<b>0.087%</b></span>
-          <span>ROI<b>2.96x</b></span><span>CPM<b>21.3</b></span><span>完播<b>1.03%</b></span>
-        </div>
-      </div>
-      <div class="fc-narrative"><b>🎬 叙事路径：</b>保暖内衬揭秘钩子 → 行政夹克款式展示 → 内衬保暖细节 → 秋冬场景 → 收尾</div>
-      <div class="fc-learning"><b>💡 Learning：</b>**「翻开内衬展示保暖层」是强钩子**，女性展示男款夹克内里的保暖绗缝设计，悬念感强。秋冬刚需款，功能卖点有效。建议加价格口播和「送给爸爸/老公」的人群定向话术。</div>
-      <div class="fc-body">
-        <a href="https://www.gifshow.com/fw/photo/3xgx4mqvyve5tee" target="_blank" class="fc-video-thumb" title="点击跳转快手App观看视频">
-          <img src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-5689977885-f0e412fad9df4681ba80a50dbf6064c4.jpg" alt="新款男装外套加棉中老年男士保暖棉衣冬季爸爸装行政夹克宽松棉服" class="fc-thumb-img">
-          <div class="fc-play-overlay"><div class="fc-play-btn">▶</div></div>
-        </a>
-        <div class="fc-frames"><figure class="fc-frame">
-          <span class="fc-pct">开场</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206738245888_0.jpg" alt="保暖揭秘钩子">
-          <figcaption><b>保暖揭秘钩子</b></figcaption>
-          <div class="fc-fdesc">女性翻开2025秋冬行政夹克内衬，展示绗缝保暖内里</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">中前</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206738245888_1.jpg" alt="外观展示">
-          <figcaption><b>外观展示</b></figcaption>
-          <div class="fc-fdesc">行政夹克整体款式和版型</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">中段</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206738245888_2.jpg" alt="内衬卖点">
-          <figcaption><b>内衬卖点</b></figcaption>
-          <div class="fc-fdesc">绗缝保暖内里特写，保暖功能演示</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">中后</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206738245888_3.jpg" alt="秋冬场景">
-          <figcaption><b>秋冬场景</b></figcaption>
-          <div class="fc-fdesc">秋冬穿着场景展示，实用性体现</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">近尾</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206738245888_4.jpg" alt="多角度">
-          <figcaption><b>多角度</b></figcaption>
-          <div class="fc-fdesc">正面背面多角度展示</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">结尾</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206738245888_5.jpg" alt="收尾">
-          <figcaption><b>收尾</b></figcaption>
-          <div class="fc-fdesc">整体展示收口</div>
-        </figure></div>
-      </div>
-      <div class="fc-creative">
-        <div class="fc-creative-title">🏷 创意标签</div>
-        <div class="fc-cr-row">
-          <span class="fc-cr-item"><span class="fc-cr-label">制作形式</span><span class="fc-cr-chip key">功能揭秘展示</span></span>
-          <span class="fc-cr-item"><span class="fc-cr-label">出镜角色</span><span class="fc-cr-chip key">女性主播</span></span>
-          <span class="fc-cr-item"><span class="fc-cr-label">拍摄场景</span><span class="fc-cr-chip key">服装店铺木质货架</span></span>
-        </div>
-      </div>
-    </article><article class="frame-card">
-      <div class="fc-header">
-        <div class="fc-title"><span class="fc-rank">#8</span><span class="bdg bdg-real">🎬 真实截帧</span>
-          <span class="fc-name"><a href="https://app.kwaixiaodian.com/merchant/shop/detail?id=25089013389609&hyId=kwaishop&layoutType=4" target="_blank" style="color:inherit;text-decoration:none">秋冬加绒男士加厚六防裤防寒宽松大码防风棉裤防水防污保暖休闲裤</a></span>
-          <span class="fc-sub">男装 · ¥31 · <a href="https://admin.p.adm-corp.kuaishou.com/frontend/archives/index.html#/archives/user/profile?userId=787879609" target="_blank" style="color:inherit">叫玥玥啊</a></span>
-        </div>
-        <div class="fc-kpi">
-          <span>CTR<b>2.99%</b></span><span>3s<b>58.47%</b></span><span>CVR<b>0.208%</b></span>
-          <span>ROI<b>2.92x</b></span><span>CPM<b>23.1</b></span><span>完播<b>2.82%</b></span>
-        </div>
-      </div>
-      <div class="fc-narrative"><b>🎬 叙事路径：</b>低价爆款钩子(29.9) → 加绒加厚展示 → 防寒功能卖点 → 穿着演示 → 价格促单收口</div>
-      <div class="fc-learning"><b>💡 Learning：</b>**「29.9元+爆款热卖火焰标」强价格钩子，直接锁定低价敏感用户**。加绒加厚防寒功能卖点清晰，满足秋冬刚需。低客单¥30走量逻辑有效，建议维持价格钩子+补充限量/限时感提升紧迫度。</div>
-      <div class="fc-body">
-        <a href="https://www.gifshow.com/fw/photo/3xhs9w8e2jkubnm" target="_blank" class="fc-video-thumb" title="点击跳转快手App观看视频">
-          <img src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-787879609-0f17de320672491baa7db5055b80468a.jpg" alt="秋冬加绒男士加厚六防裤防寒宽松大码防风棉裤防水防污保暖休闲裤" class="fc-thumb-img">
-          <div class="fc-play-overlay"><div class="fc-play-btn">▶</div></div>
-        </a>
-        <div class="fc-frames"><figure class="fc-frame">
-          <span class="fc-pct">开场</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/176737208605_0.jpg" alt="低价爆款钩子">
-          <figcaption><b>低价爆款钩子</b></figcaption>
-          <div class="fc-fdesc">坐姿女士展开黑色加绒面料，「爆款热卖」火焰+「29.9加绒加厚」强价格锚定</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">中前</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/176737208605_1.jpg" alt="加绒展示">
-          <figcaption><b>加绒展示</b></figcaption>
-          <div class="fc-fdesc">展开面料展示加绒加厚内里</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">中段</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/176737208605_2.jpg" alt="防寒卖点">
-          <figcaption><b>防寒卖点</b></figcaption>
-          <div class="fc-fdesc">六防技术/防寒保暖功能演示</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">中后</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/176737208605_3.jpg" alt="穿着演示">
-          <figcaption><b>穿着演示</b></figcaption>
-          <div class="fc-fdesc">实际穿着上身效果</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">近尾</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/176737208605_4.jpg" alt="多色展示">
-          <figcaption><b>多色展示</b></figcaption>
-          <div class="fc-fdesc">多色款式展示，增加选择</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">结尾</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/176737208605_5.jpg" alt="价格收口">
-          <figcaption><b>价格收口</b></figcaption>
-          <div class="fc-fdesc">强化价格信息和购买行动</div>
-        </figure></div>
-      </div>
-      <div class="fc-creative">
-        <div class="fc-creative-title">🏷 创意标签</div>
-        <div class="fc-cr-row">
-          <span class="fc-cr-item"><span class="fc-cr-label">制作形式</span><span class="fc-cr-chip key">价格钩子+产品展示</span></span>
-          <span class="fc-cr-item"><span class="fc-cr-label">出镜角色</span><span class="fc-cr-chip key">女性展示</span></span>
-          <span class="fc-cr-item"><span class="fc-cr-label">拍摄场景</span><span class="fc-cr-chip key">室内沙发居家</span></span>
-        </div>
-      </div>
-    </article><article class="frame-card">
-      <div class="fc-header">
-        <div class="fc-title"><span class="fc-rank">#9</span><span class="bdg bdg-real">🎬 真实截帧</span>
-          <span class="fc-name"><a href="https://app.kwaixiaodian.com/merchant/shop/detail?id=26878164536328&hyId=kwaishop&layoutType=4" target="_blank" style="color:inherit;text-decoration:none">秋季新款皮夹克简约风男士百搭休闲PU皮立领皮衣潮牌青年机车外</a></span>
-          <span class="fc-sub">男装 · ¥168 · <a href="https://admin.p.adm-corp.kuaishou.com/frontend/archives/index.html#/archives/user/profile?userId=2252823328" target="_blank" style="color:inherit">依王男装供应链</a></span>
-        </div>
-        <div class="fc-kpi">
-          <span>CTR<b>5.86%</b></span><span>3s<b>59.07%</b></span><span>CVR<b>0.087%</b></span>
-          <span>ROI<b>5.01x</b></span><span>CPM<b>31.7</b></span><span>完播<b>10.14%</b></span>
-        </div>
-      </div>
-      <div class="fc-narrative"><b>🎬 叙事路径：</b>产品颜值钩子(皮夹克) → 材质细节展示 → 版型卖点 → 穿搭场景 → 收尾</div>
-      <div class="fc-learning"><b>💡 Learning：</b>**皮夹克挂架展示开场**，颜值先行，手部展示版型细节自然。中段PU皮质感和立领设计展示清楚。建议加真人上身对比和价格口播提升转化。</div>
-      <div class="fc-body">
-        <a href="https://www.gifshow.com/fw/photo/3xxxiv9h7cfn999" target="_blank" class="fc-video-thumb" title="点击跳转快手App观看视频">
-          <img src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/IMAGE_EXPANSION-2252823328-f4176f9b9d754a01882f44efcf596b81.jpg" alt="秋季新款皮夹克简约风男士百搭休闲PU皮立领皮衣潮牌青年机车外" class="fc-thumb-img">
-          <div class="fc-play-overlay"><div class="fc-play-btn">▶</div></div>
-        </a>
-        <div class="fc-frames"><figure class="fc-frame">
-          <span class="fc-pct">开场</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206651705499_0.jpg" alt="颜值钩子">
-          <figcaption><b>颜值钩子</b></figcaption>
-          <div class="fc-fdesc">棕色皮夹克挂金色衣架，手部捏住下摆展示版型细节</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">中前</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206651705499_1.jpg" alt="材质展示">
-          <figcaption><b>材质展示</b></figcaption>
-          <div class="fc-fdesc">PU皮质感特写，光泽度展示</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">中段</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206651705499_2.jpg" alt="版型卖点">
-          <figcaption><b>版型卖点</b></figcaption>
-          <div class="fc-fdesc">立领+版型细节展示</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">中后</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206651705499_3.jpg" alt="穿着效果">
-          <figcaption><b>穿着效果</b></figcaption>
-          <div class="fc-fdesc">上身穿着版型效果</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">近尾</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206651705499_4.jpg" alt="细节工艺">
-          <figcaption><b>细节工艺</b></figcaption>
-          <div class="fc-fdesc">拉链/里衬/做工特写</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">结尾</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206651705499_5.jpg" alt="收尾展示">
-          <figcaption><b>收尾展示</b></figcaption>
-          <div class="fc-fdesc">整体产品展示收尾</div>
-        </figure></div>
-      </div>
-      <div class="fc-creative">
-        <div class="fc-creative-title">🏷 创意标签</div>
-        <div class="fc-cr-row">
-          <span class="fc-cr-item"><span class="fc-cr-label">制作形式</span><span class="fc-cr-chip key">产品展示</span></span>
-          <span class="fc-cr-item"><span class="fc-cr-label">出镜角色</span><span class="fc-cr-chip key">手部展示</span></span>
-          <span class="fc-cr-item"><span class="fc-cr-label">拍摄场景</span><span class="fc-cr-chip key">挂架+室内</span></span>
-        </div>
-      </div>
-    </article><article class="frame-card">
-      <div class="fc-header">
-        <div class="fc-title"><span class="fc-rank">#10</span><span class="bdg bdg-real">🎬 真实截帧</span>
-          <span class="fc-name"><a href="https://app.kwaixiaodian.com/merchant/shop/detail?id=26864990076382&hyId=kwaishop&layoutType=4" target="_blank" style="color:inherit;text-decoration:none">【男士专属】新款冬季加绒加厚打底裤高腰紧身保暖舒适弹力棉裤</a></span>
-          <span class="fc-sub">男装 · ¥61 · <a href="https://admin.p.adm-corp.kuaishou.com/frontend/archives/index.html#/archives/user/profile?userId=5396344382" target="_blank" style="color:inherit">法拉盛男装</a></span>
-        </div>
-        <div class="fc-kpi">
-          <span>CTR<b>3.11%</b></span><span>3s<b>55.55%</b></span><span>CVR<b>0.158%</b></span>
-          <span>ROI<b>2.51x</b></span><span>CPM<b>38.5</b></span><span>完播<b>1.94%</b></span>
-        </div>
-      </div>
-      <div class="fc-narrative"><b>🎬 叙事路径：</b>街头潮流颜值钩子(热卖标签) → 叠穿搭配展示 → 裤型卖点 → 摩托/城市场景 → 无价格收尾</div>
-      <div class="fc-learning"><b>💡 Learning：</b>**街头潮流风格差异化明显**，戴墨镜+摩托车场景有视觉冲击力，「热卖」红标+「莉暖」水印品牌感强。中段叠穿搭配实用。**结尾无价格口播**，建议补充价格+限时促单。</div>
-      <div class="fc-body">
-        <a href="https://www.gifshow.com/fw/photo/3xy7yf5mcrdxcms" target="_blank" class="fc-video-thumb" title="点击跳转快手App观看视频">
-          <img src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-5396344382-3234333b2a4d40f39d275a495c75adca.jpg" alt="【男士专属】新款冬季加绒加厚打底裤高腰紧身保暖舒适弹力棉裤" class="fc-thumb-img">
-          <div class="fc-play-overlay"><div class="fc-play-btn">▶</div></div>
-        </a>
-        <div class="fc-frames"><figure class="fc-frame">
-          <span class="fc-pct">开场</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206037144336_0.jpg" alt="街头潮流颜值">
-          <figcaption><b>街头潮流颜值</b></figcaption>
-          <div class="fc-fdesc">男性模特墨镜+叠穿，摩托车前，「热卖」红标+城市玻璃幕墙背景</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">中前</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206037144336_1.jpg" alt="叠穿展示">
-          <figcaption><b>叠穿展示</b></figcaption>
-          <div class="fc-fdesc">白色短袖叠穿灰色长袖，深灰紧身裤搭配</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">中段</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206037144336_2.jpg" alt="裤型卖点">
-          <figcaption><b>裤型卖点</b></figcaption>
-          <div class="fc-fdesc">深灰紧身裤版型展示，修身显腿长</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">中后</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206037144336_3.jpg" alt="场景融入">
-          <figcaption><b>场景融入</b></figcaption>
-          <div class="fc-fdesc">城市街头场景穿搭，生活化真实感</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">近尾</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206037144336_4.jpg" alt="多角度展示">
-          <figcaption><b>多角度展示</b></figcaption>
-          <div class="fc-fdesc">多角度展示搭配效果</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">结尾</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/206037144336_5.jpg" alt="无价格收尾">
-          <figcaption><b>无价格收尾</b></figcaption>
-          <div class="fc-fdesc">场景展示结束，无价格/促单信息</div>
-        </figure></div>
-      </div>
-      <div class="fc-creative">
-        <div class="fc-creative-title">🏷 创意标签</div>
-        <div class="fc-cr-row">
-          <span class="fc-cr-item"><span class="fc-cr-label">制作形式</span><span class="fc-cr-chip key">场景式展示</span></span>
-          <span class="fc-cr-item"><span class="fc-cr-label">出镜角色</span><span class="fc-cr-chip key">男性模特</span></span>
-          <span class="fc-cr-item"><span class="fc-cr-label">拍摄场景</span><span class="fc-cr-chip key">城市街头/摩托车</span></span>
-        </div>
-      </div>
-    </article><article class="frame-card">
-      <div class="fc-header">
-        <div class="fc-title"><span class="fc-rank">#11</span><span class="bdg bdg-real">🎬 真实截帧</span>
-          <span class="fc-name"><a href="https://app.kwaixiaodian.com/merchant/shop/detail?id=25300764849567&hyId=kwaishop&layoutType=4" target="_blank" style="color:inherit;text-decoration:none">男士2026春季新款圆领卫衣宽松长袖打底t恤衫潮牌春秋男装内</a></span>
-          <span class="fc-sub">男装 · ¥40 · <a href="https://admin.p.adm-corp.kuaishou.com/frontend/archives/index.html#/archives/user/profile?userId=4639694567" target="_blank" style="color:inherit">丹一工厂店</a></span>
-        </div>
-        <div class="fc-kpi">
-          <span>CTR<b>4.33%</b></span><span>3s<b>54.01%</b></span><span>CVR<b>0.229%</b></span>
-          <span>ROI<b>3.71x</b></span><span>CPM<b>23.8</b></span><span>完播<b>2.63%</b></span>
-        </div>
-      </div>
-      <div class="fc-narrative"><b>🎬 叙事路径：</b>卫衣颜值展示开场 → 版型上身效果 → 面料卖点 → 搭配演示 → 无促单收尾</div>
-      <div class="fc-learning"><b>💡 Learning：</b>**女性展示男款卫衣，视角新颖**，双手举起展示版型设计感强。「MY LIFE+AI生成」水印说明AI生图素材。中段面料/版型卖点清晰。建议补充真人男性上身对比+价格口播提升转化可信度。</div>
-      <div class="fc-body">
-        <a href="https://www.gifshow.com/fw/photo/3xggb2f2q7bjkw6" target="_blank" class="fc-video-thumb" title="点击跳转快手App观看视频">
-          <img src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-4639694567-d5caa070524043bb91f5c461d417c3ff.jpg" alt="男士2026春季新款圆领卫衣宽松长袖打底t恤衫潮牌春秋男装内" class="fc-thumb-img">
-          <div class="fc-play-overlay"><div class="fc-play-btn">▶</div></div>
-        </a>
-        <div class="fc-frames"><figure class="fc-frame">
-          <span class="fc-pct">开场</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/204950340489_0.jpg" alt="颜值展示">
-          <figcaption><b>颜值展示</b></figcaption>
-          <div class="fc-fdesc">女性双手举圆领卫衣展示，「MY LIFE」水印+「AI生成」标注，白色内搭+黑裤站立</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">中前</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/204950340489_1.jpg" alt="版型展示">
-          <figcaption><b>版型展示</b></figcaption>
-          <div class="fc-fdesc">展示卫衣版型和上身效果</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">中段</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/204950340489_2.jpg" alt="面料卖点">
-          <figcaption><b>面料卖点</b></figcaption>
-          <div class="fc-fdesc">面料质感和颜色展示</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">中后</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/204950340489_3.jpg" alt="搭配演示">
-          <figcaption><b>搭配演示</b></figcaption>
-          <div class="fc-fdesc">搭配建议展示</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">近尾</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/204950340489_4.jpg" alt="细节展示">
-          <figcaption><b>细节展示</b></figcaption>
-          <div class="fc-fdesc">袖口/领口等细节</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">结尾</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/204950340489_5.jpg" alt="收尾">
-          <figcaption><b>收尾</b></figcaption>
-          <div class="fc-fdesc">整体展示收尾，无价格促单</div>
-        </figure></div>
-      </div>
-      <div class="fc-creative">
-        <div class="fc-creative-title">🏷 创意标签</div>
-        <div class="fc-cr-row">
-          <span class="fc-cr-item"><span class="fc-cr-label">制作形式</span><span class="fc-cr-chip key">AI生成展示</span></span>
-          <span class="fc-cr-item"><span class="fc-cr-label">出镜角色</span><span class="fc-cr-chip key">女性展示</span></span>
-          <span class="fc-cr-item"><span class="fc-cr-label">拍摄场景</span><span class="fc-cr-chip key">室内家居</span></span>
-        </div>
-      </div>
-    </article><article class="frame-card">
-      <div class="fc-header">
-        <div class="fc-title"><span class="fc-rank">#12</span><span class="bdg bdg-real">🎬 真实截帧</span>
-          <span class="fc-name"><a href="https://app.kwaixiaodian.com/merchant/shop/detail?id=26901140299650&hyId=kwaishop&layoutType=4" target="_blank" style="color:inherit;text-decoration:none">纯原2026新款半拉链高级POLO衫男春秋商务长袖T恤中年休</a></span>
-          <span class="fc-sub">男装 · ¥80 · <a href="https://admin.p.adm-corp.kuaishou.com/frontend/archives/index.html#/archives/user/profile?userId=5690398650" target="_blank" style="color:inherit">尘心平气</a></span>
-        </div>
-        <div class="fc-kpi">
-          <span>CTR<b>4.51%</b></span><span>3s<b>50.82%</b></span><span>CVR<b>-</b></span>
-          <span>ROI<b>2.43x</b></span><span>CPM<b>nan</b></span><span>完播<b>1.60%</b></span>
-        </div>
-      </div>
-      <div class="fc-narrative"><b>🎬 叙事路径：</b>产品静态开场(黑POLO/精品霓虹背景) → 版型细节 → 半拉链轻奢卖点 → 商务场景 → 收尾</div>
-      <div class="fc-learning"><b>💡 Learning：</b>**「精品男装」霓虹背景开场有品质感**，但缺乏主动钩子。半拉链+修身设计定位轻奢商务，中段工艺展示扎实。**全程无价格口播**，ROI偏低，建议加商务人群痛点「既要舒适又要得体」开场。</div>
-      <div class="fc-body">
-        <a href="https://www.gifshow.com/fw/photo/3x6ecgpqxd62xn4" target="_blank" class="fc-video-thumb" title="点击跳转快手App观看视频">
-          <img src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-5690398650-2aa83f7f62b8442297fcb209b3815cc6.jpg" alt="纯原2026新款半拉链高级POLO衫男春秋商务长袖T恤中年休" class="fc-thumb-img">
-          <div class="fc-play-overlay"><div class="fc-play-btn">▶</div></div>
-        </a>
-        <div class="fc-frames"><figure class="fc-frame">
-          <span class="fc-pct">开场</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/207276466447_0.jpg" alt="静态颜值开场">
-          <figcaption><b>静态颜值开场</b></figcaption>
-          <div class="fc-fdesc">黑色半拉链POLO，模特插兜，「精品男装」霓虹背景</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">中前</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/207276466447_1.jpg" alt="版型展示">
-          <figcaption><b>版型展示</b></figcaption>
-          <div class="fc-fdesc">修身立体剪裁，干练精神</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">中段</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/207276466447_2.jpg" alt="半拉链卖点">
-          <figcaption><b>半拉链卖点</b></figcaption>
-          <div class="fc-fdesc">翻领+半拉链设计，品牌logo，轻奢商务感</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">中后</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/207276466447_3.jpg" alt="商务场景">
-          <figcaption><b>商务场景</b></figcaption>
-          <div class="fc-fdesc">商务休闲场景，冷色青绿背景</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">近尾</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/207276466447_4.jpg" alt="工艺细节">
-          <figcaption><b>工艺细节</b></figcaption>
-          <div class="fc-fdesc">袖口罗纹/下摆细节展示</div>
-        </figure><figure class="fc-frame">
-          <span class="fc-pct">结尾</span>
-          <img loading="lazy" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/207276466447_5.jpg" alt="无促单收尾">
-          <figcaption><b>无促单收尾</b></figcaption>
-          <div class="fc-fdesc">纯产品展示收尾，无价格/行动指令</div>
-        </figure></div>
-      </div>
-      <div class="fc-creative">
-        <div class="fc-creative-title">🏷 创意标签</div>
-        <div class="fc-cr-row">
-          <span class="fc-cr-item"><span class="fc-cr-label">制作形式</span><span class="fc-cr-chip key">模特展示</span></span>
-          <span class="fc-cr-item"><span class="fc-cr-label">出镜角色</span><span class="fc-cr-chip key">男性模特</span></span>
-          <span class="fc-cr-item"><span class="fc-cr-label">拍摄场景</span><span class="fc-cr-chip key">精品男装店/商务背景</span></span>
-        </div>
-      </div>
-    </article></div></div></div>
+    </div>
+  </div>
+  
+  <div class="kpi-grid">
+    <div class="kpi-item"><div class="kpi-label">消耗</div><div class="kpi-value">2-5万</div></div>
+    <div class="kpi-item"><div class="kpi-label">ROI</div><div class="kpi-value roi-mid">2-3x</div></div>
+    <div class="kpi-item"><div class="kpi-label">CTR</div><div class="kpi-value"><1%</div></div>
+    <div class="kpi-item"><div class="kpi-label">CVR</div><div class="kpi-value">>1%</div></div>
+    <div class="kpi-item"><div class="kpi-label">CPM</div><div class="kpi-value">20-30</div></div>
+    <div class="kpi-item"><div class="kpi-label">完播率</div><div class="kpi-value">1-3%</div></div>
+  </div>
+
+<div class="creative-tags"><span class="creative-tag">静物棚拍/无头假模</span><span class="creative-tag">暗色英文文案</span><span class="creative-tag">时尚杂志风</span></div>
+<div class="narrative-box"><b>🎬 叙事路径：</b>(截帧有限) 时尚杂志风棚拍展示翻领提花开衫</div>
+<div class="learning-box"><b>💡 Learning：</b><strong>开场</strong>：深色背景英文文案时尚感强，与 #5 同为静物棚拍风格；<strong>受限</strong>：截帧不完整，建议补充完整分析</div>
+<div class="frames-section">
+<div class="frames-title">📷 真实截帧（1帧 · 点击封面跳gifshow视频）</div>
+<div class="frames-grid">
+
+<div class="frame-item">
+  <img class="frame-img" src="https://raw.githubusercontent.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/main/frames/207136947195_0.jpg" alt="帧0">
+  <div class="frame-ts">0.9s</div>
+  <div class="frame-desc">时尚杂志风棚拍展示开场</div>
+</div>
+<div class="frame-item"><div class="frame-placeholder">待补充</div><div class="frame-desc">—</div></div>
+<div class="frame-item"><div class="frame-placeholder">待补充</div><div class="frame-desc">—</div></div>
+<div class="frame-item"><div class="frame-placeholder">待补充</div><div class="frame-desc">—</div></div>
+<div class="frame-item"><div class="frame-placeholder">待补充</div><div class="frame-desc">—</div></div>
+<div class="frame-item"><div class="frame-placeholder">待补充</div><div class="frame-desc">—</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </body></html>
