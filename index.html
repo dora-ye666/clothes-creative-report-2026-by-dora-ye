@@ -93,27 +93,45 @@ a { text-decoration:none; color:inherit; }
 #sw-nav .sw-sep{width:1px;height:22px;background:rgba(255,255,255,.2);margin:0 4px;}
 #sw-nav .sw-hist-wrap{display:flex;align-items:center;gap:6px;}
 #sw-nav .sw-hist-label{font-size:12px;opacity:.8;white-space:nowrap;}
-#sw-nav #sw-hist-select{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);
+#sw-nav select{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);
   color:#fff;padding:3px 8px;border-radius:5px;font-size:12px;cursor:pointer;outline:none;}
-#sw-nav #sw-hist-select option{background:#1e1e2e;color:#fff;}
-</style>
-<script>
-function swGotoHistory(val){if(val&&val!=='__current__')window.location.href='./'+val;}
+#sw-nav select option{background:#1e1e2e;color:#fff;}
+</style><script>
+function swGoto(v,type){
+  if(!v||v==="__cur__")return;
+  window.location.href=v;
+}
 (function(){
-  fetch('https://dora-ye666.github.io/clothes-creative-report-2026-by-dora-ye/analysis_reports.json?t='+Date.now())
-    .then(r=>r.json()).then(function(rpts){
-      var sel=document.getElementById('sw-hist-select');if(!sel)return;
-      sel.innerHTML='';
-      var cur=document.createElement('option');cur.value='__current__';cur.text='当前最新';sel.appendChild(cur);
-      var sep=document.createElement('option');sep.disabled=true;sep.text='────';sel.appendChild(sep);
-      rpts.slice().reverse().forEach(function(r){
-        var o=document.createElement('option');o.value=r.file;
-        o.text=r.gen_date+' ('+r.date+')';sel.appendChild(o);
-      });
-    }).catch(function(){
-      var sel=document.getElementById('sw-hist-select');
-      if(sel)sel.innerHTML='<option>暂无历史</option>';
-    });
+  // 分析历史
+  var asel=document.getElementById("sw-hist-select");
+  if(asel){
+    fetch("https://dora-ye666.github.io/clothes-creative-report-2026-by-dora-ye/analysis_reports.json?t="+Date.now())
+      .then(r=>r.json()).then(function(rpts){
+        asel.innerHTML="";
+        var c=document.createElement("option");c.value="__cur__";c.text="当前最新";asel.appendChild(c);
+        var sp=document.createElement("option");sp.disabled=true;sp.text="────";asel.appendChild(sp);
+        rpts.slice().reverse().forEach(function(r){
+          var o=document.createElement("option");
+          o.value="https://dora-ye666.github.io/clothes-creative-report-2026-by-dora-ye/"+r.file;
+          o.text=r.gen_date+" ("+r.date+")";asel.appendChild(o);
+        });
+      }).catch(function(){asel.innerHTML="<option>暂无历史</option>";});
+  }
+  // 品牌历史
+  var bsel=document.getElementById("sw-brand-select");
+  if(bsel){
+    fetch("https://dora-ye666.github.io/brand-clothes-video-material-analysis-by-dora-ye/brand_reports.json?t="+Date.now())
+      .then(r=>r.json()).then(function(rpts){
+        bsel.innerHTML="";
+        var c=document.createElement("option");c.value="__cur__";c.text="当前最新";bsel.appendChild(c);
+        var sp=document.createElement("option");sp.disabled=true;sp.text="────";bsel.appendChild(sp);
+        rpts.slice().reverse().forEach(function(r){
+          var o=document.createElement("option");
+          o.value="https://dora-ye666.github.io/brand-clothes-video-material-analysis-by-dora-ye/"+r.file;
+          o.text=r.date+" ("+r.gen_date+")";bsel.appendChild(o);
+        });
+      }).catch(function(){bsel.innerHTML="<option>暂无历史</option>";});
+  }
 })();
 </script>
 <div class="nav">
