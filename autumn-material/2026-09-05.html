@@ -1,0 +1,1841 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>快手服饰品牌组秋上素材日报</title>
+<style>
+:root {
+    --red: #cf1322;
+    --red-dark: #a8071a;
+    --bg: #f5f5f5;
+    --card-bg: #ffffff;
+    --text: #262626;
+    --text-sub: #8c8c8c;
+    --border: #f0f0f0;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+.vid-row{display:none!important;}
+.t-pid{display:none!important;}
+.t-seller{display:none!important;}
+.seller-tag{display:none!important;}
+
+.top-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%);
+    color: #fff;
+    padding: 16px 20px;
+    box-shadow: 0 2px 8px rgba(207,19,34,0.3);
+}
+.top-bar h1 {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+.top-bar .subtitle {
+    font-size: 12px;
+    opacity: 0.9;
+    margin-top: 4px;
+}
+.nav-bar {
+    position: sticky;
+    top: 74px;
+    z-index: 99;
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    padding: 8px 20px;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+.nav-tab {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 16px;
+    font-size: 13px;
+    cursor: pointer;
+    text-decoration: none;
+    color: #595959;
+    background: #f5f5f5;
+    border: 1px solid transparent;
+}
+.nav-tab.active {
+    background: var(--red);
+    color: #fff;
+    font-weight: 600;
+}
+.nav-tab.disabled {
+    color: #bfbfbf;
+    background: #fafafa;
+    cursor: not-allowed;
+}
+.time-tabs {
+    display: flex;
+    gap: 8px;
+    padding: 10px 20px;
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+}
+.time-tab {
+    padding: 5px 14px;
+    border-radius: 14px;
+    font-size: 12px;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: #fff;
+    color: #595959;
+}
+.time-tab.active {
+    background: var(--red);
+    color: #fff;
+    border-color: var(--red);
+    font-weight: 600;
+}
+.time-tab.disabled {
+    color: #bfbfbf;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px 20px;
+}
+.cat-section {
+    margin-bottom: 28px;
+}
+.cat-header {
+    background: #fff;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.cat-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--red);
+    margin-bottom: 8px;
+}
+.cat-stats {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+.cat-badge {
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 12px;
+    background: #fff1f0;
+    color: var(--red);
+    border: 1px solid #ffccc7;
+}
+.cat-total {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+.t-item {
+    background: #fafafa;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+}
+.t-label {
+    display: block;
+    font-size: 11px;
+    color: var(--text-sub);
+    margin-bottom: 4px;
+}
+.t-val {
+    display: block;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+}
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+}
+.card {
+    background: var(--card-bg);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    transition: transform 0.15s, box-shadow 0.15s;
+    display: flex;
+    flex-direction: column;
+}
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.cover-wrap {
+    display: block;
+    aspect-ratio: 16/9;
+    background: #f0f0f0;
+    overflow: hidden;
+}
+.cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.cover-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #bfbfbf;
+    font-size: 13px;
+    height: 100%;
+}
+.card-body {
+    padding: 12px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+.badges {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+}
+.badge {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 600;
+}
+.badge-new {
+    background: #f6ffed;
+    color: #389e0d;
+    border: 1px solid #b7eb8f;
+}
+.badge-wow {
+    background: #fff7e6;
+    color: #fa8c16;
+    border: 1px solid #ffd591;
+}
+.pname {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.metrics {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+    margin-bottom: 10px;
+}
+.m {
+    background: #fafafa;
+    border-radius: 6px;
+    padding: 6px 8px;
+    display: flex;
+    flex-direction: column;
+}
+.m-label {
+    font-size: 10px;
+    color: var(--text-sub);
+}
+.m-val {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    margin-top: 2px;
+}
+.vid-link {
+    display: inline-block;
+    margin-top: auto;
+    font-size: 12px;
+    color: var(--red);
+    text-decoration: none;
+    font-weight: 600;
+}
+.vid-link:hover {
+    text-decoration: underline;
+}
+.footer {
+    text-align: center;
+    padding: 24px 20px;
+    color: #bfbfbf;
+    font-size: 12px;
+}
+@media (max-width: 600px) {
+    .cat-total { grid-template-columns: repeat(2, 1fr); }
+    .cards { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+}
+</style>
+</head>
+<body>
+<div class="top-bar">
+    <h1>快手服饰品牌组秋上素材日报</h1>
+    <div class="subtitle">数据周期：2026.08.29 ~ 2026.09.04 · 自动生成于 2026-09-05 10:44</div>
+</div>
+<div class="time-tabs">
+    <span class="time-tab active">近7天（08.29~09.04）</span>
+    <span class="time-tab disabled">近14天</span>
+    <span class="time-tab disabled">近30天</span>
+</div>
+<div class="container">
+
+    <section class="cat-section" id="cat-男装">
+        <div class="cat-header">
+            <h2 class="cat-title">男装</h2>
+            <div class="cat-stats">
+                <span class="cat-badge">🆕 1条新晋</span>
+                <span class="cat-badge">📈 5条环比+30%</span>
+            </div>
+            <div class="cat-total">
+                <div class="t-item"><span class="t-label">类目总消耗</span><span class="t-val">200-500万</span></div>
+                <div class="t-item"><span class="t-label">类目总GMV</span><span class="t-val">500-1000万</span></div>
+                <div class="t-item"><span class="t-label">整体ROI</span><span class="t-val">2.83x</span></div>
+                <div class="t-item"><span class="t-label">Top12最高ROI</span><span class="t-val">4.23x</span></div>
+            </div>
+        </div>
+        <div class="cards">
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3x89ff8c2ubqk3g" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-4268585693-9123c4eafc634ceaa11606472572e8d8.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">[Dickies]撞色插肩长袖T恤男女春秋款宽松外穿慵懒风纯…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val">2-5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#52c41a">3.9x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.1-0.2%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">30-50</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">100-200元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3x89ff8c2ubqk3g" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xjwy8ptxcmiu79" target="_blank" rel="noopener"><img class="cover" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-3702032005-770ed416e8ee4db5aaadc42aab2f0650.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"><span class="badge badge-new">🆕 T-1新晋</span><span class="badge badge-wow">📈 日环比+59%</span></div>
+                <div class="pname">【双面穿翻领夹克】啄木鸟男士春秋新款爆款日常百搭休闲中老年外</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val">1-2万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#f5222d">0.3x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val"><0.05%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">20-30</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">100-200元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xjwy8ptxcmiu79" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xbshfbtqzzypk2" target="_blank" rel="noopener"><img class="cover" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-3790473623-74e0d8cf317b444db5e9510b974f2fa9.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"><span class="badge badge-wow">📈 日环比+100%</span></div>
+                <div class="pname">老爷车秋冬男士休闲运动卫衣百搭德绒打底衫半拉链宽松时尚长袖</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val">1-2万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#fa8c16">3.0x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.05-0.1%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">30-50</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">5-10%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">50-100元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xbshfbtqzzypk2" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xdp6m6adw4g6wi" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-2603086668-615c2cffe9f04deaa06e4bea762145ce.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">皮尔卡丹【优质桑蚕丝】秋季爆款男士圆领长袖亲肤舒适薄款卫衣</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val">1-2万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#fa8c16">2.4x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.05-0.1%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">>50</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">10-20%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">100-200元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xdp6m6adw4g6wi" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3x47c7y2pxakgn6" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-5590899646-ab9c4ec4094940b298fb7da11578a64c.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"><span class="badge badge-wow">📈 日环比+55%</span></div>
+                <div class="pname">Dickies美式潮流撞色连帽开衫卫衣男休闲宽松百搭情侣款春…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val">1-2万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#52c41a">4.1x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.05-0.1%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">30-50</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">20-50%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">200-500元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3x47c7y2pxakgn6" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xijsvxythaf84s" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-4749197879-5b2633ef3b6b46169fa4d82b0b90f9cf.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">复古水洗纯棉斜切牛仔裤折线刺绣设计裤子男生潮牌直筒微喇工装裤</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val">1-2万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#f5222d">1.7x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val"><0.05%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">10-20</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">3-5%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">50-100元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xijsvxythaf84s" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xq23uhwfjx2984" target="_blank" rel="noopener"><img class="cover" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-3790473623-b2b0fcee2483420787891c0352f64b3d.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">男士秋冬高档轻奢时尚百搭潮流亲肤柔软流光打底针织毛衣</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val">1-2万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#fa8c16">2.8x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.05-0.1%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">>50</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">5-10%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">100-200元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xq23uhwfjx2984" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xqng7z99jkbkgw" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-4918388935-dba8acb6535f472ebdf89879671216a0.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"><span class="badge badge-wow">📈 日环比+44%</span></div>
+                <div class="pname">秋冬美式三防冲锋裤男女同款窄版显瘦直筒宽松大码机能加绒休闲裤</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val">1-2万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#52c41a">3.8x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.05-0.1%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">10-20</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">5-10%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">50-100元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xqng7z99jkbkgw" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xfmc3ugjuvk89s" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-861075464-3e8cc214286b4b4d98a426d827cdb2cd.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"><span class="badge badge-wow">📈 日环比+87%</span></div>
+                <div class="pname">美式复古撞色皮衣夹克男秋季新款立领设计感纽扣外套潮牌防水皮衣</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val">1-2万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#fa8c16">2.7x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val"><0.05%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val"><10</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">5-10%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">100-200元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xfmc3ugjuvk89s" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xjqddupisxmvd4" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-2209165208-18049224c21d41e29b702a3bdfbc0c09.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">啄木鸟正品中年男士长袖t恤春秋薄款中老年男装秋衣T恤爸爸打底…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val">0.5-1万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#52c41a">3.3x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.1-0.2%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">10-20</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">30-50元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xjqddupisxmvd4" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3x8pk8tvhygwhbq" target="_blank" rel="noopener"><img class="cover" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-4811129499-a012b60f13dd48b9ac6c51cefddb2e7b.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">【Romon/罗蒙】高品质2025秋季男士爆款宽松休闲百搭长…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val">0.5-1万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#52c41a">3.4x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.1-0.2%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">30-50</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">3-5%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">50-100元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3x8pk8tvhygwhbq" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xxqieqgmd2ce8m" target="_blank" rel="noopener"><img class="cover" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-2749754347-5e51bb2aa70f4b3482bc5835c96f0ee4.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">啄木鸟男士春秋软皮皮衣男时尚休闲立领修身韩版皮夹克外套880…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val">0.5-1万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#52c41a">4.2x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.05-0.1%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">20-30</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">3-5%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">100-200元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xxqieqgmd2ce8m" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div></div>
+    </section>
+    <section class="cat-section" id="cat-女装">
+        <div class="cat-header">
+            <h2 class="cat-title">女装</h2>
+            <div class="cat-stats">
+                <span class="cat-badge">🆕 0条新晋</span>
+                <span class="cat-badge">📈 1条环比+30%</span>
+            </div>
+            <div class="cat-total">
+                <div class="t-item"><span class="t-label">类目总消耗</span><span class="t-val"><50万</span></div>
+                <div class="t-item"><span class="t-label">类目总GMV</span><span class="t-val">100-200万</span></div>
+                <div class="t-item"><span class="t-label">整体ROI</span><span class="t-val">6.66x</span></div>
+                <div class="t-item"><span class="t-label">Top12最高ROI</span><span class="t-val">11.01x</span></div>
+            </div>
+        </div>
+        <div class="cards">
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3x3thunkf2m46uy" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-4921675520-e089c32f65b0466cad768278c7898ca0.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"><span class="badge badge-wow">📈 日环比+44%</span></div>
+                <div class="pname">拿破仑宫廷风金属扣弯刀牛仔裤男女小众设计感宽松直筒阔腿长裤子</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val">0.5-1万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#52c41a">4.6x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.05-0.1%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">10-20</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">5-10%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">50-100元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3x3thunkf2m46uy" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xfre8m8w9nehes" target="_blank" rel="noopener"><img class="cover" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-5605704092-36f922510b1d410f806cc0d9411f0e9a.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">【买一送一】雅鹿2026秋冬新款高腰收腹保暖打底裤收腹保暖显…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#fa8c16">2.4x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.2-0.5%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">>50</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">50-100元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xfre8m8w9nehes" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xjqv8v533xn83k" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-4504092573-b321abdef79d4746bf0d3cbd81adb089.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">【限时补贴】【明星同款】SIINSIIN垂垂滑滑糯米云感直筒…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#52c41a">4.3x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.1-0.2%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">>50</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">200-500元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xjqv8v533xn83k" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3x245ih7v88u95s" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-3707541253-60bdef11c67143febe6bf57df642682a.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">女士背心2026新款夏季洋气针织吊带V领宽松显瘦背心遮肉遮副…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#fa8c16">2.5x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.2-0.5%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">>50</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">5-10%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">50-100元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3x245ih7v88u95s" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xajcjwt6kf7pys" target="_blank" rel="noopener"><img class="cover" src="https://p5-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-173645379-c15756ccd8794863ba103dc2b4e1e686.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">独特漂亮荡领扎染长袖t恤女士气质秋装2026新款打底衫卡其色…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#52c41a">3.5x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.2-0.5%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">20-30</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val"><30元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xajcjwt6kf7pys" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xhexm3dctqe3k6" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-4716909346-5c6c2a70711147fc974af7b0d5b7bc3b.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">啄木鸟条纹拼接假两件上衣女2026新款套装女士休闲运动秋季两…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#52c41a">11.0x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.1-0.2%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">30-50</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">10-20%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">100-200元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xhexm3dctqe3k6" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xq7kuybphf4mby" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-5248343643-2014642739bf4de4ae95d0a7e17fff65.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">【买一送一】加厚高腰竖条纹加绒打底裤 显瘦塑型百搭连裤袜 M…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#f5222d">1.9x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.2-0.5%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">>50</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">50-100元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xq7kuybphf4mby" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xkzid9nidtsnji" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-4927213581-4fdc07fc4b414113b6989980bd87472c.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">【苹果型梨型】多色可选 三寸翘薄款弹力中高腰胖女微喇裤牛仔裤</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#52c41a">6.8x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.1-0.2%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">20-30</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">50-100元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xkzid9nidtsnji" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xd5rpq8z66pur6" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-5502693990-9aa375584f844e5eabe0b7557f6a5e13.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">老年人春装纯棉风衣婆婆妈妈春秋天宽松全棉外套夹克衣服A25-…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#f5222d">1.8x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val"><0.05%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">10-20</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">200-500元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xd5rpq8z66pur6" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xkepj67kgx4ii4" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-5502693990-9aa375584f844e5eabe0b7557f6a5e13.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">老年人春装纯棉风衣婆婆妈妈春秋天宽松全棉外套夹克衣服A25-…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#fa8c16">2.7x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val"><0.05%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">20-30</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">10-20%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">200-500元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xkepj67kgx4ii4" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xjra8rwcv4u88i" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-5585152488-dc6ede51d208473fb1ec3edcb506b7a6.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">【智塑翘臀】高腰提臀内裤女蜜桃臀无痕塑形收腹提臀美体裤</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#f5222d">0.9x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val"><0.05%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">>50</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">30-50元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xjra8rwcv4u88i" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xkd4aufdrt6kn6" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-5619937666-438d4f643d50454e96004e46793d3700.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">拉夏贝尔九分烟管裤女早秋新款直筒休闲黑色西装裤子</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#52c41a">4.3x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.1-0.2%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">30-50</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">3-5%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">100-200元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xkd4aufdrt6kn6" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div></div>
+    </section>
+    <section class="cat-section" id="cat-男鞋">
+        <div class="cat-header">
+            <h2 class="cat-title">男鞋</h2>
+            <div class="cat-stats">
+                <span class="cat-badge">🆕 4条新晋</span>
+                <span class="cat-badge">📈 5条环比+30%</span>
+            </div>
+            <div class="cat-total">
+                <div class="t-item"><span class="t-label">类目总消耗</span><span class="t-val"><50万</span></div>
+                <div class="t-item"><span class="t-label">类目总GMV</span><span class="t-val">100-200万</span></div>
+                <div class="t-item"><span class="t-label">整体ROI</span><span class="t-val">2.68x</span></div>
+                <div class="t-item"><span class="t-label">Top12最高ROI</span><span class="t-val">4.37x</span></div>
+            </div>
+        </div>
+        <div class="cards">
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xv75jwta9k7tig" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-2420252388-b031eed0f2b243bd8e4344a74fcd1c5c.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"><span class="badge badge-new">🆕 T-1新晋</span></div>
+                <div class="pname">Aokang/奥康官方正品时尚潮流休闲复古百搭厚底低帮增高休…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val">0.5-1万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#f5222d">0.7x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val"><0.05%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val"><10</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">200-500元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xv75jwta9k7tig" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xfr64nnwt2vyps" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-5631324593-f91d72448248496c860f362e2e57ac80.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"><span class="badge badge-wow">📈 日环比+169%</span></div>
+                <div class="pname">Shuangxing/双星宽楦休闲男鞋透气厚底鞋秋季百搭通勤…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val">0.5-1万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#fa8c16">2.5x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.05-0.1%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">10-20</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">10-20%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">50-100元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xfr64nnwt2vyps" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xek8yebdfkthju" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-2912112729-9dbc56671cb04e6e9a8f3300fc31ee25.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">花花公子2026休闲运动鞋韩版透气减震增高秋季低帮男鞋时尚休…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val">0.5-1万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#52c41a">3.1x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val"><0.05%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">20-30</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">100-200元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xek8yebdfkthju" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xvb45ip8reztc6" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-2912112729-3a81bd6e8efc4b9c9d9828f55b732e9d.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">花花公子新款男鞋秋季时尚潮流软底舒适运动跑步休闲鞋老爹鞋</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#52c41a">3.1x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.05-0.1%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">30-50</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">100-200元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xvb45ip8reztc6" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xtwiw8dd5hkspy" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-4749715643-fdc85115db60430b8707dd9636dca6e8.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">蜡笔小新2026夏季男生新款水墨风厚底小白鞋增高百搭学生休闲…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#fa8c16">2.5x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val"><0.05%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val"><10</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">3-5%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">100-200元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xtwiw8dd5hkspy" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xatr73m29w7puw" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-1304045997-79aae1d126944eac92512296d9b5e4ac.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">汤姆猫鞋子男款原创电母黄鞋子高级感板鞋秋季2026新款百搭潮…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#fa8c16">2.6x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val"><0.05%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val"><10</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">50-100元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xatr73m29w7puw" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xhbh5tymamn53e" target="_blank" rel="noopener"><img class="cover" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-2052939992-be4666191cb94bae8986b66ee097f3ab.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"><span class="badge badge-new">🆕 T-1新晋</span><span class="badge badge-wow">📈 日环比+149%</span></div>
+                <div class="pname">七匹狼2026新款男鞋夏季防滑休闲板鞋休闲皮鞋潮鞋春季时尚板…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#f5222d">0.2x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val"><0.05%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">10-20</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">200-500元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xhbh5tymamn53e" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3x7bdrgrcp7b7ek" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-3409729626-9c544b4b9d3d46ae8164afd2dc445446.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"><span class="badge badge-new">🆕 T-1新晋</span><span class="badge badge-wow">📈 日环比+129%</span></div>
+                <div class="pname">【镇店之宝】杜莎蕾奴情侣鞋夏季透气休闲鞋男女同款百搭运动潮鞋</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#f5222d">1.0x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val"><0.05%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">20-30</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">100-200元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3x7bdrgrcp7b7ek" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xgnyw3e3ypzzhg" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-3867345544-69e041b96454412f951a17239b1f6d65.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"><span class="badge badge-wow">📈 日环比+221%</span></div>
+                <div class="pname">汤姆猫新款男鞋秋季透气舒适小众设计休闲百搭运动潮流ins板鞋…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#fa8c16">2.7x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.05-0.1%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">20-30</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">5-10%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">50-100元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xgnyw3e3ypzzhg" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xnui6ieqg3s65i" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-3544611423-32460165ca6a46149fbceacd9f26e833.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"><span class="badge badge-wow">📈 日环比+100%</span></div>
+                <div class="pname">杜莎蕾奴男鞋秋冬休闲鞋软底软面时尚减震潮流舒适透气百搭运动鞋</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#fa8c16">2.8x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val"><0.05%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">20-30</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">5-10%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">100-200元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xnui6ieqg3s65i" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3x2ffiuc7gmi5cu" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-5462837190-7919d70c42a543b68cc3e48924d6b80a.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"><span class="badge badge-new">🆕 T-1新晋</span></div>
+                <div class="pname">公牛世家秋冬新款男鞋增高防滑气垫休闲鞋双鞋舌百搭舒适厚底男鞋</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#fa8c16">2.7x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val"><0.05%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">30-50</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">5-10%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">200-500元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3x2ffiuc7gmi5cu" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xvfjm4yi3ix3r4" target="_blank" rel="noopener"><img class="cover" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-4992021541-1858c7f32f3b48ed9ea23eb6e3c79758.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">七匹狼正品男鞋春夏季商务休闲鞋通勤鞋男士上班防滑耐磨黑色皮鞋</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#52c41a">4.4x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.05-0.1%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">30-50</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">5-10%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">200-500元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xvfjm4yi3ix3r4" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div></div>
+    </section>
+    <section class="cat-section" id="cat-女鞋">
+        <div class="cat-header">
+            <h2 class="cat-title">女鞋</h2>
+            <div class="cat-stats">
+                <span class="cat-badge">🆕 0条新晋</span>
+                <span class="cat-badge">📈 4条环比+30%</span>
+            </div>
+            <div class="cat-total">
+                <div class="t-item"><span class="t-label">类目总消耗</span><span class="t-val"><50万</span></div>
+                <div class="t-item"><span class="t-label">类目总GMV</span><span class="t-val">100-200万</span></div>
+                <div class="t-item"><span class="t-label">整体ROI</span><span class="t-val">4.41x</span></div>
+                <div class="t-item"><span class="t-label">Top12最高ROI</span><span class="t-val">4.52x</span></div>
+            </div>
+        </div>
+        <div class="cards">
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xr8jj4hcte477e" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-4085918922-60a68ecff9a249cda4fe9eec3fa59f2d.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">珂卡芙新款厚底小白鞋女2026秋款百搭高级爆款时尚配裙子休闲…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val">0.5-1万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#52c41a">4.5x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.1-0.2%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">30-50</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">100-200元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xr8jj4hcte477e" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3x2fzkybfx32hgu" target="_blank" rel="noopener"><img class="cover" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-4755812670-1e193c7a00934f99b6dd4d98d1c89d42.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"><span class="badge badge-wow">📈 日环比+262%</span></div>
+                <div class="pname">小白鞋女2026秋季经典软底舒适平底板鞋圆头学生休闲鞋网红魔…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#52c41a">4.1x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.1-0.2%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">20-30</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">50-100元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3x2fzkybfx32hgu" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xezggsm5hp9a5g" target="_blank" rel="noopener"><img class="cover" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-5073003122-bb3507e8274b476198581c3f10144378.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">珂卡芙百搭厚底小白鞋女2026夏季新款爆款运动小个子增高休闲…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#fa8c16">2.1x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val"><0.05%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">20-30</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">100-200元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xezggsm5hp9a5g" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xgjwxgk8dvd3v6" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-5141036591-79144777b85d451c8a704e1fb1299667.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"><span class="badge badge-wow">📈 日环比+182%</span></div>
+                <div class="pname">珂卡芙新款2026春夏季老爹鞋女士运动休闲高级感ins潮牌百…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#52c41a">4.1x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.1-0.2%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">>50</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">100-200元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xgjwxgk8dvd3v6" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xbpy5sdm3xajbi" target="_blank" rel="noopener"><img class="cover" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-5506728330-182d401a737a48bdbcfa5785c084a642.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">SENMA森马圆头小白鞋女2026秋季爆款百搭配裙子韩版休闲…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#52c41a">3.9x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.1-0.2%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">>50</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">3-5%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">100-200元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xbpy5sdm3xajbi" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3x7cdxj3npe56be" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-2519684003-c9baa042e2f44765955ade6ccdc64580.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">SENMA/森马新款2026春季老爹鞋女士运动休闲高级感百搭…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#52c41a">4.5x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.1-0.2%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">>50</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">100-200元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3x7cdxj3npe56be" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3x48unvsq7hzpgk" target="_blank" rel="noopener"><img class="cover" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-5397329902-00b1e2fc7501445d9c317326be9d44f3.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">Daphne/达芙妮春季新款国风蕾丝小白鞋时尚百搭厚底潮流增…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#52c41a">4.5x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.05-0.1%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">30-50</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">3-5%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">100-200元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3x48unvsq7hzpgk" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xiefvhfzy9hudy" target="_blank" rel="noopener"><img class="cover" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-5178157758-9b1254ff5a1e4c70bae89e179104f134.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"><span class="badge badge-wow">📈 日环比+32%</span></div>
+                <div class="pname">珂卡芙2026年新款增高显脚小【厚底内增高9CM】时尚老爹鞋</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#52c41a">3.6x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.05-0.1%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">30-50</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">100-200元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xiefvhfzy9hudy" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xhwk3t8nhupbam" target="_blank" rel="noopener"><img class="cover" src="https://p2-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-3115216712-3a779c981bbe483d81c84d1f658da2e3.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">意迪森春季新款轻便休闲鞋女鞋软底防滑轻便舒适中老年妈妈鞋单鞋</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#fa8c16">2.0x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.05-0.1%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">20-30</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">50-100元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xhwk3t8nhupbam" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xmq6ign6w9z63s" target="_blank" rel="noopener"><img class="cover" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-2062852816-b37269fbcc8745678ca08d5440e13613.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"><span class="badge badge-wow">📈 日环比+63%</span></div>
+                <div class="pname">珂卡芙/KKF【隐形增高6CM】柔软舒适时尚2024四季百搭…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#52c41a">3.9x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.1-0.2%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">30-50</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">5-10%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">100-200元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xmq6ign6w9z63s" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3x5xxayudes6974" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-5512723319-6bba7d8cc02d4568aa66a128754975e2.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">回力女鞋厚底小白鞋女款2026新款爆款夏季百搭鞋子小个子增高…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#52c41a">3.9x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.05-0.1%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">10-20</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">3-5%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">50-100元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3x5xxayudes6974" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xv8s53mc7mz7py" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-5081178722-a862207a547441bcb47e51af932bd794.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">环球复古经典德训鞋女2026新款小白鞋百搭轻便ins厚底不累…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#52c41a">3.2x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.1-0.2%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">20-30</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">50-100元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xv8s53mc7mz7py" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div></div>
+    </section>
+    <section class="cat-section" id="cat-运动户外鞋服">
+        <div class="cat-header">
+            <h2 class="cat-title">运动户外鞋服</h2>
+            <div class="cat-stats">
+                <span class="cat-badge">🆕 2条新晋</span>
+                <span class="cat-badge">📈 4条环比+30%</span>
+            </div>
+            <div class="cat-total">
+                <div class="t-item"><span class="t-label">类目总消耗</span><span class="t-val"><50万</span></div>
+                <div class="t-item"><span class="t-label">类目总GMV</span><span class="t-val">100-200万</span></div>
+                <div class="t-item"><span class="t-label">整体ROI</span><span class="t-val">4.97x</span></div>
+                <div class="t-item"><span class="t-label">Top12最高ROI</span><span class="t-val">7.43x</span></div>
+            </div>
+        </div>
+        <div class="cards">
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xgsrixhce8xd36" target="_blank" rel="noopener"><img class="cover" src="https://p2-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-4082393043-abb0b43f3acc4b4e9e900b29377a2f1a.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">草本初色无痕高腰平角时尚香氛蕾丝双层收腹翘臀棉桑蚕丝裤 运动</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#fa8c16">2.2x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.1-0.2%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">30-50</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">50-100元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xgsrixhce8xd36" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3x4w3t8sbqxdv6s" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-5478538776-e6e8494928244dddb13da9a3cd07e218.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"><span class="badge badge-wow">📈 日环比+45%</span></div>
+                <div class="pname">Dickies户外三合一可拆卸两件套秋冬防风保暖登山滑雪服冲…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#52c41a">3.6x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val"><0.05%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">30-50</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">5-10%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">200-500元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3x4w3t8sbqxdv6s" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xvisjadt2er972" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-2193250729-324ae8a659234ff49fa9ef8d544f825e.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">【杨幂代言】小野和子2026新款云朵打底裤保暖棉感显瘦百搭冬…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#52c41a">3.3x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.1-0.2%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">>50</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">100-200元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xvisjadt2er972" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xfhdss9y6nag29" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-5503072027-a09c7d8af3ac418c9504904efcb775e6.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">双针织条纹拼色袜子男士中筒袜秋冬季棉袜吸汗颜值百搭长袜精梳棉</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#f5222d">1.3x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.05-0.1%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">20-30</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">30-50元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xfhdss9y6nag29" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xu2syvbug8mc7g" target="_blank" rel="noopener"><img class="cover" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-1499354470-6d384c87b25647fc9f00af7e05d2faf0.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">特步26年秋季情侣同款防泼水风衣连帽夹克薄款休闲外套-HD2</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#52c41a">7.4x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.05-0.1%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">10-20</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">5-10%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">100-200元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xu2syvbug8mc7g" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xe9tk2i5zbbdra" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-1155303529-2d4c86b4b2904afa966fc5cd27c583c1.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"><span class="badge badge-new">🆕 T-1新晋</span><span class="badge badge-wow">📈 日环比+30%</span></div>
+                <div class="pname">沃兰迪火箭气垫跑鞋碳板竞速跑鞋训练跑步体考体测体育生中学生</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#f5222d">0.9x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val"><0.05%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">10-20</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">200-500元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xe9tk2i5zbbdra" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xg7nysjqqiqjg9" target="_blank" rel="noopener"><img class="cover" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-3148112963-e19c42863dc046d593680a4049a27616.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">森马男鞋夏季透气潮牌轻奢百搭运动休闲板鞋厚底增高低帮小白潮鞋</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#52c41a">3.4x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.05-0.1%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">20-30</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">10-20%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">100-200元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xg7nysjqqiqjg9" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xxthhgd3azrreu" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-5214595136-c62efcb6418e42d08165f861615ba388.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">（夏款）双星星云五代慢跑鞋23007-(棒)</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#52c41a">3.7x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.05-0.1%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">10-20</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">5-10%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">50-100元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xxthhgd3azrreu" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xv8p3xke359nzs" target="_blank" rel="noopener"><img class="cover" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-3771885770-7520ad23ec304ddc908fc364bf4ba2f2.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">cleanfit美式重磅解构短袖男夏季boxy版型T恤空气层…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#fa8c16">2.6x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.05-0.1%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">10-20</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">30-50元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xv8p3xke359nzs" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xb8v4uhzmm5ms2" target="_blank" rel="noopener"><img class="cover" src="https://p2-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-3713117922-ed81c22c9f8840dc924204f81f6a3f67.jpg?x-kcdn-pid=11072" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">【山峰】贵人鸟26秋季新款缓震耐磨运动鞋厚底增高老爹鞋F58…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#52c41a">5.2x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.05-0.1%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">20-30</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">5-10%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">100-200元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xb8v4uhzmm5ms2" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xbbcvp8ayf7nyy" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-3148112963-df18d05c454e45c09af07fa1ccbfa9e5.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"><span class="badge badge-new">🆕 T-1新晋</span><span class="badge badge-wow">📈 日环比+315%</span></div>
+                <div class="pname">森马男鞋秋季透气网面复古擦色脏脏鞋男士运动休闲厚底增高老爹鞋</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#52c41a">3.3x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val"><0.05%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">20-30</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">3-5%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">100-200元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xbbcvp8ayf7nyy" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xukzpq2ecs75ig" target="_blank" rel="noopener"><img class="cover" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-3685447216-0dc30ab878034768b53dbda771554a22.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"><span class="badge badge-wow">📈 日环比+73%</span></div>
+                <div class="pname">环球内增高板鞋子女潮流2026春秋新款厚底ins百搭低帮休闲…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#52c41a">3.6x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.05-0.1%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">10-20</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">5-10%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">50-100元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xukzpq2ecs75ig" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div></div>
+    </section>
+    <section class="cat-section" id="cat-内衣/家居服/袜子">
+        <div class="cat-header">
+            <h2 class="cat-title">内衣/家居服/袜子</h2>
+            <div class="cat-stats">
+                <span class="cat-badge">🆕 0条新晋</span>
+                <span class="cat-badge">📈 1条环比+30%</span>
+            </div>
+            <div class="cat-total">
+                <div class="t-item"><span class="t-label">类目总消耗</span><span class="t-val">200-500万</span></div>
+                <div class="t-item"><span class="t-label">类目总GMV</span><span class="t-val">500-1000万</span></div>
+                <div class="t-item"><span class="t-label">整体ROI</span><span class="t-val">2.20x</span></div>
+                <div class="t-item"><span class="t-label">Top12最高ROI</span><span class="t-val">3.16x</span></div>
+            </div>
+        </div>
+        <div class="cards">
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xqw9p5qfa85iay" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-4997541739-d6e568360fa74ff18bea7d6e993de2c7.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">雅鹿10A抗菌保暖裤拍一发二磨毛秋冬男士速暖锁温防风高腰深裆</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val">2-5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#fa8c16">2.9x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.1-0.2%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">20-30</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">3-5%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">30-50元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xqw9p5qfa85iay" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xqrqw73vcj4spc" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-2331661365-a714bb57bf094a0590f5d62e026fe7c3.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">猫人男款保暖裤莫代尔薄款升级2.0修身无痕显瘦打底裤秋冬季秋…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val">2-5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#f5222d">1.8x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.05-0.1%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">>50</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">100-200元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xqrqw73vcj4spc" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3x6a8ibk96kt8km" target="_blank" rel="noopener"><img class="cover" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-3061422359-9b3ef8df37354d9a970b5d9f7291074c.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">【拍1发2=49.9元两条】雅鹿10A抗菌男士保暖裤双面秋衣…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val">2-5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#52c41a">3.2x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.2-0.5%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">30-50</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">3-5%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">30-50元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3x6a8ibk96kt8km" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xmhkb3q6h4u7gk" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-5692680291-5ce08518da9643d589c5bdebc701a990.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">雪中飞10A抗菌流光风秋冬季防寒速暖中高腰无痕修身男士保暖秋…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val">2-5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#f5222d">1.6x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.1-0.2%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">30-50</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">5-10%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">50-100元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xmhkb3q6h4u7gk" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xt9b62kknskc9s" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-4778811721-6f91bdf5a22744c598717e620cf5d275.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">V-法式辣妹性感蕾丝豹纹镂空中腰女士内裤高级缎面三角裤255…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val">1-2万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#fa8c16">2.2x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.05-0.1%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">10-20</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">30-50元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xt9b62kknskc9s" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3x7mi2whqu5t3yg" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-5692680291-5ce08518da9643d589c5bdebc701a990.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">雪中飞【10A抗菌】流光风秋冬防寒速暖中高腰修身男士保暖秋裤</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val">1-2万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#f5222d">1.7x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.05-0.1%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">30-50</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">3-5%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">50-100元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3x7mi2whqu5t3yg" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xvtpwfyxwf49xu" target="_blank" rel="noopener"><img class="cover" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-3061422359-72be2c85c7794954bba0ccdb71002ecf.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">49.9元两条雅鹿7A抗菌男士保暖裤双面秋衣秋裤秋冬</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val">1-2万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#52c41a">3.1x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.1-0.2%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">10-20</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">3-5%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">30-50元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xvtpwfyxwf49xu" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xxxhw2su3wuc9k" target="_blank" rel="noopener"><img class="cover" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-2818253002-8736eb1c4f4a4458a0560b1a56871400.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">【2条装】雅鹿10A抗菌女款保暖裤高腰加绒加厚秋冬秋裤薄款修…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val">1-2万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#fa8c16">2.8x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.1-0.2%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">20-30</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">30-50元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xxxhw2su3wuc9k" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xtqp3ip3jjipuw" target="_blank" rel="noopener"><img class="cover" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-4365970085-5a6be08679c74dc0888adebd722e0897.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">V-Ufeel香氛刺绣收腹裤高腰女士提臀无痕桑蚕丝内裤塑身舒…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val">0.5-1万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#fa8c16">2.0x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.1-0.2%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">>50</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">50-100元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xtqp3ip3jjipuw" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xx9j3az6mwidhc" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/COMMON_IMAGE-5630669137-d60806f53ee2492aa7e995e1834d27af.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"><span class="badge badge-wow">📈 日环比+297%</span></div>
+                <div class="pname">【秋冬新品】复古时髦堆堆袜新款韩系条纹洋气防滑不勒腿野兽来了</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val">0.5-1万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#f5222d">1.9x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.1-0.2%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">10-20</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val"><30元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xx9j3az6mwidhc" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3x8xihu63k4mb9s" target="_blank" rel="noopener"><img class="cover" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-5673271875-19c47fd2214e48168698171e85d6e62d.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">恋漫妮妈妈中老年前开扣无痕聚拢提拉无钢圈无排扣内衣文胸罩</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val">0.5-1万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#f5222d">1.3x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.1-0.2%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">>50</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">3-5%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">50-100元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3x8xihu63k4mb9s" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xd2mmy4tatqema" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-784592623-9c5adac332e644a9a8678f5d818e8fdf.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">完美记忆【明星同款】秋冬竖条纹加绒打底裤压力显瘦百搭连裤袜女</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val">0.5-1万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#fa8c16">2.6x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">0.1-0.2%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">30-50</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">50-100元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xd2mmy4tatqema" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div></div>
+    </section>
+    <section class="cat-section" id="cat-服饰配件/皮带/帽子/围巾">
+        <div class="cat-header">
+            <h2 class="cat-title">服饰配件/皮带/帽子/围巾</h2>
+            <div class="cat-stats">
+                <span class="cat-badge">🆕 0条新晋</span>
+                <span class="cat-badge">📈 6条环比+30%</span>
+            </div>
+            <div class="cat-total">
+                <div class="t-item"><span class="t-label">类目总消耗</span><span class="t-val"><50万</span></div>
+                <div class="t-item"><span class="t-label">类目总GMV</span><span class="t-val"><50万</span></div>
+                <div class="t-item"><span class="t-label">整体ROI</span><span class="t-val">1.65x</span></div>
+                <div class="t-item"><span class="t-label">Top12最高ROI</span><span class="t-val">4.62x</span></div>
+            </div>
+        </div>
+        <div class="cards">
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xguej33r9wnqqy" target="_blank" rel="noopener"><img class="cover" src="https://p2-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-2832607044-edfb517bfd694864b256392cac958744.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">新款好物男士腰带对插扣腰带时尚运动户外耐磨弹力腰带加厚裤腰带</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#f5222d">1.5x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val"><0.05%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">20-30</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">50-100元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xguej33r9wnqqy" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xek75gx3zh7aga" target="_blank" rel="noopener"><img class="cover" src="https://p3-ec.ecukwai.com/bs2/image-kwaishop-product/item_image-3879730155-5030d385068142679783e79ffe2a3f72.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">安普里保罗【时尚新款+十二生肖】正品男士皮带自动扣百搭</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#f5222d">1.0x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val"><0.05%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">20-30</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">50-100元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xek75gx3zh7aga" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3x6wvxkxqhtvwia" target="_blank" rel="noopener"><img class="cover" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-3879716649-24c6b28185d94f2baac2d67ae12480b6.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"><span class="badge badge-wow">📈 日环比+120%</span></div>
+                <div class="pname">保罗POLO专柜正品男士皮带真皮牛皮自动扣腰带休闲百搭简约裤…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#f5222d">1.6x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val"><0.05%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val"><10</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">50-100元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3x6wvxkxqhtvwia" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xgjwmcdpcjgiew" target="_blank" rel="noopener"><img class="cover" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-3879716649-0054f4d45b9b49888c4ba9b4d1b1c73e.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"><span class="badge badge-wow">📈 日环比+95%</span></div>
+                <div class="pname">POLO保罗牛皮自动扣男士皮带2026新款真皮腰带休闲百搭简…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#f5222d">1.5x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val"><0.05%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val"><10</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">50-100元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xgjwmcdpcjgiew" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xzkz53w9q66atq" target="_blank" rel="noopener"><img class="cover" src="https://p3-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-3879730155-2eefeb501ab849809c493be558e37022.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">安普里保罗【简约款+十二生肖】正品男士皮带自动扣百搭</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#f5222d">1.9x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val"><0.05%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val"><10</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">50-100元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xzkz53w9q66atq" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3x5qe6zsvxwynqq" target="_blank" rel="noopener"><img class="cover" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-250936839-f89fb44e3bb7471198312768f07429f5.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"><span class="badge badge-wow">📈 日环比+175%</span></div>
+                <div class="pname">无牙自动扣保罗皮带牛皮真皮简约百搭潮流带扣中青年商务高档</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#f5222d">1.6x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val"><0.05%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">10-20</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">50-100元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3x5qe6zsvxwynqq" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xhgk8xg62h42bc" target="_blank" rel="noopener"><img class="cover" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-3879730155-9440fd23b3514e7da6231117b8c0bccf.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"><span class="badge badge-wow">📈 日环比+33%</span></div>
+                <div class="pname">安普里保罗【新款+十二生肖】正品男士皮带自动扣商务休闲</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#f5222d">1.7x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val"><0.05%</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">10-20</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">50-100元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xhgk8xg62h42bc" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xyds2uhhz4mz54" target="_blank" rel="noopener"><img class="cover" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-250936839-a1cb4ed73dbe48fb9fd7abb8447c3380.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"><span class="badge badge-wow">📈 日环比+2097%</span></div>
+                <div class="pname">十二生肖腰带POLO保罗皮带牛皮真皮简约百搭潮流带扣中青年商…</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#f5222d">1.5x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">—</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">10-20</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">50-100元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xyds2uhhz4mz54" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3xhggrwmbyxtthy" target="_blank" rel="noopener"><img class="cover" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-2852206402-d9458bbfbe6b43009d8c4ad3267e80bd.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">特步防晒冰袖防紫外线冰丝袖套夏季薄款男女透气户外骑行跑步遮阳</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#f5222d">1.7x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">—</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">20-30</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val"><30元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3xhggrwmbyxtthy" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3x6gdguvjunj9yw" target="_blank" rel="noopener"><img class="cover" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-5238331026-d6b2bd1a1daa4000833e322b0489f452.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"><span class="badge badge-wow">📈 日环比+36%</span></div>
+                <div class="pname">七匹狼男士商务皮带男真牛皮时尚休闲中青年裤带腰带男款送人礼物</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#fa8c16">2.0x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">—</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">30-50</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">100-200元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3x6gdguvjunj9yw" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3x9br3hzi9wiymu" target="_blank" rel="noopener"><img class="cover" src="https://p1-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-5238331026-efaaea346e1d4bb896535964de061df4.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">七匹狼皮带男士腰带红腰带外黑内红新年本命年送爸爸老公礼物马年</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#52c41a">4.6x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">—</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">30-50</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val">1-3%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">100-200元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3x9br3hzi9wiymu" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div>
+        <div class="card">
+            <a class="cover-wrap" href="https://www.gifshow.com/fw/photo/3x6nw6wyew9ctmm" target="_blank" rel="noopener"><img class="cover" src="https://p4-ec.ecukwai.com/bs2/image-kwaishop-product/ITEM_IMAGE-3879730155-cd4f3b275dbc454691365585a946a0f9.jpg" loading="lazy" alt="cover"></a>
+            <div class="card-body">
+                <div class="badges"></div>
+                <div class="pname">新款好物男士腰带自动扣尼龙弹力带户外休闲百搭耐磨皮带男士</div>
+                <div class="metrics">
+                    <div class="m"><span class="m-label">消耗</span><span class="m-val"><0.5万</span></div>
+                    <div class="m"><span class="m-label">ROI</span><span class="m-val" style="color:#f5222d">1.3x</span></div>
+                    <div class="m"><span class="m-label">CTR</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">CVR</span><span class="m-val">—</span></div>
+                    <div class="m"><span class="m-label">CPM</span><span class="m-val">10-20</span></div>
+                    <div class="m"><span class="m-label">完播率</span><span class="m-val"><1%</span></div>
+                    <div class="m"><span class="m-label">客单价</span><span class="m-val">50-100元</span></div>
+                </div>
+                <a class="vid-link" href="https://www.gifshow.com/fw/photo/3x6nw6wyew9ctmm" target="_blank" rel="noopener">📹 点击查看视频</a>
+            </div>
+        </div></div>
+    </section>
+</div>
+<div class="footer">数据来源：快手电商数据平台 | 本报告数据已脱敏处理</div>
+</body>
+</html>
