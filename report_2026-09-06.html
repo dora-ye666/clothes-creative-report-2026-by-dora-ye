@@ -65,6 +65,12 @@ body { font-family: "PingFang SC","Microsoft YaHei",sans-serif; background: #f8f
 .roi-green { color: #16a34a; }
 
 </style>
+  <style>
+  .bsz-bar { font-size: 12px; opacity: 0.82; display: flex; gap: 14px; align-items: center; }
+  .bsz-bar span { display: inline-flex; align-items: center; gap: 3px; }
+  .bsz-num { font-weight: 700; }
+  </style>
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </head>
 <body>
 <div id="app">
@@ -75,6 +81,7 @@ body { font-family: "PingFang SC","Microsoft YaHei",sans-serif; background: #f8f
     <select id="history-select" onchange="gotoReport(this)">
       <option value="">-- 历史报告 --</option>
     </select>
+    <div class="bsz-bar" style="color:#fff;"><span>本页 <span id="busuanzi_value_page_pv" class="bsz-num">--</span> 次</span><span>全站 <span id="busuanzi_value_site_uv" class="bsz-num">--</span> 人访问</span></div>
   </div>
   <div id="tab-bar"><button class="tab-btn active" onclick="switchTab('男装', this)">男装</button><button class="tab-btn" onclick="switchTab('女装', this)">女装</button><button class="tab-btn" onclick="switchTab('男鞋', this)">男鞋</button><button class="tab-btn" onclick="switchTab('女鞋', this)">女鞋</button><button class="tab-btn" onclick="switchTab('童装婴儿装', this)">童装婴儿装</button><button class="tab-btn" onclick="switchTab('运动户外鞋服', this)">运动户外鞋服</button><button class="tab-btn" onclick="switchTab('内衣家居服', this)">内衣家居服</button><button class="tab-btn" onclick="switchTab('服装配饰', this)">服装配饰</button></div>
   <div id="content"><div id="panel-男装" class="tab-panel" style="display:block"><div class="stats-bar">
