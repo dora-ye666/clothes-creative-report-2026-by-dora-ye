@@ -52,12 +52,12 @@ a{color:inherit;text-decoration:none}
 .nt-label{font-size:12px;font-weight:700;color:var(--red);margin-bottom:5px}
 .nt-text{font-size:13px;color:#4b0707;line-height:1.7;letter-spacing:.2px}
 /* 帧图区 */
-.frames-grid{display:flex;gap:8px;overflow-x:auto;margin-bottom:12px;padding:4px 2px}
-.frames-grid::-webkit-scrollbar{height:4px}
-.frames-grid::-webkit-scrollbar-track{background:#fce7e7}
-.frames-grid::-webkit-scrollbar-thumb{background:rgba(220,38,38,.3);border-radius:2px}
-.fi{flex-shrink:0;width:120px}
-.fi a img,.fi img{width:120px;height:76px;object-fit:cover;border-radius:8px;border:1px solid var(--line);display:block;transition:border-color .2s}
+.frames-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:12px}
+
+
+
+.fi{min-width:0}
+.fi a img,.fi img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:8px;border:1px solid var(--line);display:block;transition:border-color .2s}
 .fi a:hover img{border-color:var(--red)}
 .fl{display:block;font-size:10px;color:var(--red);font-weight:600;margin-top:4px;white-space:nowrap}
 .fd{display:block;font-size:10px;color:#666;margin-top:2px;line-height:1.4;word-break:break-all}
