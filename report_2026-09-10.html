@@ -324,20 +324,59 @@ function loadHistory(file){
   };
   window.abSubmitFb = function() {
     var btn = document.getElementById('fb-submit-btn');
-    btn.disabled = true; btn.textContent = '提交中...';
+    btn.disabled = true; btn.textContent = '跳转中...';
+
     var checks = [];
     document.querySelectorAll('.fb-checks input:checked').forEach(function(c){ checks.push(c.value); });
-    var extra = document.getElementById('fb-extra').value.trim();
+    var extra   = document.getElementById('fb-extra').value.trim();
+    var star    = AB_STAR;
+    var nowStr  = new Date().toLocaleString('zh-CN', {timeZone:'Asia/Shanghai'});
+    var pageFile = window.location.pathname.split('/').pop() || 'index.html';
+
+    // 构建 Issue 内容（Markdown 格式）
+    var stars_txt = star > 0 ? ('★').repeat(star) + '☆'.repeat(5 - star) + ' (' + star + '/5)' : '未评分';
+    var checks_md = checks.length > 0 ? checks.map(function(c){ return '- ' + c; }).join('
+') : '（未选择）';
+    var body = [
+      '## 素材日报访客反馈',
+      '',
+      '| 项目 | 内容 |',
+      '|------|------|',
+      '| 评分 | ' + stars_txt + ' |',
+      '| 报告页面 | `' + pageFile + '` |',
+      '| 提交时间 | ' + nowStr + ' |',
+      '',
+      '### 希望改善的方面',
+      checks_md,
+      '',
+      '### 其他建议',
+      extra || '（无）'
+    ].join('
+');
+
+    var title = '[素材日报反馈] ' + nowStr.split(' ')[0] + ' (' + stars_txt + ')';
+
+    // 打开预填充的 GitHub Issue 创建页（无需 Token，访客用自己账号一键提交）
+    var ghUrl = 'https://github.com/dora-ye666/clothes-creative-report-2026-by-dora-ye/issues/new'
+      + '?title=' + encodeURIComponent(title)
+      + '&body='  + encodeURIComponent(body)
+      + '&labels=' + encodeURIComponent('访客反馈');
+
+    window.open(ghUrl, '_blank');
+
+    // 本地也存一份备份
     try {
       var arr = JSON.parse(localStorage.getItem('_fb_list') || '[]');
-      arr.push({ t: new Date().toISOString(), star: AB_STAR, checks: checks, extra: extra });
+      arr.push({ t: new Date().toISOString(), star: star, checks: checks, extra: extra });
       localStorage.setItem('_fb_list', JSON.stringify(arr));
     } catch(e){}
+
+    // 显示感谢页
     setTimeout(function(){
-      document.getElementById('fb-form').style.display = 'none';
+      document.getElementById('fb-form').style.display   = 'none';
       document.getElementById('fb-thanks').style.display = 'block';
-      setTimeout(function(){ window.abCloseFb(); }, 3000);
-    }, 500);
+      setTimeout(function(){ window.abCloseFb(); }, 3500);
+    }, 300);
   };
 })();
 </script>
