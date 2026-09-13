@@ -73,6 +73,137 @@ body { font-family: "PingFang SC","Microsoft YaHei",sans-serif; background: #f8f
     gtag('config', 'G-CL2HWBD70X');
   </script>
   <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<style id="inject-v1">
+/* ---- 底部悬浮操作栏 ---- */
+#action-bar {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 9998;
+  background: rgba(185,28,28,0.96); backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px; padding: 7px 16px;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+}
+.ab-label { font-size: 11px; color: rgba(255,255,255,0.7); margin-right: 2px; white-space: nowrap; }
+.ab-toggle { display: flex; gap: 2px; background: rgba(255,255,255,0.12);
+  border-radius: 4px; padding: 2px; border: 1px solid rgba(255,255,255,0.3); }
+.ab-btn {
+  background: none; border: none; color: rgba(255,255,255,0.65);
+  font-size: 12px; padding: 4px 10px; border-radius: 3px; cursor: pointer;
+  white-space: nowrap; transition: all 0.2s;
+}
+.ab-btn.ab-active { background: rgba(255,255,255,0.28); color: #fff; font-weight: 700; }
+.ab-divider { width: 1px; height: 20px; background: rgba(255,255,255,0.25); margin: 0 4px; }
+.ab-feedback {
+  background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.35);
+  color: #fff; font-size: 12px; padding: 4px 12px; border-radius: 4px;
+  cursor: pointer; white-space: nowrap; transition: background 0.2s;
+}
+.ab-feedback:hover { background: rgba(255,255,255,0.28); }
+
+/* ---- 底部留白（防止悬浮栏遮住内容）---- */
+body { padding-bottom: 44px !important; }
+
+/* ====== 手机视图 ====== */
+/* 卡片网格：单列 */
+body.mobile-view .cards-grid,
+body.mobile-view #cards-grid,
+body.mobile-view .card-grid,
+body.mobile-view [class*="cards-grid"],
+body.mobile-view [class*="card-grid"] {
+  grid-template-columns: 1fr !important;
+  gap: 10px !important;
+}
+/* 卡片横向排列 */
+body.mobile-view .card,
+body.mobile-view [class*="product-card"],
+body.mobile-view [class^="card"] {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: stretch !important;
+}
+/* 封面：固定宽高，修复比例 */
+body.mobile-view .card .cover,
+body.mobile-view .card a.cover,
+body.mobile-view [class*="cover"] {
+  width: 120px !important;
+  min-width: 120px !important;
+  max-width: 120px !important;
+  height: 160px !important;
+  padding-bottom: 0 !important;
+  flex-shrink: 0 !important;
+}
+/* 封面内图片：保持绝对定位，自动填充正确高度 */
+body.mobile-view .card .cover img,
+body.mobile-view .card a.cover img {
+  position: absolute !important;
+  top: 0 !important; left: 0 !important;
+  width: 100% !important; height: 100% !important;
+  object-fit: cover !important;
+}
+/* 卡片内容区：填满剩余空间 */
+body.mobile-view .card .card-body,
+body.mobile-view .card [class*="card-body"],
+body.mobile-view .card [class*="product-info"],
+body.mobile-view .card [class*="info"] {
+  flex: 1 !important;
+  overflow: hidden !important;
+  min-width: 0 !important;
+}
+
+/* ====== 意见反馈弹窗 ====== */
+#fb-modal-overlay {
+  display: none; position: fixed; inset: 0; z-index: 9999;
+  background: rgba(0,0,0,0.5); justify-content: center; align-items: center;
+}
+#fb-modal-overlay.fb-show { display: flex; }
+#fb-modal-box {
+  background: #fff; border-radius: 16px; padding: 26px 22px 20px;
+  width: 92%; max-width: 460px; position: relative;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.25);
+  animation: fbPopIn 0.22s ease;
+  max-height: 90vh; overflow-y: auto;
+}
+@keyframes fbPopIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+#fb-close {
+  position: absolute; top: 12px; right: 14px;
+  background: none; border: none; font-size: 22px; color: #aaa; cursor: pointer; line-height: 1;
+}
+#fb-close:hover { color: #dc2626; }
+.fb-title { font-size: 17px; font-weight: 700; color: #dc2626; margin-bottom: 3px; }
+.fb-sub   { font-size: 12px; color: #888; margin-bottom: 16px; line-height: 1.6; }
+.fb-group { margin-bottom: 14px; }
+.fb-label { font-size: 12px; font-weight: 600; color: #444; margin-bottom: 6px; display: block; }
+.fb-stars  { display: flex; gap: 6px; }
+.fb-star {
+  font-size: 26px; background: none; border: none; cursor: pointer;
+  color: #d1d5db; transition: color 0.15s; line-height: 1; padding: 0;
+}
+.fb-star.fb-lit { color: #f59e0b; }
+.fb-checks { display: flex; flex-direction: column; gap: 8px; }
+.fb-check  { display: flex; align-items: flex-start; gap: 8px; cursor: pointer; }
+.fb-check input { margin-top: 2px; accent-color: #dc2626; width: 14px; height: 14px; flex-shrink: 0; }
+.fb-check span  { font-size: 12px; color: #444; line-height: 1.4; }
+.fb-textarea {
+  width: 100%; border: 1px solid #e5e7eb; border-radius: 8px;
+  padding: 10px 12px; font-size: 13px; resize: vertical; min-height: 72px;
+  outline: none; font-family: inherit; transition: border 0.2s; box-sizing: border-box;
+}
+.fb-textarea:focus { border-color: #dc2626; box-shadow: 0 0 0 2px rgba(220,38,38,0.1); }
+.fb-submit {
+  width: 100%; background: #dc2626; color: #fff; border: none;
+  border-radius: 8px; padding: 11px; font-size: 14px; font-weight: 700;
+  cursor: pointer; margin-top: 8px; transition: background 0.2s;
+}
+.fb-submit:hover  { background: #b91c1c; }
+.fb-submit:disabled { background: #e5e7eb; color: #9ca3af; cursor: not-allowed; }
+#fb-thanks { display: none; text-align: center; padding: 16px 0; }
+.fb-thanks-icon  { font-size: 52px; margin-bottom: 10px; }
+.fb-thanks-title { font-size: 18px; font-weight: 700; color: #dc2626; margin-bottom: 8px; }
+.fb-thanks-text  { font-size: 13px; color: #555; line-height: 1.8; }
+</style>
 </head>
 <body>
 <div id="app">
@@ -347,6 +478,132 @@ function gotoReport(sel) {
 }
 window.onload = loadHistoryReports;
 
+</script>
+
+<!-- ===== 底部悬浮操作栏 ===== -->
+<div id="action-bar">
+  <span class="ab-label">视图：</span>
+  <div class="ab-toggle">
+    <button class="ab-btn" id="ab-pc"     onclick="abSetView('pc')">&#128187; PC端</button>
+    <button class="ab-btn" id="ab-mobile" onclick="abSetView('mobile')">&#128241; 手机端</button>
+  </div>
+  <div class="ab-divider"></div>
+  <button class="ab-feedback" onclick="abOpenFb()">&#128172; 我要反馈</button>
+</div>
+
+<!-- ===== 意见反馈弹窗 ===== -->
+<div id="fb-modal-overlay">
+  <div id="fb-modal-box">
+    <button id="fb-close" onclick="abCloseFb()">&times;</button>
+    <div id="fb-form">
+      <div class="fb-title">&#128172; 素材库意见反馈</div>
+      <div class="fb-sub">您的每一条建议都非常宝贵，帮助我们持续改进&#128640;<br>快手平台与你一起成长 &#10084;&#65039;</div>
+      <div class="fb-group">
+        <span class="fb-label">本次体验评分</span>
+        <div class="fb-stars">
+          <button class="fb-star" data-v="1" onclick="abSetStar(1)">&#9733;</button>
+          <button class="fb-star" data-v="2" onclick="abSetStar(2)">&#9733;</button>
+          <button class="fb-star" data-v="3" onclick="abSetStar(3)">&#9733;</button>
+          <button class="fb-star" data-v="4" onclick="abSetStar(4)">&#9733;</button>
+          <button class="fb-star" data-v="5" onclick="abSetStar(5)">&#9733;</button>
+        </div>
+      </div>
+      <div class="fb-group">
+        <span class="fb-label">希望改善哪些方面？（可多选）</span>
+        <div class="fb-checks">
+          <label class="fb-check"><input type="checkbox" value="更新频率更高"><span>数据更新频率更高（如小时级）</span></label>
+          <label class="fb-check"><input type="checkbox" value="增加品类"><span>增加更多品类维度</span></label>
+          <label class="fb-check"><input type="checkbox" value="竞品对比"><span>增加竞品 / 行业对比数据</span></label>
+          <label class="fb-check"><input type="checkbox" value="视频内播放"><span>视频直接在页面内预览播放</span></label>
+          <label class="fb-check"><input type="checkbox" value="数据导出"><span>支持数据导出（Excel / CSV）</span></label>
+          <label class="fb-check"><input type="checkbox" value="搜索过滤"><span>增加搜索 / 筛选功能</span></label>
+          <label class="fb-check"><input type="checkbox" value="口径说明"><span>更清晰的指标口径说明</span></label>
+        </div>
+      </div>
+      <div class="fb-group">
+        <span class="fb-label">其他建议（可选）</span>
+        <textarea class="fb-textarea" id="fb-extra" placeholder="请输入您的宝贵建议..." maxlength="500"></textarea>
+      </div>
+      <button class="fb-submit" id="fb-submit-btn" onclick="abSubmitFb()">提交反馈</button>
+    </div>
+    <div id="fb-thanks">
+      <div class="fb-thanks-icon">&#127881;</div>
+      <div class="fb-thanks-title">感谢您的宝贵意见！</div>
+      <div class="fb-thanks-text">
+        您的每一条建议都是我们前进的动力&#128170;<br>
+        快手平台将持续优化，与你一起成长&#128640;<br><br>
+        <strong style="color:#dc2626">感谢你的宝贵意见，快手平台与你一起成长</strong> &#128149;
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 注入脚本 ===== -->
+<script id="inject-v1-js">
+(function(){
+  var AB_STAR = 0;
+
+  // ---- 视图切换 ----
+  function abSetView(mode) {
+    if (mode === 'mobile') {
+      document.body.classList.add('mobile-view');
+      document.getElementById('ab-pc').classList.remove('ab-active');
+      document.getElementById('ab-mobile').classList.add('ab-active');
+    } else {
+      document.body.classList.remove('mobile-view');
+      document.getElementById('ab-pc').classList.add('ab-active');
+      document.getElementById('ab-mobile').classList.remove('ab-active');
+    }
+    try { localStorage.setItem('fashionViewMode', mode); } catch(e){}
+  }
+  window.abSetView = abSetView;
+
+  // 初始化：优先读缓存，否则自动检测
+  (function(){
+    var saved = null;
+    try { saved = localStorage.getItem('fashionViewMode'); } catch(e){}
+    var isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    abSetView(saved || (isMobile ? 'mobile' : 'pc'));
+  })();
+
+  // ---- 反馈弹窗 ----
+  window.abOpenFb = function() {
+    document.getElementById('fb-modal-overlay').classList.add('fb-show');
+    document.getElementById('fb-form').style.display = 'block';
+    document.getElementById('fb-thanks').style.display = 'none';
+    document.getElementById('fb-submit-btn').disabled = false;
+    document.getElementById('fb-submit-btn').textContent = '提交反馈';
+  };
+  window.abCloseFb = function() {
+    document.getElementById('fb-modal-overlay').classList.remove('fb-show');
+  };
+  document.getElementById('fb-modal-overlay').addEventListener('click', function(e){
+    if (e.target === this) window.abCloseFb();
+  });
+  window.abSetStar = function(n) {
+    AB_STAR = n;
+    document.querySelectorAll('.fb-star').forEach(function(b){
+      b.classList.toggle('fb-lit', parseInt(b.getAttribute('data-v')) <= n);
+    });
+  };
+  window.abSubmitFb = function() {
+    var btn = document.getElementById('fb-submit-btn');
+    btn.disabled = true; btn.textContent = '提交中...';
+    var checks = [];
+    document.querySelectorAll('.fb-checks input:checked').forEach(function(c){ checks.push(c.value); });
+    var extra = document.getElementById('fb-extra').value.trim();
+    try {
+      var arr = JSON.parse(localStorage.getItem('_fb_list') || '[]');
+      arr.push({ t: new Date().toISOString(), star: AB_STAR, checks: checks, extra: extra });
+      localStorage.setItem('_fb_list', JSON.stringify(arr));
+    } catch(e){}
+    setTimeout(function(){
+      document.getElementById('fb-form').style.display = 'none';
+      document.getElementById('fb-thanks').style.display = 'block';
+      setTimeout(function(){ window.abCloseFb(); }, 3000);
+    }, 500);
+  };
+})();
 </script>
 </body>
 </html>
