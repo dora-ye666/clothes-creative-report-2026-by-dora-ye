@@ -24,18 +24,6 @@ body { font-family: "PingFang SC","Microsoft YaHei",sans-serif; background: #f5f
 }
 .history-select option { background: #dc2626; color: #fff; }
 
-/* 手机/PC 切换按钮 */
-.view-toggle {
-  display: flex; gap: 2px; background: rgba(255,255,255,0.15);
-  border-radius: 4px; padding: 2px; border: 1px solid rgba(255,255,255,0.4);
-}
-.vt-btn {
-  background: none; border: none; color: rgba(255,255,255,0.7);
-  font-size: 11px; padding: 3px 8px; border-radius: 3px; cursor: pointer;
-  white-space: nowrap; transition: all 0.2s;
-}
-.vt-btn.active { background: rgba(255,255,255,0.3); color: #fff; font-weight: 700; }
-
 /* 意见反馈按钮 */
 .feedback-btn {
   background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.4);
@@ -81,24 +69,6 @@ body { font-family: "PingFang SC","Microsoft YaHei",sans-serif; background: #f5f
   gap: 12px;
 }
 
-/* 手机视图：单列大卡片 */
-body.mobile-view .cards-grid {
-  grid-template-columns: 1fr;
-  gap: 12px;
-}
-body.mobile-view .card {
-  display: flex; flex-direction: row; height: auto;
-}
-body.mobile-view .cover {
-  width: 110px; min-width: 110px; height: 140px; padding-bottom: 0;
-  flex-shrink: 0;
-}
-body.mobile-view .cover img {
-  position: static; width: 100%; height: 100%; object-fit: cover;
-}
-body.mobile-view .card-body { flex: 1; padding: 8px 10px; overflow: hidden; }
-body.mobile-view .metrics { grid-template-columns: repeat(3, 1fr); }
-
 /* 卡片 */
 .card {
   background: #fff; border-radius: 8px; overflow: hidden;
@@ -109,14 +79,17 @@ body.mobile-view .metrics { grid-template-columns: repeat(3, 1fr); }
 .card-new { border: 2px solid #f59e0b; }
 .card-rising { border: 2px solid #dc2626; }
 
-/* 封面 */
+/* 封面 —— 用 aspect-ratio 替代 padding-bottom 百分比技巧
+   避免 flex-row 子元素中 padding-bottom% 参照父宽度导致拉伸 */
 .cover {
-  display: block; position: relative; width: 100%; height: 0; padding-bottom: 125%;
+  display: block; position: relative; width: 100%;
+  aspect-ratio: 4 / 5;
   overflow: hidden; background: #eee;
 }
 .cover img {
-  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  width: 100%; height: 100%;
   object-fit: cover; transition: transform 0.3s;
+  display: block;
 }
 .cover:hover img { transform: scale(1.04); }
 .cover-placeholder { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); color: #aaa; font-size: 12px; }
@@ -210,14 +183,7 @@ body.mobile-view .metrics { grid-template-columns: repeat(3, 1fr); }
 .thank-text { font-size: 13px; color: #555; line-height: 1.7; }
 
 /* =============================================
-   响应式：手机端 (≤ 640px)
-   核心原则：
-   1. cover 用 height 固定高度替代 padding-bottom 百分比
-      ──因为在 flex-row 布局里，padding-bottom% 参照
-        父卡片宽度（全屏宽），会导致封面极度拉高
-   2. 卡片改为横向排列（封面左 + 内容右）
-   3. 统计卡片改为 2×2 网格
-   4. 底部留出空间防止浏览器导航栏遮挡
+   响应式：手机端 (≤ 640px)  —— 纯 CSS，无 JS 类切换
    ============================================= */
 @media (max-width: 640px) {
 
@@ -226,99 +192,57 @@ body.mobile-view .metrics { grid-template-columns: repeat(3, 1fr); }
   .topbar-title { font-size: 13px; }
   .topbar-date { display: none; }
   .topbar-actions { gap: 4px; }
-  .vt-btn { font-size: 10px; padding: 3px 6px; }
   .feedback-btn { font-size: 10px; padding: 3px 8px; }
 
   /* Tab 栏 */
   .tab-btn { padding: 8px 10px; font-size: 12px; }
+  .tabs-bar { top: 48px; }
 
-  /* 主内容留出 topbar(48px) + tabs(~38px) 的空间 */
-  .main { margin-top: 88px; padding: 10px 8px 24px; }
+  /* 主内容 */
+  .main { margin-top: 86px; padding: 10px 8px 24px; }
 
-  /* 统计卡片：2×2 网格，数值紧凑 */
+  /* 统计卡片：2×2 网格 */
   .stat-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .stat-card { min-width: 0; padding: 8px 10px; }
   .s-val { font-size: 14px; }
 
-  /* 商品卡片网格：手机单列 */
-  .cards-grid {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
+  /* 卡片网格：单列 */
+  .cards-grid { grid-template-columns: 1fr; gap: 10px; }
 
   /* 卡片：横向排列 */
-  .card {
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
-  }
+  .card { display: flex; flex-direction: row; align-items: stretch; }
 
-  /* ★ 关键修复：封面用固定高度，废弃 padding-bottom 技巧 ★
-     - width: 120px  → 封面固定宽度
-     - height: 160px → 封面固定高度（替代 height:0 + padding-bottom:125%）
-     - padding-bottom: 0 → 清除百分比撑高
-     - position: relative → 保持角标绝对定位基准
-     封面内的 img 仍是 position:absolute，自动填满 120×160 区域 */
-  .cover,
-  a.cover {
-    width: 120px !important;
-    min-width: 120px !important;
-    max-width: 120px !important;
-    height: 160px !important;
-    padding-bottom: 0 !important;
+  /* 封面：固定宽度，aspect-ratio 自动计算高度（无百分比参照问题）*/
+  .cover, a.cover {
+    width: 110px;
     flex-shrink: 0;
-    position: relative;
+    aspect-ratio: 3 / 4;   /* 110px 宽 → 约 147px 高 */
   }
-
-  /* 封面图片：位置、尺寸保持不变（绝对定位，填满封面区域） */
-  .cover img,
-  a.cover img {
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-  }
-
-  /* 封面悬停缩放在手机端关闭（touch 设备无 hover）*/
   .cover:hover img { transform: none; }
 
-  /* 卡片内容区：撑满剩余宽度 */
-  .card-body {
-    flex: 1;
-    min-width: 0;
-    overflow: hidden;
-    padding: 6px 8px;
-  }
-
-  /* 视频行 / 商品名 */
+  /* 卡片内容区 */
+  .card-body { flex: 1; min-width: 0; overflow: hidden; padding: 6px 8px; }
   .vid-row { font-size: 10px; margin-bottom: 3px; }
-  .product-name { font-size: 11px; margin-bottom: 4px; -webkit-line-clamp: 2;
-    display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; }
-
-  /* 标签行 */
+  .product-name {
+    font-size: 11px; margin-bottom: 4px;
+    display: -webkit-box; -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2; overflow: hidden;
+  }
   .tags { margin-bottom: 4px; gap: 3px; }
   .tag { font-size: 9px; padding: 1px 4px; }
-
-  /* 6 指标格：3列不变，字号缩小 */
   .metrics { gap: 3px; }
   .metric { padding: 3px 1px; }
   .m-label { font-size: 8px; }
   .m-val { font-size: 10px; }
 
-  /* 意见反馈弹窗适配 */
+  /* 弹窗 */
   .modal-box { padding: 20px 16px 18px; }
   .modal-title { font-size: 15px; }
 }
 
-/* 极小屏（≤ 360px）进一步紧凑 */
+/* 极小屏 ≤ 360px */
 @media (max-width: 360px) {
-  .cover, a.cover {
-    width: 100px !important;
-    min-width: 100px !important;
-    height: 134px !important;
-  }
+  .cover, a.cover { width: 90px; }
   .s-val { font-size: 12px; }
 }
 </style>
@@ -330,10 +254,6 @@ body.mobile-view .metrics { grid-template-columns: repeat(3, 1fr); }
   <span class="topbar-title">&#128208; 服饰跑量素材日报</span>
   <span class="topbar-date">2026-09-06 ~ 2026-09-12</span>
   <div class="topbar-actions">
-    <div class="view-toggle">
-      <button class="vt-btn active" id="btnPC" onclick="setView('pc')">&#128187; PC</button>
-      <button class="vt-btn" id="btnMobile" onclick="setView('mobile')">&#128241; 手机</button>
-    </div>
     <select class="history-select" id="historySelect" onchange="goHistory(this.value)">
       <option value="">&#128197; 历史报告</option>
     </select>
@@ -437,28 +357,6 @@ fetch('https://dora-ye666.github.io/clothes-creative-report-2026-by-dora-ye/repo
       sel.appendChild(opt);
     });
   }).catch(function(){});
-
-// ===== 手机/PC 视图切换 =====
-function setView(mode) {
-  if (mode === 'mobile') {
-    document.body.classList.add('mobile-view');
-    document.getElementById('btnPC').classList.remove('active');
-    document.getElementById('btnMobile').classList.add('active');
-    localStorage.setItem('viewMode','mobile');
-  } else {
-    document.body.classList.remove('mobile-view');
-    document.getElementById('btnPC').classList.add('active');
-    document.getElementById('btnMobile').classList.remove('active');
-    localStorage.setItem('viewMode','pc');
-  }
-}
-// 自动检测设备
-(function(){
-  var saved = localStorage.getItem('viewMode');
-  var isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
-  var mode = saved || (isMobile ? 'mobile' : 'pc');
-  setView(mode);
-})();
 
 // ===== 意见反馈 =====
 var currentStar = 0;
