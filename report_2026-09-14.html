@@ -64,6 +64,67 @@ body { font-family: -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft Ya
   .stats-row { grid-template-columns:repeat(2,1fr); }
   .cards-grid { grid-template-columns:repeat(2,1fr); }
 }
+
+/* 意见反馈按钮 */
+.feedback-btn {
+  background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.4);
+  color: #fff; font-size: 11px; padding: 4px 8px; border-radius: 4px;
+  cursor: pointer; white-space: nowrap;
+}
+.feedback-btn:hover { background: rgba(255,255,255,0.25); }
+.modal-overlay {
+  display: none; position: fixed; inset: 0; z-index: 9999;
+  background: rgba(0,0,0,0.45); justify-content: center; align-items: center;
+}
+.modal-overlay.show { display: flex; }
+.modal-box {
+  background: #fff; border-radius: 16px; padding: 28px 24px 24px;
+  width: 90%; max-width: 460px; position: relative;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.2); animation: popIn 0.25s ease;
+}
+@keyframes popIn { from { transform: scale(0.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.modal-close {
+  position: absolute; top: 14px; right: 16px;
+  background: none; border: none; font-size: 20px; color: #aaa; cursor: pointer;
+}
+.modal-close:hover { color: #dc2626; }
+.modal-title { font-size: 17px; font-weight: 700; color: #dc2626; margin-bottom: 4px; }
+.modal-subtitle { font-size: 12px; color: #888; margin-bottom: 18px; line-height: 1.5; }
+.form-group { margin-bottom: 14px; }
+.form-label { font-size: 12px; font-weight: 600; color: #444; margin-bottom: 6px; display: block; }
+.form-textarea {
+  width: 100%; border: 1px solid #e5e7eb; border-radius: 8px;
+  padding: 10px 12px; font-size: 13px; resize: vertical; min-height: 80px;
+  outline: none; transition: border 0.2s; font-family: inherit;
+}
+.form-textarea:focus { border-color: #dc2626; box-shadow: 0 0 0 2px rgba(220,38,38,0.1); }
+.form-checkbox-group { display: flex; flex-direction: column; gap: 8px; }
+.form-checkbox { display: flex; align-items: flex-start; gap: 8px; cursor: pointer; }
+.form-checkbox input { margin-top: 2px; accent-color: #dc2626; width: 14px; height: 14px; flex-shrink: 0; }
+.form-checkbox span { font-size: 12px; color: #444; line-height: 1.4; }
+.form-rating { display: flex; gap: 6px; margin-top: 4px; }
+.star-btn {
+  font-size: 22px; background: none; border: none; cursor: pointer;
+  color: #d1d5db; transition: color 0.15s; line-height: 1;
+}
+.star-btn.lit { color: #f59e0b; }
+.submit-btn {
+  width: 100%; background: #dc2626; color: #fff; border: none;
+  border-radius: 8px; padding: 12px; font-size: 14px; font-weight: 700;
+  cursor: pointer; transition: background 0.2s; margin-top: 10px;
+}
+.submit-btn:hover { background: #b91c1c; }
+.submit-btn:disabled { background: #e5e7eb; color: #9ca3af; cursor: not-allowed; }
+.thank-box { text-align: center; padding: 20px 0; }
+.thank-icon { font-size: 52px; margin-bottom: 12px; }
+.thank-title { font-size: 18px; font-weight: 700; color: #dc2626; margin-bottom: 8px; }
+.thank-text { font-size: 13px; color: #555; line-height: 1.7; }
+@media (max-width: 640px) {
+  .feedback-btn { font-size: 10px; padding: 3px 8px; }
+  .modal-box { padding: 20px 16px 18px; }
+  .modal-title { font-size: 15px; }
+}
+
 </style>
 </head>
 <body>
@@ -74,6 +135,7 @@ body { font-family: -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft Ya
   <select class="hist-select" id="histSelect" onchange="goHistory(this.value)">
     <option value="">历史报告...</option>
   </select>
+    <button class="feedback-btn" onclick="openFeedback()">&#128172; 我要反馈</button>
 </div>
 <!-- 主内容 -->
 <div class="main">
@@ -103,6 +165,111 @@ fetch('reports.json').then(function(r){ return r.json(); }).then(function(report
     sel.appendChild(opt);
   });
 }).catch(function(){});
+</script>
+
+<!-- ===== 意见反馈弹窗 ===== -->
+<div class="modal-overlay" id="feedbackModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeFeedback()">&times;</button>
+
+    <!-- 表单视图 -->
+    <div id="formView">
+      <div class="modal-title">&#128172; 素材库意见反馈</div>
+      <div class="modal-subtitle">您的每一条建议都非常宝贵，帮助我们持续改进</div>
+
+      <div class="form-group">
+        <label class="form-label">本次体验评分</label>
+        <div class="form-rating" id="starRow">
+          <button class="star-btn" data-v="1" onclick="setStar(1)">&#9733;</button>
+          <button class="star-btn" data-v="2" onclick="setStar(2)">&#9733;</button>
+          <button class="star-btn" data-v="3" onclick="setStar(3)">&#9733;</button>
+          <button class="star-btn" data-v="4" onclick="setStar(4)">&#9733;</button>
+          <button class="star-btn" data-v="5" onclick="setStar(5)">&#9733;</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">希望改善哪些方面？（可多选）</label>
+        <div class="form-checkbox-group">
+          <label class="form-checkbox"><input type="checkbox" value="数据更新频率更高"><span>数据更新频率更高（如小时级）</span></label>
+          <label class="form-checkbox"><input type="checkbox" value="增加更多品类"><span>增加更多品类维度</span></label>
+          <label class="form-checkbox"><input type="checkbox" value="增加竞品对比"><span>增加竞品/行业对比数据</span></label>
+          <label class="form-checkbox"><input type="checkbox" value="视频直接播放"><span>视频直接在页面内预览/播放</span></label>
+          <label class="form-checkbox"><input type="checkbox" value="数据导出"><span>支持数据导出（Excel/CSV）</span></label>
+          <label class="form-checkbox"><input type="checkbox" value="搜索过滤"><span>增加搜索/筛选功能</span></label>
+          <label class="form-checkbox"><input type="checkbox" value="展示口径说明"><span>更清晰的指标口径说明</span></label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">其他建议（可选）</label>
+        <textarea class="form-textarea" id="extraInput" placeholder="请输入您的宝贵建议..." maxlength="500"></textarea>
+      </div>
+
+      <button class="submit-btn" id="submitBtn" onclick="submitFeedback()">提交反馈</button>
+    </div>
+
+    <!-- 感谢视图 -->
+    <div id="thankView" style="display:none">
+      <div class="thank-box">
+        <div class="thank-icon">&#127881;</div>
+        <div class="thank-title">感谢您的时间，从起步到起飞，快手陪你走好每一步，为好生意赋能</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== 意见反馈 =====
+var currentStar = 0;
+function openFeedback() {
+  document.getElementById('feedbackModal').classList.add('show');
+  document.getElementById('formView').style.display = 'block';
+  document.getElementById('thankView').style.display = 'none';
+  document.getElementById('submitBtn').disabled = false;
+}
+function closeFeedback() {
+  document.getElementById('feedbackModal').classList.remove('show');
+}
+document.getElementById('feedbackModal').addEventListener('click', function(e){
+  if (e.target === this) closeFeedback();
+});
+function setStar(n) {
+  currentStar = n;
+  document.querySelectorAll('.star-btn').forEach(function(b){
+    b.classList.toggle('lit', parseInt(b.getAttribute('data-v')) <= n);
+  });
+}
+function submitFeedback() {
+  var btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = '提交中...';
+
+  var checks = [];
+  document.querySelectorAll('.form-checkbox-group input:checked').forEach(function(c){
+    checks.push(c.value);
+  });
+  var extra = document.getElementById('extraInput').value.trim();
+
+  var fb = {
+    time: new Date().toISOString(),
+    star: currentStar,
+    checks: checks,
+    extra: extra,
+    ua: navigator.userAgent.substring(0,80)
+  };
+  try {
+    var history = JSON.parse(localStorage.getItem('feedbacks') || '[]');
+    history.push(fb);
+    localStorage.setItem('feedbacks', JSON.stringify(history));
+  } catch(e) {}
+
+  setTimeout(function(){
+    document.getElementById('formView').style.display = 'none';
+    document.getElementById('thankView').style.display = 'block';
+    setTimeout(function(){ closeFeedback(); }, 3000);
+  }, 600);
+}
 </script>
 </body>
 </html>
